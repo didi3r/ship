@@ -276,7 +276,7 @@
                                 <div class="navbar-form ">
                                     <div class="form-group">
                                         <label for="search">Buscar:</label>
-                                        <input type="text" name="search" placeholder="Buscar" class="form-control" ng-model="statusFilter.$">
+                                        <input type="text" name="search" placeholder="Buscar" class="form-control" ng-model="filter.$">
 
                                         <label for="orderBy">Mostrar: </label>
                                         <select name="orderBy" class="form-control" ng-model="orderBy">
@@ -303,8 +303,7 @@
                             </div>
 
                             <!-- Shipment list -->
-                            <shipment class="shipment" ng-repeat="shipment in shipments | filter: filter | orderBy: order" collapsable-panel>
-                            </shipment>
+                            <shipment class="shipment" ng-repeat="shipment in shipments | filter: filter | orderBy: order" collapsable-panel></shipment>
                             <!-- /Shipment list -->
 
                         </div>

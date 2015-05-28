@@ -302,60 +302,7 @@
                                 </div>
                             </div>
 
-                            <sale class="sale" ng-repeat="sale in sales">
-                                <div  class="panel panel-default">
-                                    <div class="panel-heading">
-                                        ID #{{sale.id}}, Vendida el {{sale.date | date : 'dd/MMMM/yyyy'}}
-
-                                        <div class="buttons">
-                                            <button class="btn btn-xs btn-info">Solicitar Envío</button>
-                                        </div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-xs-12 col-lg-3">
-                                                <i class="fa fa-user"></i> <strong>{{sale.customer}}</strong><br>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;({{sale.MLUser}})
-                                                <br><br>
-                                                <i class="fa fa-envelope-o"></i> {{sale.email}}
-                                            </div>
-                                            <div class="col-xs-12 col-lg-3">
-                                                <i class="fa fa-truck"></i> {{sale.courier}}
-                                                <blockquote>
-                                                    {{sale.delivery.address.street}} <br>
-                                                    {{sale.delivery.address.zone}} <br>
-                                                    {{sale.delivery.address.city}} <br>
-                                                    C.P. {{sale.delivery.address.zip}}
-                                                </blockquote>
-                                            </div>
-                                            <div class="col-xs-12 col-lg-3">
-                                                <i class="fa fa-archive"></i> Paquete:
-                                                <ul>
-                                                    <li ng-repeat="product in sale.items">
-                                                        {{product}}
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-xs-12 col-lg-3">
-                                                <i class="fa fa-usd"></i>
-                                                <strong class="total">Total: {{sale.grandTotal + sale.shippingCost | currency}}</strong> <br>
-                                                Producto: {{sale.grandTotal | currency}} <br>
-                                                Envío: {{sale.shippingCost | currency}} <br>
-                                                Ganancia: {{sale.totalProfit | currency}}
-                                                <a href="#" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="
-                                                    Producto: {{sale.grandTotal | currency}}<br>
-                                                    Comisión: -{{sale.commission | currency}}<br>
-                                                    M. Prima: -{{sale.productionCost | currency}}<br>
-                                                    Dividendo: -{{(sale.grandTotal - sale.productionCost - sale.commission) * 0.30 | currency}}">
-                                                <i class="fa fa-info-circle"></i>
-                                                </a>
-                                                <br><br>
-                                                <i class="fa fa-credit-card"></i> {{sale.paymentStatus}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </sale>
+                            <sale class="sale" ng-repeat="sale in sales"></sale>
 
                         </div>
 

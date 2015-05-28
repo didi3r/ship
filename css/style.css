@@ -2,6 +2,26 @@
 	padding-bottom: 200px;
 }
 
+.sale .panel-heading button .fa {
+    color: white !important;
+}
+
+.sale .panel-body .fa {
+    color: #616060;
+}
+
+.sale .btn-default .fa {
+    color: #333!important;
+}
+
+.green {
+    color: #449d44 !important;
+}
+
+.red {
+    color:  #A00 !important;
+}
+
 .shipment .status {
 	float: right;
 }
@@ -9,6 +29,7 @@
 blockquote {
 	margin-top: 5px;
 	font-size: 0.9em;
+    white-space: pre;
 }
 
 .shipment .info .btn-guia {
@@ -35,18 +56,15 @@ blockquote {
 
 .sale blockquote {
 	padding: 0 0 0 10px;
+    margin-bottom: 10px;
+}
+
+.sale .payment-status {
+    margin-top: 10px;
 }
 
 .sale span {
 	display: block;
-}
-
-.sale i.red {
-	color: red;
-}
-
-.sale i.green {
-	color: green;
 }
 
 .sale strong.total {
