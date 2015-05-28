@@ -1,0 +1,85 @@
+#page-wrapper {
+	padding-bottom: 200px;
+}
+
+.shipment .status {
+	float: right;
+}
+
+blockquote {
+	margin-top: 5px;
+	font-size: 0.9em;
+}
+
+.shipment .info .btn-guia {
+	margin-top: 5px;
+}
+
+.shipment .notes h4 {
+	display: block;
+	border-top: 1px solid #ddd;
+	margin-top: 15px;
+	padding-top: 10px;
+}
+
+.table-sales ul {
+	padding: 0;
+	list-style: square;
+}
+
+.sale ul {
+	list-style: square;
+	padding-left: 20px;
+	margin-top: 5px;
+}
+
+.sale blockquote {
+	padding: 0 0 0 10px;
+}
+
+.sale span {
+	display: block;
+}
+
+.sale i.red {
+	color: red;
+}
+
+.sale i.green {
+	color: green;
+}
+
+.sale strong.total {
+	font-size: 1.2em;
+}
+
+.sale .buttons {
+	float: right;
+}
+
+@media screen and (max-width: 768px) {
+	.shipment h4 {
+		display: block;
+		border-top: 1px solid #ddd;
+		margin-top: 15px;
+		padding-top: 10px;
+	}
+
+	.shipment .info h4 {
+		border-top: 0;
+		margin-top: 0;
+		padding-top: 0;
+	}
+}
+
+@media screen and (min-width: 990px) {
+	.shipment .actions {
+		text-align: right;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.shipment .actions {
+		text-align: right;
+	}
+}
