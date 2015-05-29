@@ -2,7 +2,7 @@
     ng-class="{
         'panel-success' : sale.status == 'Finalizado',
         'panel-warning' : sale.status == 'Pagado',
-        'panel-info' : sale.status == 'Enviando',
+        'panel-info' : sale.status == 'Enviando' || sale.status == 'En Camino',
         'panel-danger' : sale.status == 'Cancelado'
     }">
     <div class="panel-heading">
@@ -12,8 +12,7 @@
             ng-class="{
                       'fa-clock-o' : sale.status == 'Pendiente',
                       'fa-money' : sale.status == 'Pagado',
-                      'fa-truck' : sale.status == 'Enviando',
-                      'fa-truck' : sale.status == 'Enviando',
+                      'fa-truck' : sale.status == 'Enviando' || sale.status == 'En Camino',
                       'fa-check-circle' : sale.status == 'Finalizado',
                       'fa-times-circle' : sale.status == 'Cancelado'
             }">
@@ -22,6 +21,21 @@
 
         <div class="buttons">
             <button class="btn btn-xs btn-default"
+                    ng-hide="sale.payment.status == 'Pagado'
+                    || sale.status == 'Finalizado'
+                    || sale.status == 'Cancelado'"
+                    ng-click="markAsPaid(sale)">
+                <i class="fa fa-money"></i> Marcar Pagado
+            </button>
+            <button class="btn btn-xs btn-default"
+                    ng-show="sale.status != 'Enviando'
+                    && sale.status != 'Cancelado'
+                    && sale.payment.status == 'Pagado'
+                    && sale.delivery.status == 'Pendiente'"
+                    ng-click="markAsUnpaid(sale)">
+                <i class="fa fa-money"></i> Marcar No Pagado
+            </button>
+            <button class="btn btn-xs btn-default"
                     ng-show="sale.status != 'Enviando'
                     && sale.status != 'Cancelado'
                     && sale.payment.status == 'Pagado'
@@ -29,27 +43,38 @@
                 <i class="fa fa-barcode"></i> Ajuntar Guía
             </button>
             <button class="btn btn-xs btn-default"
-                    ng-hide="sale.payment.status == 'Pagado'
-                    || sale.status == 'Finalizado'
-                    || sale.status == 'Cancelado'">
-                <i class="fa fa-money"></i> Marcar Pagado
-            </button>
-            <button class="btn btn-xs btn-default"
+                    data-toggle="modal" data-target="#commentsModal-{{sale.id}}"
                     ng-show="sale.status != 'Enviando'
                     && sale.status != 'Cancelado'
                     && sale.payment.status == 'Pagado'
-                    && sale.delivery.status == 'Pendiente'">
+                    && sale.delivery.status == 'Pendiente'"
+                    ng-click="requestShipment(sale)">
                 <i class="fa fa-truck"></i> Solicitar Envío
             </button>
             <button class="btn btn-xs btn-default"
-                    ng-show="sale.status == 'Enviando'">
+                    ng-show="sale.status == 'Enviando'"
+                    ng-click="cancelShipment(sale)">
                 <i class="fa fa-truck"></i> Cancelar Envío
             </button>
-            <button class="btn btn-xs btn-danger"
-                    ng-show="sale.status != 'Enviado'
+            <button class="btn btn-xs btn-default"
+                    ng-show="sale.status != 'En Camino'
                     && sale.status != 'Cancelado'
-                    && sale.status != 'Finalizado'">
+                    && sale.status != 'Finalizado'"
+                    ng-click="">
+                <i class="fa fa-pencil"></i>
+            </button>
+            <button class="btn btn-xs btn-danger"
+                    ng-show="sale.status != 'En Camino'
+                    && sale.status != 'Cancelado'
+                    && sale.status != 'Finalizado'"
+                    ng-click="cancelSale(sale)">
                 <i class="fa fa-times"></i>
+            </button>
+            <button class="btn btn-xs btn-success"
+                    ng-show="sale.status == 'En Camino'
+                    && sale.delivery.status == 'Enviado'"
+                    ng-click="markAsEnded(sale)">
+                <i class="fa fa-check"></i>
             </button>
         </div>
     </div>
@@ -70,7 +95,7 @@
                 </div>
             </div>
             <div class="col-xs-12 col-lg-3">
-                <i class="fa fa-archive"></i> Paquete:
+                <i class="fa fa-shopping-cart"></i> Paquete:
                 <ul>
                     <li ng-repeat="product in sale.package">
                         {{product}}
@@ -99,3 +124,29 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="commentsModal-{{sale.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Comentarios del Envío</h4>
+            </div>
+            <div class="modal-body">
+                <textarea id="comments-{{sale.id}}" class="form-control"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Cerrar
+                </button>
+                <button type="button" class="btn btn-primary"
+                    ng-click="requestShipment(sale)">
+                    Guardar
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

@@ -270,7 +270,7 @@
                     <div class="col-lg-12">
                         <h1 class="page-header">Envíos</h1>
 
-                        <div ng-controller="ShipmentsCtrl">
+                        <div ng-controller="ShipmentsListCtrl">
                             <!-- Filters -->
                             <div class="navbar navbar-default">
                                 <div class="navbar-form ">
@@ -303,7 +303,7 @@
                             </div>
 
                             <!-- Shipment list -->
-                            <shipment class="shipment" ng-repeat="shipment in shipments | filter: filter | orderBy: order" collapsable-panel></shipment>
+                            <shipment class="shipment" ng-repeat="shipment in shipments | filter: filter | orderBy: order"></shipment>
                             <!-- /Shipment list -->
 
                         </div>

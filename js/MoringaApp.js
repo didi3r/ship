@@ -50,16 +50,41 @@ app.directive('datepicker', function(){
 app.controller('MenuCtrl', ['$scope', function ($scope) {
     $scope.$on('$includeContentLoaded', function(event) {
         $('#side-menu').metisMenu();
+        
+        $('button[data-target=".navbar-collapse"]').click();
+        setTimeout(function(){
+            $('button[data-target=".navbar-collapse"]').click();
+        }, 500);
     });
 }]);
 
-app.controller('ShipmentsCtrl', ['$scope', '$http', function ($scope, $http) {
+app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http) {
 	$scope.orderBy = '-date';
 	$scope.shipments = [];
 
     $http.get('data/data.json').success(function(data) {
         $scope.shipments = data.items;
     });
+    
+    $scope.markAsShipped = function(shipment) {
+        shipment.status = "En Camino";
+        shipment.delivery.status = "Enviado";
+        
+        shipment.delivery.trackCode = $('#trackCode-' + shipment.id).val();
+        $scope.closeModal(shipment);
+    };
+    
+    $scope.markAsUnshipped = function(shipment) {
+        if(confirm("¿Estás seguro de marcar el envío como No Eviado?")) {
+            shipment.status = "Enviando";
+            shipment.delivery.status = "Pendiente";
+            shipment.delivery.trackCode = "";
+        }
+    };
+    
+    $scope.closeModal = function(shipment) {
+        $('#trackCodeModal-' + shipment.id).modal('hide');
+    };
 
 }]);
 
@@ -94,5 +119,40 @@ app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
     $http.get('data/data.json').success(function(data) {
         $scope.sales = data.items;
     });
-
+    
+    $scope.cancelSale = function(sale) {
+        if(confirm('¿Estás seguro de cancelar la venta?')) { 
+            sale.status = "Cancelado";
+        }
+    };
+    
+    $scope.markAsPaid = function(sale) {
+        sale.status = "Pagado";
+        sale.payment.status = "Pagado";
+    };
+    
+    $scope.markAsUnpaid = function(sale) {
+        sale.status = "Pendiente";
+        sale.payment.status = "Pendiente";
+    };
+    
+    $scope.requestShipment = function(sale) {
+        sale.status = "Enviando";
+        
+        sale.delivery.comments = $('#comments-' + sale.id).val();
+        $scope.closeModal(sale);
+    };
+    
+    $scope.cancelShipment = function(sale) {
+        sale.status = "Pagado";
+    };
+    
+    $scope.markAsEnded = function(sale) {
+        sale.status = "Finalizado";
+    };
+    
+     $scope.closeModal = function(shipment) {
+        $('#commentsModal-' + shipment.id).modal('hide');
+    };
+    
 }]);

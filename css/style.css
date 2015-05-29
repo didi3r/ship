@@ -2,8 +2,26 @@
 	padding-bottom: 200px;
 }
 
+.navbar-form {
+    margin-left: auto;
+    margin-right: auto;
+    border: 0;
+}
+
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .sale .panel-heading button .fa {
     color: white !important;
+}
+
+.sale .panel-heading:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .sale .panel-body .fa {
@@ -22,7 +40,7 @@
     color:  #A00 !important;
 }
 
-.shipment .status {
+.shipment .buttons {
 	float: right;
 }
 

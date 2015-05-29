@@ -5,16 +5,27 @@
     }">
 
     <div class="panel-heading">
-        <i class="fa fa-calendar-o"></i> {{shipment.date}}
-        <span class="status">
-            <i class="fa"
-                ng-class="{
-                    'fa-clock-o' : shipment.delivery.status == 'Pendiente',
-                    'fa-times-circle' : shipment.delivery.status == 'Cancelado',
-                    'fa-check-circle' : shipment.delivery.status == 'Enviado'
-                }">
-            </i>
-            {{shipment.delivery.status}}
+        <i class="fa fa-calendar-o"></i> {{shipment.date}} | 
+        <i class="fa"
+            ng-class="{
+                'fa-clock-o' : shipment.delivery.status == 'Pendiente',
+                'fa-times-circle' : shipment.delivery.status == 'Cancelado',
+                'fa-check-circle' : shipment.delivery.status == 'Enviado'
+            }">
+        </i>
+        {{shipment.delivery.status}}
+
+        <span class="buttons">
+            <button class="btn btn-xs btn-success" 
+                data-toggle="modal" data-target="#trackCodeModal-{{shipment.id}}"
+                ng-show="shipment.delivery.status == 'Pendiente'">
+                <i class="fa fa-truck"></i> Enviado
+            </button>
+            <button class="btn btn-xs btn-default" 
+                ng-show="shipment.delivery.status == 'Enviado'"
+                ng-click="markAsUnshipped(shipment)">
+                <i class="fa fa-times-circle"></i> No Enviado
+            </button>
         </span>
     </div>
     <div class="panel-body">
@@ -33,7 +44,7 @@
             <!-- Paquete -->
             <div class="package col-xs-12 col-sm-6 col-md-4">
                 <h4>Paquete</h4>
-                <i class="fa fa-archive"></i> Contenido del Paquete:
+                <i class="fa fa-shopping-cart"></i> Contenido del Paquete:
                 <ul>
                     <li ng-repeat="item in shipment.package">
                         {{item}}
@@ -42,19 +53,8 @@
                 <i class="fa fa-truck"></i> Paqueteria: {{shipment.delivery.courier}}
 
                 <div ng-show="shipment.delivery.status == 'Enviado'">
-                    <i class="fa fa-barcode"></i> Código Rastreo: {{shipment.delivery.trackCode}}
+                    <i class="fa fa-barcode"></i> Código: <strong>{{shipment.delivery.trackCode}}</strong>
                 </div>
-            </div>
-
-
-            <!-- Acciones -->
-            <div class="actions visible-md visible-lg col-md-3" ng-hide="shipment.delivery.status == 'Enviado'">
-                <button class="btn btn-default" ng-hide="shipment.delivery.status == 'Cancelado'">Cancelar</button>
-                <button class="btn btn-success" data-toggle="modal" data-target="#trackCodeModal-{{shipment.id}}">Enviado</button>
-            </div>
-
-            <div class="actions visible-md visible-lg col-md-3" ng-show="shipment.delivery.status == 'Enviado'">
-                <button class="btn btn-default" >No Enviado</button>
             </div>
 
             <div class="notes col-xs-12" ng-show="shipment.delivery.comments">
@@ -62,17 +62,6 @@
                 <p>{{shipment.delivery.comments}}</p>
             </div>
 
-
-            <!-- Acciones -->
-            <div class="actions visible-xs visible-sm col-xs-12" ng-hide="shipment.delivery.status == 'Enviado'">
-                <button class="btn btn-default" ng-hide="shipment.delivery.status == 'Cancelado'">Cancelar</button>
-                <button class="btn btn-success" data-toggle="modal" data-target="#trackCodeModal-{{shipment.id}}">Enviado</button>
-                <button class="btn btn-default" ng-show="shipment.delivery.status == 'Enviado'">No Enviado</button>
-            </div>
-
-            <div class="actions visible-xs visible-sm col-xs-12" ng-show="shipment.delivery.status == 'Enviado'">
-                <button class="btn btn-default" >No Enviado</button>
-            </div>
         </div>
         <!-- /.row -->
     </div>
@@ -89,16 +78,19 @@
             <div class="modal-body">
                 <div class="form-inline text-center">
                     <div class="form-group">
-                        <label for="trackCode">Código de Rastreo: </label>
-                        <input name="trackCode" type="text" class="form-control">
-                        <input name="shipment" type="hidden" value="{{shipment.id}}">
-                        <input name="status" type="hidden" value="Enviado">
+                        <label for="trackCodetrackCode-{{shipment.id}}">Código de Rastreo: </label>
+                        <input id="trackCode-{{shipment.id}}" type="text" class="form-control">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Cerrar
+                </button>
+                <button type="button" class="btn btn-primary"
+                    ng-click="markAsShipped(shipment)">
+                    Guardar
+                </button>
             </div>
         </div>
         <!-- /.modal-content -->
