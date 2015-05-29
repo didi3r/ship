@@ -95,8 +95,32 @@
                 "total": 950,
                 "status": "Pagado"
             }
+        },
+        {
+            "id": 5,
+            "date": "15/May/2015",
+            "name": "Maria Consuelo",
+            "user": "ABUE68",
+            "email": "abue.teama@gmail.com",
+            "package": ["300 Cápsulas Mayoreo"],
+            "status": "Cancelado",
+            "delivery": {
+                "addressee": "Maria Consuelo",
+                "address": "Azul Marino #124 \r\nColores \r\nMonterrey, Nuevo León \r\nC.P. 58000",
+                "phone": "443 312 4578",
+                "courier": "Estafeta",
+                "trackCode": "1234560007",
+                "cost": 100,
+                "status": "Pendiente"
+            },
+            "payment": {
+                "commission": 15,
+                "rawMaterial": 400,
+                "total": 950,
+                "status": "Pagado"
+            }
         }
-        
+
+
     ]
 }
-    

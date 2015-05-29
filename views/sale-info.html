@@ -11,7 +11,7 @@
         <i class="fa"
             ng-class="{
                       'fa-clock-o' : sale.status == 'Pendiente',
-                      'fa-credit-card' : sale.status == 'Pagado',
+                      'fa-money' : sale.status == 'Pagado',
                       'fa-truck' : sale.status == 'Enviando',
                       'fa-truck' : sale.status == 'Enviando',
                       'fa-check-circle' : sale.status == 'Finalizado',
@@ -21,25 +21,22 @@
         {{sale.status}}
 
         <div class="buttons">
-            <button class="btn btn-xs btn-danger"
-                    ng-show="sale.status != 'Enviado'
-                    && sale.status != 'Finalizado'">
-                <i class="fa fa-times"></i> Cancelar
-            </button>
-            <button class="btn btn-xs btn-warning"
+            <button class="btn btn-xs btn-default"
                     ng-show="sale.status != 'Enviando'
+                    && sale.status != 'Cancelado'
                     && sale.payment.status == 'Pagado'
                     && sale.delivery.status == 'Pendiente'">
                 <i class="fa fa-barcode"></i> Ajuntar Guía
             </button>
-            <button class="btn btn-xs btn-success"
+            <button class="btn btn-xs btn-default"
                     ng-hide="sale.payment.status == 'Pagado'
                     || sale.status == 'Finalizado'
                     || sale.status == 'Cancelado'">
-                <i class="fa fa-credit-card"></i> Marcar Pagado
+                <i class="fa fa-money"></i> Marcar Pagado
             </button>
-            <button class="btn btn-xs btn-info"
+            <button class="btn btn-xs btn-default"
                     ng-show="sale.status != 'Enviando'
+                    && sale.status != 'Cancelado'
                     && sale.payment.status == 'Pagado'
                     && sale.delivery.status == 'Pendiente'">
                 <i class="fa fa-truck"></i> Solicitar Envío
@@ -47,6 +44,12 @@
             <button class="btn btn-xs btn-default"
                     ng-show="sale.status == 'Enviando'">
                 <i class="fa fa-truck"></i> Cancelar Envío
+            </button>
+            <button class="btn btn-xs btn-danger"
+                    ng-show="sale.status != 'Enviado'
+                    && sale.status != 'Cancelado'
+                    && sale.status != 'Finalizado'">
+                <i class="fa fa-times"></i>
             </button>
         </div>
     </div>
@@ -89,7 +92,7 @@
                 </a>
 
                 <div class="payment-status">
-                    <i class="fa fa-credit-card"></i>
+                    <i class="fa fa-money"></i>
                     {{sale.payment.status}}
                 </div>
             </div>
