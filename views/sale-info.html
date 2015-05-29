@@ -6,15 +6,16 @@
         'panel-danger' : sale.status == 'Cancelado'
     }">
     <div class="panel-heading">
-        ID #{{sale.id}}, Vendida el {{sale.date | date : 'dd/MMMM/yyyy'}} | 
-        
-        <i class="fa" 
+        ID #{{sale.id}}, Vendida el {{sale.date | date : 'dd/MMMM/yyyy'}} |
+
+        <i class="fa"
             ng-class="{
                       'fa-clock-o' : sale.status == 'Pendiente',
                       'fa-credit-card' : sale.status == 'Pagado',
                       'fa-truck' : sale.status == 'Enviando',
                       'fa-truck' : sale.status == 'Enviando',
-                      'fa-check-circle' : sale.status == 'Finalizado'
+                      'fa-check-circle' : sale.status == 'Finalizado',
+                      'fa-times-circle' : sale.status == 'Cancelado'
             }">
         </i>
         {{sale.status}}
@@ -25,25 +26,25 @@
                     && sale.status != 'Finalizado'">
                 <i class="fa fa-times"></i> Cancelar
             </button>
-            <button class="btn btn-xs btn-warning" 
+            <button class="btn btn-xs btn-warning"
                     ng-show="sale.status != 'Enviando'
                     && sale.payment.status == 'Pagado'
                     && sale.delivery.status == 'Pendiente'">
                 <i class="fa fa-barcode"></i> Ajuntar Guía
             </button>
-            <button class="btn btn-xs btn-success" 
+            <button class="btn btn-xs btn-success"
                     ng-hide="sale.payment.status == 'Pagado'
                     || sale.status == 'Finalizado'
                     || sale.status == 'Cancelado'">
                 <i class="fa fa-credit-card"></i> Marcar Pagado
             </button>
-            <button class="btn btn-xs btn-info" 
+            <button class="btn btn-xs btn-info"
                     ng-show="sale.status != 'Enviando'
                     && sale.payment.status == 'Pagado'
                     && sale.delivery.status == 'Pendiente'">
                 <i class="fa fa-truck"></i> Solicitar Envío
             </button>
-            <button class="btn btn-xs btn-default" 
+            <button class="btn btn-xs btn-default"
                     ng-show="sale.status == 'Enviando'">
                 <i class="fa fa-truck"></i> Cancelar Envío
             </button>
@@ -58,7 +59,7 @@
                 <i class="fa fa-envelope-o"></i> {{sale.email}}
             </div>
             <div class="col-xs-12 col-lg-3">
-                <i class="fa fa-truck"></i> 
+                <i class="fa fa-truck"></i>
                 {{sale.delivery.courier}}
                 <blockquote>{{sale.delivery.address}}</blockquote>
                 <div ng-show="sale.delivery.status == 'Enviado'">
@@ -88,7 +89,7 @@
                 </a>
 
                 <div class="payment-status">
-                    <i class="fa fa-credit-card"></i> 
+                    <i class="fa fa-credit-card"></i>
                     {{sale.payment.status}}
                 </div>
             </div>
