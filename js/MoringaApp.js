@@ -69,6 +69,7 @@ app.controller('AddSaleCtrl', ['$scope', function ($scope) {
 	$scope.productionCost = 0;
 	$scope.commission = 0;
 	$scope.discount = 0;
+	$scope.earnings = 0;
 	$scope.applyDiscount = true;
 
 	$scope.$watchGroup(
@@ -80,6 +81,7 @@ app.controller('AddSaleCtrl', ['$scope', function ($scope) {
 			} else {
 				$scope.discount = 0;
 			}
+			$scope.earnings = $scope.grandTotal - $scope.productionCost - $scope.commission - $scope.discount;
 		}
 	);
 
