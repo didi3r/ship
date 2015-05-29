@@ -276,7 +276,7 @@
                                 <div class="navbar-form ">
                                     <div class="form-group">
                                         <label for="search">Buscar:</label>
-                                        <input type="text" name="search" placeholder="Buscar" class="form-control" ng-model="statusFilter.$">
+                                        <input type="text" name="search" placeholder="Buscar" class="form-control" ng-model="filter.$">
 
                                         <label for="orderBy">Mostrar: </label>
                                         <select name="orderBy" class="form-control" ng-model="orderBy">
@@ -288,21 +288,24 @@
                                         <select name="statusFilter" class="form-control" ng-model="filter.status">
                                             <option value="">Todos</option>
                                             <option value="Pendiente">Pendientes</option>
+                                            <option value="Pagado">Pagado</option>
+                                            <option value="Enviando">Enviando</option>
                                             <option value="Enviado">Enviados</option>
+                                            <option value="Finalizado">Finalizados</option>
                                             <option value="Cancelado">Cancelados</option>
                                         </select>
 
-                                        <label for="courierFilter">Enviados por: </label>
-                                        <select name="courierFilter" class="form-control" ng-model="filter.courier">
+                                        <label for="courierFilter">Paqueteria: </label>
+                                        <select name="courierFilter" class="form-control" ng-model="filter.delivery.courier">
                                             <option value="">Cualquiera</option>
-                                            <option value="Estfeta">Estfeta</option>
+                                            <option value="Estafeta">Estafeta</option>
                                             <option value="Correos de México">Correos de México</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
 
-                            <sale class="sale" ng-repeat="sale in sales"></sale>
+                            <sale class="sale" ng-repeat="sale in sales | filter : filter | orderBy : orderBy"></sale>
 
                         </div>
 

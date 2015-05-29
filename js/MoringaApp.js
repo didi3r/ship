@@ -56,7 +56,7 @@ app.controller('MenuCtrl', ['$scope', function ($scope) {
 app.controller('ShipmentsCtrl', ['$scope', '$http', function ($scope, $http) {
 	$scope.orderBy = '-date';
 	$scope.shipments = [];
-    
+
     $http.get('data/data.json').success(function(data) {
         $scope.shipments = data.items;
     });
@@ -86,10 +86,11 @@ app.controller('AddSaleCtrl', ['$scope', function ($scope) {
 }]);
 
 app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
+	$scope.orderBy = '-date';
 	$scope.sales = [];
-    
+
     $http.get('data/data.json').success(function(data) {
         $scope.sales = data.items;
     });
-    
+
 }]);
