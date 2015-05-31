@@ -16,10 +16,135 @@ class Sales_Model extends CI_Model {
 
 		$sales = array();
 		foreach ($query->result() as $row) {
-			$sales['items'][] = $this->contruct_hierarchy($row);
+			$sales['response'][] = $this->contruct_hierarchy($row);
 		}
 
 		return $sales;
+	}
+
+	public function get($id)
+	{
+		$this->db->where('id', $id);
+		$query = $this->db->get('sales');
+
+		return array('response' => array($this->contruct_hierarchy($query->row())));
+	}
+
+	public function update_status($id, $status, $args = array())
+	{
+		$this->db->select('status');
+		$this->db->from('sales');
+		$this->db->where('id', $id);
+		$query = $this->db->get();
+
+		$current_status = $query->row()->status;
+		// die($current_status);
+		switch ($status) {
+			case 'Pagado':
+				if($current_status == 'Pendiente') {
+					$this->db->update(
+						'sales',
+						array(
+							'payment_status' => 'Pagado',
+							'status' => 'Pagado'
+						),
+						'id = ' . $id
+					);
+					return $this->get($id);
+				} else {
+					return $this->error('No se puede marcar la venta como Pagado');
+				}
+
+				break;
+
+			case 'Pendiente':
+				if($current_status != 'Pendiente') {
+					$this->db->update(
+						'sales',
+						array(
+							'payment_status' => 'Pendiente',
+							'status' => 'Pendiente'
+						),
+						'id = ' . $id
+					);
+					return $this->get($id);
+				} else {
+					return $this->error('No se puede marcar la venta como Pendiente');
+				}
+
+				break;
+
+			case 'Enviando':
+				if($current_status == 'Pagado') {
+					$this->db->update(
+						'sales',
+						array(
+							'shipping_status' => 'Pendiente',
+							'shipping_comments' => $args['delivery_comments'],
+							'status' => 'Enviando'
+						),
+						'id = ' . $id
+					);
+					return $this->get($id);
+				} else {
+					return $this->error('No se puede marcar la venta como Enviando');
+				}
+
+				break;
+
+			case 'En Camino':
+				if($current_status == 'Enviando' || $current_status == 'Pagado') {
+					$this->db->update(
+						'sales',
+						array(
+							'shipping_status' => 'Enviado',
+							'status' => 'En Camino'
+						),
+						'id = ' . $id
+					);
+					return $this->get($id);
+				} else {
+					return $this->error('No se puede marcar la venta como En Camino');
+				}
+
+				break;
+
+			case 'Finalizado':
+				if($current_status == 'En Camino') {
+					$this->db->update(
+						'sales',
+						array(
+							'status' => 'Finalizado'
+						),
+						'id = ' . $id
+					);
+					return $this->get($id);
+				} else {
+					return $this->error('No se puede marcar la venta como Finalizado');
+				}
+
+				break;
+
+			case 'Cancelado':
+				if($current_status != 'Cancelado') {
+					$this->db->update(
+						'sales',
+						array(
+							'status' => 'Cancelado'
+						),
+						'id = ' . $id
+					);
+					return $this->get($id);
+				} else {
+					return $this->error('No se puede marcar la venta como Cancelado');
+				}
+
+				break;
+
+			default:
+				return $this->error('Invalid status:' . $status);
+				break;
+		}
 	}
 
 	private function contruct_hierarchy($obj)
@@ -30,13 +155,14 @@ class Sales_Model extends CI_Model {
 
 		$array['delivery'] = array(
 			'addressee' => $array['addressee'],
-			'address' => $array['address'],
+			'address' => trim($array['address']),
 			'phone' => $array['phone'],
 			'courier' => $array['courier'],
 			'cost' => $array['shipping_cost'],
 			'date' => $array['shipping_date'],
 			'trackCode' => $array['track_code'],
-			'status' => $array['shipping_status']
+			'status' => $array['shipping_status'],
+			'comments' => $array['shipping_comments']
 		);
 
 		unset($array['addressee']);
@@ -47,6 +173,7 @@ class Sales_Model extends CI_Model {
 		unset($array['shipping_date']);
 		unset($array['track_code']);
 		unset($array['shipping_status']);
+		unset($array['shipping_comments']);
 
 		$array['payment'] = array(
 			'commission' => $array['commission'],
@@ -63,6 +190,11 @@ class Sales_Model extends CI_Model {
 		unset($array['payment_status']);
 
 		return $array;
+	}
+
+	private function error($msg)
+	{
+		return array('error' => $msg);
 	}
 
 }

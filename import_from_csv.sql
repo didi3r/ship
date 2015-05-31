@@ -57,3 +57,8 @@ UPDATE sales
 SET status = 'Finalizado'
 WHERE payment_status = 'Pagado'
 AND shipping_status = 'Enviado'
+
+UPDATE sales
+SET payment_status = 'Pagado'
+WHERE status = 'Pagado'
+OR shipping_status = 'Enviado'

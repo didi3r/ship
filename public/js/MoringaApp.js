@@ -82,7 +82,7 @@ app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http)
 
     $http.get('index.php?/api/sales')
     .success(function(data) {
-        $scope.shipments = data.items;
+        $scope.shipments = data.response;
     })
     .error(function() {
         $scope.isThereError = true;
@@ -142,10 +142,11 @@ app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
 	$scope.sales = [];
 	$scope.isLoading = true;
 	$scope.isThereError = false;
+	$scope.saleLoading = null;
 
     $http.get('index.php?/api/sales')
     .success(function(data) {
-        $scope.sales = data.items;
+        $scope.sales = data.response;
     })
     .error(function() {
         $scope.isThereError = true;
@@ -155,37 +156,76 @@ app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
 
     $scope.cancelSale = function(sale) {
         if(confirm('¿Estás seguro de cancelar la venta?')) {
-            sale.status = "Cancelado";
+            $scope.update_status('mark_as_cancelled', sale);
         }
     };
 
     $scope.markAsPaid = function(sale) {
-        sale.status = "Pagado";
-        sale.payment.status = "Pagado";
+    	$scope.update_status('mark_as_paid', sale);
     };
 
     $scope.markAsUnpaid = function(sale) {
-        sale.status = "Pendiente";
-        sale.payment.status = "Pendiente";
+    	$scope.update_status('mark_as_unpaid', sale);
     };
 
     $scope.requestShipment = function(sale) {
-        sale.status = "Enviando";
-
+        $scope.saleLoading = sale;
         sale.delivery.comments = $('#comments-' + sale.id).val();
+
+        $http.post('index.php?/api/' + action, {id: sale.id, comments: sale.delivery.comments})
+        .success(function(data) {
+        	if(data.response) {
+        		sale.delivery.comments = data.response[0].delivery.comments;
+        		sale.status = data.response[0].status;
+        	} else {
+        		alert(data.error);
+        	}
+        })
+        .error(function() {
+        	alert('Error al tratar de realizar la acción solicitada')
+        }).
+        finally(function () {
+        	$scope.saleLoading = null;
+        });
+
         $scope.closeModal(sale);
     };
 
     $scope.cancelShipment = function(sale) {
-        sale.status = "Pagado";
+        $scope.update_status('cancel_shipment', sale);
     };
 
     $scope.markAsEnded = function(sale) {
-        sale.status = "Finalizado";
+        $scope.update_status('mark_as_finished', sale);
     };
 
      $scope.closeModal = function(shipment) {
         $('#commentsModal-' + shipment.id).modal('hide');
     };
+
+    $scope.isSaleLoading = function(sale) {
+	    return $scope.saleLoading === sale;
+	};
+
+	$scope.update_status = function(action, sale) {
+		$scope.saleLoading = sale;
+
+        $http.post('index.php?/api/' + action, {id: sale.id})
+        .success(function(data) {
+        	if(data.response) {
+        		sale.payment.status = data.response[0].payment.status;
+        		sale.delivery.status = data.response[0].delivery.status;
+        		sale.status = data.response[0].status;
+        	} else {
+        		alert(data.error);
+        	}
+        })
+        .error(function() {
+        	alert('Error al tratar de realizar la acción solicitada')
+        }).
+        finally(function () {
+        	$scope.saleLoading = null;
+        });
+	};
 
 }]);

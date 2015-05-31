@@ -11,36 +11,105 @@ class API extends CI_Controller {
 
 	public function sales()
 	{
-		$output = array(
-			'items' => array(
-				array(
-					"id" => 1,
-		            "date" => "27/May/2015",
-		            "name" => "Jhon Doe",
-		            "user" => "MLJD67",
-		            "email" => "jhon.doe@gmail.com",
-		            "package" => ["500gr Hoja Seca", "1kg Polvo"],
-		            "status" => "Finalizado",
-		            "delivery" => array(
-		            	"addressee" => "Jhon Doe",
-		                "address" => "Azul Marino #124 \r\nColores \r\nMonterrey, Nuevo León \r\nC.P. 58000",
-		                "phone" => "443 312 4578",
-		                "courier" => "Estafeta",
-		                "trackCode" => "1234560007",
-		                "cost" => 100,
-		                "status" => "Enviado"
-		            ),
-		            "payment" => array(
-		            	"commission" => 15,
-		                "rawMaterial" => 400,
-		                "total" => 950,
-		                "status" => "Pagado"
-		            )
-		        ),
-			),
-		);
-
 		$output = $this->sales_model->get_all();
+
+		echo json_encode($output);
+	}
+
+	public function mark_as_paid()
+	{
+		$post = file_get_contents("php://input");
+		$params = json_decode($post);
+
+		if(!$params->id) {
+			die(json_encode(array('error' => 'Undefined variable: id')));
+		}
+
+		$output = $this->sales_model->update_status($params->id, 'Pagado');
+
+		echo json_encode($output);
+	}
+
+	public function mark_as_unpaid()
+	{
+		$post = file_get_contents("php://input");
+		$params = json_decode($post);
+
+		if(!$params->id) {
+			die(json_encode(array('error' => 'Undefined variable: id')));
+		}
+
+		$output = $this->sales_model->update_status($params->id, 'Pendiente');
+
+		echo json_encode($output);
+	}
+
+	public function request_shipment()
+	{
+		$post = file_get_contents("php://input");
+		$params = json_decode($post);
+
+		if(!$params->id) {
+			die(json_encode(array('error' => 'Undefined variable: id')));
+		}
+
+		$output = $this->sales_model->update_status($params->id, 'Enviando', array('delivery_comments' => $params->comments));
+
+		echo json_encode($output);
+	}
+
+	public function cancel_shipment()
+	{
+		$post = file_get_contents("php://input");
+		$params = json_decode($post);
+
+		if(!$params->id) {
+			die(json_encode(array('error' => 'Undefined variable: id')));
+		}
+
+		$output = $this->sales_model->update_status($params->id, 'Pagado');
+
+		echo json_encode($output);
+	}
+
+	public function mark_as_shipped()
+	{
+		$post = file_get_contents("php://input");
+		$params = json_decode($post);
+
+		if(!$params->id) {
+			die(json_encode(array('error' => 'Undefined variable: id')));
+		}
+
+		$output = $this->sales_model->update_status($params->id, 'En Camino');
+
+		echo json_encode($output);
+	}
+
+	public function mark_as_finished()
+	{
+		$post = file_get_contents("php://input");
+		$params = json_decode($post);
+
+		if(!$params->id) {
+			die(json_encode(array('error' => 'Undefined variable: id')));
+		}
+
+		$output = $this->sales_model->update_status($params->id, 'Finalizado');
+
+		echo json_encode($output);
+	}
+
+	public function mark_as_cancelled()
+	{
+		$post = file_get_contents("php://input");
+		$params = json_decode($post);
+
+		if(!$params->id) {
+			die(json_encode(array('error' => 'Undefined variable: id')));
+		}
+
+		$output = $this->sales_model->update_status($params->id, 'Cancelado');
 
 		echo json_encode($output);
 	}

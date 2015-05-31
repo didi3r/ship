@@ -53,7 +53,7 @@
                     </div>
 
 
-                    <sale class="sale" ng-repeat="sale in sales | filter : filter | orderBy : orderBy"></sale>
+                    <sale class="sale" ng-repeat="sale in sales | filter : filter | orderBy : orderBy" ng-class="{'loading' : isSaleLoading(sale)}"></sale>
 
                 </div>
 
