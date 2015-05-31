@@ -1,3 +1,5 @@
+[ng\:cloak], [ng-cloak], .ng-cloak { display: none; }
+
 .spinner {
   margin: 100px auto;
   width: 50px;
@@ -83,6 +85,10 @@
 
 .sale .panel-heading .btn-default .fa {
     color: #333 !important;
+}
+
+.sale .payment-breakdown {
+  cursor: pointer;
 }
 
 .green {

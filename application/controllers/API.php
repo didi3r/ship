@@ -5,6 +5,8 @@ class API extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->load->model('sales_model');
 	}
 
 	public function sales()
@@ -37,6 +39,8 @@ class API extends CI_Controller {
 		        ),
 			),
 		);
+
+		$output = $this->sales_model->get_all();
 
 		echo json_encode($output);
 	}
