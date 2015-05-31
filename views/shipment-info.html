@@ -5,7 +5,7 @@
     }">
 
     <div class="panel-heading">
-        <i class="fa fa-calendar-o"></i> {{shipment.date}} | 
+        <i class="fa fa-calendar-o"></i> {{shipment.date}} |
         <i class="fa"
             ng-class="{
                 'fa-clock-o' : shipment.delivery.status == 'Pendiente',
@@ -16,13 +16,15 @@
         {{shipment.delivery.status}}
 
         <span class="buttons">
-            <button class="btn btn-xs btn-success" 
+            <button class="btn btn-xs btn-success"
                 data-toggle="modal" data-target="#trackCodeModal-{{shipment.id}}"
                 ng-show="shipment.delivery.status == 'Pendiente'">
                 <i class="fa fa-truck"></i> Enviado
             </button>
-            <button class="btn btn-xs btn-default" 
-                ng-show="shipment.delivery.status == 'Enviado'"
+            <button class="btn btn-xs btn-default"
+                ng-show="shipment.delivery.status == 'Enviado'
+                && shipment.status != 'Finalizado'
+                && shipment.status != 'Cancelado'"
                 ng-click="markAsUnshipped(shipment)">
                 <i class="fa fa-times-circle"></i> No Enviado
             </button>
