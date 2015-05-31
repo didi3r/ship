@@ -87,7 +87,7 @@
     color: #333 !important;
 }
 
-.sale .payment-breakdown {
+.sale i.fa-info-circle {
   cursor: pointer;
 }
 
@@ -140,9 +140,9 @@ blockquote {
     margin-top: 10px;
 }
 
-.sale span {
+/*.sale span {
 	display: block;
-}
+}*/
 
 .sale strong.total {
 	font-size: 1.2em;

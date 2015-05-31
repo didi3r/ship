@@ -18,7 +18,7 @@ app.directive('sale', function(){
 app.directive('collapsablePanel', function(){
 	return {
 		restrict: 'A',
-		link: function(scope, element, attrs) {
+		link: function($scope, $element, $attrs) {
 			var panel = $(element).find('.panel');
 			panel.find('.panel-heading').css('cursor', 'pointer').click(function(){
 				var content = panel.find('.panel-body');
@@ -35,7 +35,7 @@ app.directive('collapsablePanel', function(){
 app.directive('datepicker', function(){
 	return {
 		restrict: 'A',
-		link: function(scope, element, attrs) {
+		link: function($scope, $element, $attrs) {
 			$(element).datepicker({
 				autoclose: true,
 				format: 'dd/MM/yyyy',
@@ -43,6 +43,33 @@ app.directive('datepicker', function(){
 				language: 'es'
 			});
 			$(element).datepicker("setDate", new Date());
+		}
+	};
+});
+
+app.directive('ngTruncate', function(){
+	return {
+		restrict: 'A',
+		scope: {
+			text: "=ngTruncate",
+			limit: "=ngTruncateLimit"
+		},
+		link: function($scope, $element, $attrs) {
+			$element.empty();
+
+			if($scope.text.length > $scope.limit) {
+				$element.append($scope.text.substr(0, $scope.limit-1) + '&hellip;');
+				$element.append(
+					'<i class="fa fa-info-circle"' +
+	                	'data-container="body" ' +
+	                	'data-toggle="popover" ' +
+	                	'data-placement="top" ' +
+	                	'data-content="' + $scope.text + '">' +
+	                '</i>	'
+				);
+			} else {
+				$element.append($scope.text);
+			}
 		}
 	};
 });

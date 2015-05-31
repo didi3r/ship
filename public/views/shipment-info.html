@@ -48,7 +48,7 @@
                 <h4>Paquete</h4>
                 <i class="fa fa-shopping-cart"></i> Contenido del Paquete:
                 <ul>
-                    <li ng-repeat="item in shipment.package">
+                    <li ng-repeat="item in shipment.package track by $index">
                         {{item}}
                     </li>
                 </ul>

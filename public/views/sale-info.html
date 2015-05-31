@@ -81,9 +81,11 @@
         <div class="row">
             <div class="col-xs-12 col-lg-3">
                 <i class="fa fa-user"></i> <strong>{{sale.name}}</strong><br>
-                &nbsp;&nbsp;&nbsp;&nbsp;({{sale.user}})
-                <br><br>
-                <i class="fa fa-envelope-o"></i> {{sale.email}}
+                &nbsp;&nbsp;&nbsp;&nbsp;(<span ng-truncate="sale.user" ng-truncate-limit="15"></span>)
+                <div ng-show="sale.email">
+                    <br>
+                    <i class="fa fa-envelope-o"></i> <span ng-truncate="sale.email" ng-truncate-limit="23"></span>
+                </div>
             </div>
             <div class="col-xs-12 col-lg-3">
                 <i class="fa fa-truck"></i>
@@ -96,7 +98,7 @@
             <div class="col-xs-12 col-lg-3">
                 <i class="fa fa-shopping-cart"></i> Paquete:
                 <ul>
-                    <li ng-repeat="product in sale.package">
+                    <li ng-repeat="product in sale.package track by $index">
                         {{product}}
                     </li>
                 </ul>
@@ -104,7 +106,6 @@
             <div class="col-xs-12 col-lg-3">
                 <i class="fa fa-usd"></i>
                 <strong class="total">Total: {{sale.payment.total + sale.shippingCost | currency}}</strong> <br>
-                Producto: {{sale.payment.total | currency}} <br>
                 Envío: {{sale.delivery.cost | currency}} <br>
                 Ganancia: {{(sale.payment.total - sale.payment.rawMaterial - sale.payment.commission)  | currency}}
 
