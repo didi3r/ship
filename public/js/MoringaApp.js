@@ -51,11 +51,18 @@ app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http)
 	$scope.orderBy = '-date';
 	$scope.shipments = [];
 	$scope.isLoading = true;
+	$scope.isThereError = false;
 
-    $http.get('index.php?/sales').success(function(data) {
+    $http.get('index.php?/api/sales')
+    .success(function(data) {
         $scope.shipments = data.items;
+    })
+    .error(function() {
+        $scope.isThereError = true;
+    }).finally(function() {
         $scope.isLoading = false;
     });
+
 
     $scope.markAsShipped = function(shipment) {
         shipment.status = "En Camino";
@@ -107,9 +114,15 @@ app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
 	$scope.orderBy = '-date';
 	$scope.sales = [];
 	$scope.isLoading = true;
+	$scope.isThereError = false;
 
-    $http.get('index.php?/sales').success(function(data) {
+    $http.get('index.php?/api/sales')
+    .success(function(data) {
         $scope.sales = data.items;
+    })
+    .error(function() {
+        $scope.isThereError = true;
+    }).finally(function() {
         $scope.isLoading = false;
     });
 

@@ -22,7 +22,7 @@
                         <a href="<?php echo site_url('sales/add'); ?>">Registrar Venta</a>
                     </li>
                     <li>
-                        <a href="<?php echo site_url('sales/listall'); ?>">Listado de Ventas</a>
+                        <a href="<?php echo site_url('sales'); ?>">Listado de Ventas</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->

@@ -38,6 +38,9 @@
                         </div>
                     </div>
 
+                    <div class="alert alert-danger" ng-show="isThereError">
+                        Oops! Hubo un error al intentar obtener los datos.
+                    </div>
                     <div class="spinner" ng-show="isLoading">
                         <div class="rect1"></div>
                         <div class="rect2"></div>
