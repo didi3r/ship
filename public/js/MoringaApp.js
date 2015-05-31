@@ -75,21 +75,32 @@ app.directive('ngTruncate', function(){
 });
 
 app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http) {
+    $scope.current_page = 1;
 	$scope.orderBy = '-date';
 	$scope.shipments = [];
 	$scope.isLoading = true;
 	$scope.isThereError = false;
 
-    $http.get('index.php?/api/sales')
-    .success(function(data) {
-        $scope.shipments = data.response;
-    })
-    .error(function() {
-        $scope.isThereError = true;
-    }).finally(function() {
-        $scope.isLoading = false;
-    });
+    $scope.getSalesCollection =  function(page) {
+        $scope.shipments = [];
+        $scope.isLoading = true;
+        $scope.isThereError = false;
 
+        $http.get('index.php?/api/sales/' + page)
+        .success(function(data) {
+            $scope.shipments = data.response;
+        })
+        .error(function() {
+            $scope.isThereError = true;
+        }).finally(function() {
+            $scope.isLoading = false;
+        });
+    }
+
+    $scope.nextPage = function() {
+        $scope.current_page += 1;
+        $scope.getSalesCollection($scope.current_page);
+    };
 
     $scope.markAsShipped = function(shipment) {
         shipment.status = "En Camino";
@@ -111,6 +122,8 @@ app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http)
         $('#trackCodeModal-' + shipment.id).modal('hide');
     };
 
+    // Initial List Population
+    $scope.getSalesCollection($scope.current_page);
 }]);
 
 app.controller('AddSaleCtrl', ['$scope', function ($scope) {
@@ -138,21 +151,53 @@ app.controller('AddSaleCtrl', ['$scope', function ($scope) {
 }]);
 
 app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
-	$scope.orderBy = '-date';
+    $scope.result_limit = 10;
+    $scope.current_page = 1;
+    $scope.total_pages = 1;
+
+    $scope.orderBy = '-date';
 	$scope.sales = [];
 	$scope.isLoading = true;
 	$scope.isThereError = false;
 	$scope.saleLoading = null;
 
-    $http.get('index.php?/api/sales')
-    .success(function(data) {
-        $scope.sales = data.response;
-    })
-    .error(function() {
-        $scope.isThereError = true;
-    }).finally(function() {
-        $scope.isLoading = false;
-    });
+    $scope.getSalesCollection =  function() {
+        $scope.sales = [];
+        $scope.isLoading = true;
+        $scope.isThereError = false;
+
+        $http.get('index.php?/api/sales/' + $scope.current_page + '/' + $scope.result_limit)
+        .success(function(data) {
+            $scope.sales = data.response;
+            $scope.total_pages = Math.ceil(data.total_rows / $scope.result_limit);
+        })
+        .error(function() {
+            $scope.isThereError = true;
+        }).finally(function() {
+            $scope.isLoading = false;
+        });
+    };
+
+    $scope.getPagesNumber = function() {
+        return new Array($scope.total_pages);
+    }
+
+    $scope.nextPage = function() {
+        $scope.current_page = $scope.current_page >= $scope.total_pages ? $scope.total_pages : $scope.current_page += 1;
+        $scope.getSalesCollection();
+    };
+
+    $scope.prevPage = function() {
+        $scope.current_page = $scope.current_page <= 1 ? 1 : $scope.current_page -= 1;
+        $scope.getSalesCollection();
+    };
+
+    $scope.goToPage = function(number) {
+        if(number <= $scope.total_pages && number >= 1) {
+            $scope.current_page = number;
+        }
+        $scope.getSalesCollection();
+    };
 
     $scope.cancelSale = function(sale) {
         if(confirm('¿Estás seguro de cancelar la venta?')) {
@@ -172,7 +217,7 @@ app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
         $scope.saleLoading = sale;
         sale.delivery.comments = $('#comments-' + sale.id).val();
 
-        $http.post('index.php?/api/' + action, {id: sale.id, comments: sale.delivery.comments})
+        $http.post('index.php?/api/request_shipment', {id: sale.id, comments: sale.delivery.comments})
         .success(function(data) {
         	if(data.response) {
         		sale.delivery.comments = data.response[0].delivery.comments;
@@ -228,4 +273,6 @@ app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
         });
 	};
 
+    // Initial List Population
+    $scope.getSalesCollection();
 }]);

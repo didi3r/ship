@@ -9,9 +9,13 @@ class API extends CI_Controller {
 		$this->load->model('sales_model');
 	}
 
-	public function sales()
+	public function sales($page)
 	{
-		$output = $this->sales_model->get_all();
+		if($page <= 0) $page = 1;
+		$limit = 10;
+		$offset = ($page - 1) * $limit;
+
+		$output = $this->sales_model->get_all($limit, $offset);
 
 		echo json_encode($output);
 	}

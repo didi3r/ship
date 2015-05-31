@@ -8,7 +8,7 @@ class Sales extends CI_Controller {
 		parent::__construct();
 	}
 
-	public function index()
+	public function index($page = 1)
 	{
 		$this->load->view('sales/list');
 	}

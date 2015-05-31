@@ -10,16 +10,34 @@ class Sales_Model extends CI_Model {
 
 	}
 
-	public function get_all()
+	public function get_all($limit = 10, $offset = 0, $order = 'date', $desc = true,
+		$status = '', $courier = '', $search = '')
 	{
-		$query = $this->db->get('sales');
-
-		$sales = array();
-		foreach ($query->result() as $row) {
-			$sales['response'][] = $this->contruct_hierarchy($row);
+		if($limit > 0) {
+			$this->db->limit($limit, $offset);
 		}
 
-		return $sales;
+		if(!empty($status)) {
+			$this->db->where('status', $status);
+		}
+
+		if(!empty($courier)) {
+			$this->db->where('courier', $courier);
+		}
+
+		if(!empty($order)) {
+			$this->db->order_by($order, $desc ? 'desc' : 'asc');
+		}
+
+		$query = $this->db->get('sales');
+
+		$output = array();
+		$output['total_rows'] = $this->db->count_all('sales');
+		foreach ($query->result() as $row) {
+			$output['response'][] = $this->contruct_hierarchy($row);
+		}
+
+		return $output;
 	}
 
 	public function get($id)
