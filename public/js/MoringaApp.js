@@ -78,10 +78,11 @@ app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http)
     $scope.result_limit = 10;
     $scope.current_page = 1;
     $scope.total_pages = 1;
+    $scope.total_rows = 0;
 
 	$scope.orderBy = '-date';
 	$scope.shipments = [];
-	$scope.isLoading = true;
+	$scope.isLoading = false;
 	$scope.isThereError = false;
     $scope.saleLoading = null;
 
@@ -93,6 +94,7 @@ app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http)
         $http.get('index.php?/api/shipments/' + $scope.current_page + '/' + $scope.result_limit)
         .success(function(data) {
             $scope.shipments = data.response;
+            $scope.total_rows = data.total_rows;
             $scope.total_pages = Math.ceil(data.total_rows / $scope.result_limit);
         })
         .error(function() {
@@ -214,10 +216,11 @@ app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.result_limit = 20;
     $scope.current_page = 1;
     $scope.total_pages = 1;
+    $scope.total_rows = 0;
 
     $scope.orderBy = '-date';
 	$scope.sales = [];
-	$scope.isLoading = true;
+	$scope.isLoading = false;
 	$scope.isThereError = false;
 	$scope.saleLoading = null;
 
@@ -229,6 +232,7 @@ app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
         $http.get('index.php?/api/sales/' + $scope.current_page + '/' + $scope.result_limit)
         .success(function(data) {
             $scope.sales = data.response;
+            $scope.total_rows = data.total_rows;
             $scope.total_pages = Math.ceil(data.total_rows / $scope.result_limit);
         })
         .error(function() {

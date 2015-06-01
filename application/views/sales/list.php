@@ -41,9 +41,16 @@
                         </div>
                     </div>
 
-                    <div class="alert alert-danger" ng-cloak ng-show="isThereError">
+                    <div class="alert alert-info" ng-cloack ng-show="!isLoading && total_rows == 0">
+                        <i class="fa fa-clock-o"></i>
+                        No hay ventas pendientes por el momento, revisa más tarde.
+                    </div>
+
+                    <div class="alert alert-danger" ng-cloack ng-show="isThereError">
+                        <i class="fa fa-exclamation-triangle"></i>
                         Oops! Hubo un error al intentar obtener los datos.
                     </div>
+
                     <div class="spinner" ng-show="isLoading">
                         <div class="rect1"></div>
                         <div class="rect2"></div>
@@ -52,10 +59,20 @@
                         <div class="rect5"></div>
                     </div>
 
+                    <div class="search-info" ng-cloack ng-hide="isLoading">
+                        <p>
+                            Mostrando ventas de la
+                            <strong>{{result_limit * (current_page - 1) > 0 ? result_limit * (current_page - 1) : 1 }}</strong>
+                            a la
+                            <strong>{{result_limit * (current_page - 1) + result_limit < total_rows ? result_limit * (current_page - 1) + result_limit : total_rows}}</strong>,
+                            de un total de
+                            <strong>{{total_rows}}</strong>
+                        </p>
+                    </div>
 
                     <sale class="sale" ng-repeat="sale in sales | filter : filter | orderBy : orderBy" ng-class="{'loading' : isSaleLoading(sale)}"></sale>
 
-                    <div class="pagination" ng-show="total_pages > 1">
+                    <div class="pagination" ng-cloack ng-show="total_pages > 1">
                         <button class="btn btn-primary"
                             ng-click="prevPage()"
                             ng-hide="current_page <= 1">

@@ -82,23 +82,6 @@ class Sales_Model extends CI_Model {
 		$current_status = $query->row()->status;
 		// die($current_status);
 		switch ($status) {
-			case 'Pagado':
-				if($current_status == 'Pendiente') {
-					$this->db->update(
-						'sales',
-						array(
-							'payment_status' => 'Pagado',
-							'status' => 'Pagado'
-						),
-						'id = ' . $id
-					);
-					return $this->get($id);
-				} else {
-					return $this->error('No se puede marcar la venta como Pagado');
-				}
-
-				break;
-
 			case 'Pendiente':
 				if($current_status != 'Pendiente') {
 					$this->db->update(
@@ -112,6 +95,23 @@ class Sales_Model extends CI_Model {
 					return $this->get($id);
 				} else {
 					return $this->error('No se puede marcar la venta como Pendiente');
+				}
+
+				break;
+
+			case 'Pagado':
+				if($current_status == 'Pendiente' || $current_status == 'Enviando') {
+					$this->db->update(
+						'sales',
+						array(
+							'payment_status' => 'Pagado',
+							'status' => 'Pagado'
+						),
+						'id = ' . $id
+					);
+					return $this->get($id);
+				} else {
+					return $this->error('No se puede marcar la venta como Pagado');
 				}
 
 				break;
@@ -139,7 +139,7 @@ class Sales_Model extends CI_Model {
 				break;
 
 			case 'En Camino':
-				if($current_status == 'Enviando' || $current_status == 'Pagado') {
+				if($current_status == 'Enviando') {
 					if(isset($args['delivery_code'])) {
 						$update = array(
 							'shipping_status' => 'Enviado',

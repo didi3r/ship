@@ -179,6 +179,10 @@ blockquote {
 	float: right;
 }
 
+.pagination .btn {
+  margin-right: 5px;
+}
+
 @media screen and (max-width: 768px) {
 	.shipment h4 {
 		display: block;
