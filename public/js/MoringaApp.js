@@ -19,7 +19,7 @@ app.directive('collapsablePanel', function(){
 	return {
 		restrict: 'A',
 		link: function($scope, $element, $attrs) {
-			var panel = $(element).find('.panel');
+			var panel = $($element).find('.panel');
 			panel.find('.panel-heading').css('cursor', 'pointer').click(function(){
 				var content = panel.find('.panel-body');
 				if(content.hasClass('collapsed')) {
@@ -36,13 +36,13 @@ app.directive('datepicker', function(){
 	return {
 		restrict: 'A',
 		link: function($scope, $element, $attrs) {
-			$(element).datepicker({
+			$($element).datepicker({
 				autoclose: true,
 				format: 'dd/MM/yyyy',
 				todayHighlight: true,
 				language: 'es'
 			});
-			$(element).datepicker("setDate", new Date());
+			$($element).datepicker("setDate", new Date());
 		}
 	};
 });

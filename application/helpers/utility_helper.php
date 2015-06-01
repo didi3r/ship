@@ -9,4 +9,9 @@ if ( ! function_exists('asset_url()'))
 		else
 			return base_url() . 'public/';
 	}
+
+	function is_set($var)
+	{
+		echo isset($var) ? $var : '';
+	}
 }
