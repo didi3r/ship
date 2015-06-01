@@ -80,7 +80,8 @@
   clear: both;
 }
 
-.sale {
+.sale,
+.shipment {
   position: relative;
   display: block;
 }
@@ -107,11 +108,13 @@
   cursor: pointer;
 }
 
-.sale.loading .spinner.absolute {
+.sale.loading .spinner.absolute,
+.shipment.loading .spinner.absolute {
   display: block;
 }
 
-.sale.loading .panel {
+.sale.loading .panel,
+.shipment.loading .panel {
   opacity: 0.4;
 }
 

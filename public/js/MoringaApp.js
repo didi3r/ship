@@ -75,46 +75,85 @@ app.directive('ngTruncate', function(){
 });
 
 app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http) {
+    $scope.result_limit = 10;
     $scope.current_page = 1;
+    $scope.total_pages = 1;
+
 	$scope.orderBy = '-date';
 	$scope.shipments = [];
 	$scope.isLoading = true;
 	$scope.isThereError = false;
+    $scope.saleLoading = null;
 
-    $scope.getSalesCollection =  function(page) {
+    $scope.getSalesCollection =  function() {
         $scope.shipments = [];
         $scope.isLoading = true;
         $scope.isThereError = false;
 
-        $http.get('index.php?/api/sales/' + page)
+        $http.get('index.php?/api/shipments/' + $scope.current_page + '/' + $scope.result_limit)
         .success(function(data) {
             $scope.shipments = data.response;
+            $scope.total_pages = Math.ceil(data.total_rows / $scope.result_limit);
         })
         .error(function() {
             $scope.isThereError = true;
         }).finally(function() {
             $scope.isLoading = false;
         });
+    };
+
+    $scope.getPagesNumber = function() {
+        return new Array($scope.total_pages);
     }
 
     $scope.nextPage = function() {
-        $scope.current_page += 1;
-        $scope.getSalesCollection($scope.current_page);
+        $scope.current_page = $scope.current_page >= $scope.total_pages ? $scope.total_pages : $scope.current_page += 1;
+        $scope.getSalesCollection();
+    };
+
+    $scope.prevPage = function() {
+        $scope.current_page = $scope.current_page <= 1 ? 1 : $scope.current_page -= 1;
+        $scope.getSalesCollection();
+    };
+
+    $scope.goToPage = function(number) {
+        if(number <= $scope.total_pages && number >= 1) {
+            $scope.current_page = number;
+        }
+        $scope.getSalesCollection();
+    };
+
+    $scope.isSaleLoading = function(sale) {
+        return $scope.saleLoading === sale;
     };
 
     $scope.markAsShipped = function(shipment) {
-        shipment.status = "En Camino";
-        shipment.delivery.status = "Enviado";
-
+        $scope.saleLoading = shipment;
         shipment.delivery.trackCode = $('#trackCode-' + shipment.id).val();
+
+        $http.post('index.php?/api/mark_as_shipped', {id: shipment.id, code: shipment.delivery.trackCode})
+        .success(function(data) {
+            if(data.response) {
+                shipment.delivery.trackCode = data.response[0].delivery.trackCode;
+                shipment.delivery.status = data.response[0].delivery.status;
+                shipment.status = data.response[0].status;
+            } else {
+                alert(data.error);
+            }
+        })
+        .error(function() {
+            alert('Error al tratar de realizar la acción solicitada')
+        }).
+        finally(function () {
+            $scope.saleLoading = null;
+        });
+
         $scope.closeModal(shipment);
     };
 
     $scope.markAsUnshipped = function(shipment) {
         if(confirm("¿Estás seguro de marcar el envío como No Eviado?")) {
-            shipment.status = "Enviando";
-            shipment.delivery.status = "Pendiente";
-            shipment.delivery.trackCode = "";
+            $scope.update_status('mark_as_unshipped', shipment);
         }
     };
 
@@ -122,8 +161,29 @@ app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http)
         $('#trackCodeModal-' + shipment.id).modal('hide');
     };
 
+    $scope.update_status = function(action, sale) {
+        $scope.saleLoading = sale;
+
+        $http.post('index.php?/api/' + action, {id: sale.id})
+        .success(function(data) {
+            if(data.response) {
+                sale.payment.status = data.response[0].payment.status;
+                sale.delivery.status = data.response[0].delivery.status;
+                sale.status = data.response[0].status;
+            } else {
+                alert(data.error);
+            }
+        })
+        .error(function() {
+            alert('Error al tratar de realizar la acción solicitada')
+        }).
+        finally(function () {
+            $scope.saleLoading = null;
+        });
+    };
+
     // Initial List Population
-    $scope.getSalesCollection($scope.current_page);
+    $scope.getSalesCollection();
 }]);
 
 app.controller('AddSaleCtrl', ['$scope', function ($scope) {
@@ -151,7 +211,7 @@ app.controller('AddSaleCtrl', ['$scope', function ($scope) {
 }]);
 
 app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
-    $scope.result_limit = 10;
+    $scope.result_limit = 20;
     $scope.current_page = 1;
     $scope.total_pages = 1;
 

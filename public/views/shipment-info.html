@@ -1,7 +1,13 @@
+<div class="spinner absolute">
+    <div class="rect1"></div>
+    <div class="rect2"></div>
+    <div class="rect3"></div>
+    <div class="rect4"></div>
+    <div class="rect5"></div>
+</div>
 <div  class="panel panel-default"
     ng-class="{
-        'panel-success' : shipment.delivery.status == 'Enviado',
-        'panel-danger' : shipment.delivery.status == 'Cancelado'
+        'panel-success' : shipment.delivery.status == 'Enviado'
     }">
 
     <div class="panel-heading">
@@ -9,7 +15,6 @@
         <i class="fa"
             ng-class="{
                 'fa-clock-o' : shipment.delivery.status == 'Pendiente',
-                'fa-times-circle' : shipment.delivery.status == 'Cancelado',
                 'fa-check-circle' : shipment.delivery.status == 'Enviado'
             }">
         </i>
@@ -18,13 +23,13 @@
         <span class="buttons">
             <button class="btn btn-xs btn-success"
                 data-toggle="modal" data-target="#trackCodeModal-{{shipment.id}}"
-                ng-show="shipment.delivery.status == 'Pendiente'">
+                ng-show="shipment.status == 'Enviando'
+                && shipment.delivery.status == 'Pendiente'">
                 <i class="fa fa-truck"></i> Enviado
             </button>
             <button class="btn btn-xs btn-default"
-                ng-show="shipment.delivery.status == 'Enviado'
-                && shipment.status != 'Finalizado'
-                && shipment.status != 'Cancelado'"
+                ng-show="shipment.status == 'En Camino'
+                && shipment.delivery.status == 'Enviado'"
                 ng-click="markAsUnshipped(shipment)">
                 <i class="fa fa-times-circle"></i> No Enviado
             </button>

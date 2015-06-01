@@ -50,9 +50,27 @@
                     </div>
 
                     <!-- Shipment list -->
-                    <shipment class="shipment" ng-repeat="shipment in shipments | filter: filter | orderBy: order"></shipment>
+                    <shipment class="shipment" ng-repeat="shipment in shipments | filter: filter | orderBy: order" ng-class="{'loading' : isSaleLoading(shipment)}"></shipment>
                     <!-- /Shipment list -->
 
+                    <div class="pagination" ng-show="total_pages > 1">
+                        <button class="btn btn-primary"
+                            ng-click="prevPage()"
+                            ng-hide="current_page <= 1">
+                            Anterior
+                        </button>
+                        <button class="btn btn-default"
+                            ng-repeat="i in getPagesNumber() track by $index"
+                            ng-class="{'btn-primary' : $index + 1 == current_page}"
+                            ng-click="goToPage($index + 1)">
+                            {{$index+1}}
+                        </button>
+                        <button class="btn btn-primary"
+                            ng-click="nextPage()"
+                            ng-hide="current_page >= total_pages">
+                            Siguiente
+                        </button>
+                    </div>
                 </div>
 
             </div>

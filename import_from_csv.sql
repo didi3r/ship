@@ -54,6 +54,9 @@ WHERE `Usuario ML` <> ""
 ORDER BY STR_TO_DATE(`Fecha Compra`, "%e-%b-%Y")
 
 UPDATE sales
+SET addressee = name
+
+UPDATE sales
 SET status = 'Finalizado'
 WHERE payment_status = 'Pagado'
 AND shipping_status = 'Enviado'

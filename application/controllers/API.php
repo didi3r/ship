@@ -9,13 +9,22 @@ class API extends CI_Controller {
 		$this->load->model('sales_model');
 	}
 
-	public function sales($page)
+	public function sales($page, $limit)
 	{
 		if($page <= 0) $page = 1;
-		$limit = 10;
 		$offset = ($page - 1) * $limit;
 
 		$output = $this->sales_model->get_all($limit, $offset);
+
+		echo json_encode($output);
+	}
+
+	public function shipments($page, $limit)
+	{
+		if($page <= 0) $page = 1;
+		$offset = ($page - 1) * $limit;
+
+		$output = $this->sales_model->get_all($limit, $offset, 'date', true, 'Enviando,En Camino');
 
 		echo json_encode($output);
 	}
@@ -85,7 +94,21 @@ class API extends CI_Controller {
 			die(json_encode(array('error' => 'Undefined variable: id')));
 		}
 
-		$output = $this->sales_model->update_status($params->id, 'En Camino');
+		$output = $this->sales_model->update_status($params->id, 'En Camino', array('delivery_code' => $params->code));
+
+		echo json_encode($output);
+	}
+
+	public function mark_as_unshipped()
+	{
+		$post = file_get_contents("php://input");
+		$params = json_decode($post);
+
+		if(!$params->id) {
+			die(json_encode(array('error' => 'Undefined variable: id')));
+		}
+
+		$output = $this->sales_model->update_status($params->id, 'Enviando');
 
 		echo json_encode($output);
 	}

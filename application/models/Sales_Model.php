@@ -18,23 +18,47 @@ class Sales_Model extends CI_Model {
 		}
 
 		if(!empty($status)) {
-			$this->db->where('status', $status);
+			$status_array = explode(',', $status);
+			foreach ($status_array as $i => $term) {
+				if($i == 0)
+					$this->db->where('status', $term);
+				else
+					$this->db->or_where('status', $term);
+			}
 		}
 
 		if(!empty($courier)) {
 			$this->db->where('courier', $courier);
 		}
 
-		if(!empty($order)) {
-			$this->db->order_by($order, $desc ? 'desc' : 'asc');
-		}
+		$this->db->order_by($order, $desc ? 'desc' : 'asc');
+		$this->db->order_by('id', 'desc');
 
 		$query = $this->db->get('sales');
 
 		$output = array();
-		$output['total_rows'] = $this->db->count_all('sales');
 		foreach ($query->result() as $row) {
 			$output['response'][] = $this->contruct_hierarchy($row);
+		}
+
+		if(empty($status) && empty($courier) && empty($search)) {
+			$output['total_rows'] = $this->db->count_all('sales');
+		} else {
+			if(!empty($status)) {
+				foreach ($status_array as $i => $term) {
+					if($i == 0)
+						$this->db->where('status', $term);
+					else
+						$this->db->or_where('status', $term);
+				}
+			}
+
+			if(!empty($courier)) {
+				$this->db->where('courier', $courier);
+			}
+
+			$this->db->from('sales');
+			$output['total_rows'] = $this->db->count_all_results();
 		}
 
 		return $output;
@@ -93,16 +117,20 @@ class Sales_Model extends CI_Model {
 				break;
 
 			case 'Enviando':
-				if($current_status == 'Pagado') {
-					$this->db->update(
-						'sales',
-						array(
+				if($current_status == 'Pagado' || $current_status == 'En Camino') {
+					if(isset($args['delivery_comments'])) {
+						$update = array(
 							'shipping_status' => 'Pendiente',
 							'shipping_comments' => $args['delivery_comments'],
 							'status' => 'Enviando'
-						),
-						'id = ' . $id
-					);
+						);
+					} else {
+						$update = array(
+							'shipping_status' => 'Pendiente',
+							'status' => 'Enviando'
+						);
+					}
+					$this->db->update('sales', $update, 'id = ' . $id);
 					return $this->get($id);
 				} else {
 					return $this->error('No se puede marcar la venta como Enviando');
@@ -112,14 +140,19 @@ class Sales_Model extends CI_Model {
 
 			case 'En Camino':
 				if($current_status == 'Enviando' || $current_status == 'Pagado') {
-					$this->db->update(
-						'sales',
-						array(
+					if(isset($args['delivery_code'])) {
+						$update = array(
+							'shipping_status' => 'Enviado',
+							'status' => 'En Camino',
+							'track_code' => $args['delivery_code']
+						);
+					} else {
+						$update = array(
 							'shipping_status' => 'Enviado',
 							'status' => 'En Camino'
-						),
-						'id = ' . $id
-					);
+						);
+					}
+					$this->db->update('sales', $update, 'id = ' . $id);
 					return $this->get($id);
 				} else {
 					return $this->error('No se puede marcar la venta como En Camino');
