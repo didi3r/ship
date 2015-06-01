@@ -6,6 +6,8 @@ class Sales extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+        
+        $this->load->model('sales_model');
 	}
 
 	public function index($page = 1)
@@ -13,20 +15,13 @@ class Sales extends CI_Controller {
 		$this->load->view('sales/list');
 	}
 
-	public function add($id = null)
+	public function add()
 	{
-		if($id) {
-			$this->load->model('sales_model');
-			$sale = $this->sales_model->get($id);
-			$this->load->view('sales/add', $sale['response'][0]);
-		} else {
-			$this->load->view('sales/add');
-		}
+        $this->load->view('sales/add',array('edit' => false));
 	}
-
-	public function listall()
+    
+    public function update($id)
 	{
-		$this->load->view('sales/list');
+        $this->load->view('sales/add',array('edit' => true));
 	}
-
 }

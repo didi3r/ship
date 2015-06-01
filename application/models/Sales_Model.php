@@ -69,8 +69,33 @@ class Sales_Model extends CI_Model {
 		$this->db->where('id', $id);
 		$query = $this->db->get('sales');
 
-		return array('response' => array($this->contruct_hierarchy($query->row())));
+		return $this->contruct_hierarchy($query->row());
 	}
+    
+    public function update($sale)
+    {
+//        die(print_r($sale));
+        $this->db->set('date', $sale['date']);
+        $this->db->set('name', $sale['name']);
+        $this->db->set('user', $sale['user']);
+        $this->db->set('email', $sale['email']);
+        $this->db->set('package', implode(',', $sale['package']));
+        $this->db->set('addressee', $sale['delivery']['addressee']);
+        $this->db->set('phone', $sale['delivery']['phone']);
+        $this->db->set('address', $sale['delivery']['address']);
+        $this->db->set('courier', $sale['delivery']['courier']);
+//        $this->db->set('track_code', $sale['delivery']['trackCode']);
+        $this->db->set('shipping_cost', $sale['delivery']['cost']);
+        $this->db->set('total', $sale['payment']['total']);
+        $this->db->set('commission', $sale['payment']['commission']);
+        $this->db->set('raw_material', $sale['payment']['rawMaterial']);
+        $this->db->set('split_earnings', $sale['split_earnings']);
+        $this->db->where('id', $sale['id']);
+        
+        if($this->db->update('sales')) {
+            return $this->get($sale['id']);
+        }
+    }
 
 	public function update_status($id, $status, $args = array())
 	{
@@ -203,6 +228,7 @@ class Sales_Model extends CI_Model {
 		$array = (array) $obj;
 
 		$array['package'] = preg_split('/\s*,\s*/', trim($array['package'] ));
+        $array['split_earnings'] = (boolean) $array['split_earnings'];
 
 		$array['delivery'] = array(
 			'addressee' => $array['addressee'],

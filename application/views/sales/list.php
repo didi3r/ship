@@ -41,7 +41,7 @@
                         </div>
                     </div>
 
-                    <div class="alert alert-info" ng-cloack ng-show="!isLoading && total_rows == 0">
+                    <div class="alert alert-info" ng-cloack ng-show="!isLoading && !isThereError && total_rows == 0">
                         <i class="fa fa-clock-o"></i>
                         No hay ventas pendientes por el momento, revisa más tarde.
                     </div>
@@ -59,7 +59,7 @@
                         <div class="rect5"></div>
                     </div>
 
-                    <div class="search-info" ng-cloack ng-hide="isLoading">
+                    <div class="search-info" ng-cloack ng-hide="isLoading || total_rows == 0">
                         <p>
                             Mostrando ventas de la
                             <strong>{{result_limit * (current_page - 1) > 0 ? result_limit * (current_page - 1) : 1 }}</strong>

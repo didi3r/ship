@@ -15,9 +15,11 @@
 
     <!-- Angular -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular-resource.min.js"></script>
     <script src="<?php assets_url() ?>js/ng-currency.min.js"></script>
     <script src="<?php assets_url() ?>js/MoringaApp.js"></script>
     <!-- Datepicker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
     <script src="<?php assets_url() ?>js/bootstrap-datepicker.min.js"></script>
     <script src="<?php assets_url() ?>js/bootstrap-datepicker.es.min.js"></script>
 

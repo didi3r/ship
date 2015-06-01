@@ -65,7 +65,7 @@
                     ng-show="sale.status != 'En Camino'
                     && sale.status != 'Cancelado'
                     && sale.status != 'Finalizado'"
-                    ng-click=""
+                    ng-click="updateSale(sale)"
                     ng-disabled="isSaleLoading(sale)">
                 <i class="fa fa-pencil"></i>
             </button>

@@ -1,5 +1,5 @@
 
-var app = angular.module('MoringaApp', ['ng-currency']);
+var app = angular.module('MoringaApp', ['ngResource', 'ng-currency']);
 
 app.directive('shipment', function(){
 	return {
@@ -35,14 +35,35 @@ app.directive('collapsablePanel', function(){
 app.directive('datepicker', function(){
 	return {
 		restrict: 'A',
-		link: function($scope, $element, $attrs) {
-			$($element).datepicker({
-				autoclose: true,
-				format: 'dd/MM/yyyy',
-				todayHighlight: true,
-				language: 'es'
-			});
-			$($element).datepicker("setDate", new Date());
+        require: 'ngModel',
+        scope: {
+          ngModel: '=' 
+        },
+		link: function($scope, $element, $attrs, ngModel) {
+            $($element).datepicker({
+                autoclose: true,
+                format: 'dd/MM/yyyy',
+                todayHighlight: true,
+                language: 'es'
+            });
+            
+            ngModel.$formatters.push(function(value) {
+                if(value !== undefined) {
+                    var date = moment(value);
+                    return date.format('DD/MMM/YYYY');
+                }
+            });
+            
+            ngModel.$parsers.push(function(input) {
+                var date = moment(input, 'DD/MMM/YYYY');
+                return date.format('YYYY-MM-DD');
+            });
+            
+            $scope.$watch('ngModel', function(newValue) {
+                if(newValue !== undefined) {
+                    $($element).datepicker('update');
+                }
+            });
 		}
 	};
 });
@@ -72,6 +93,14 @@ app.directive('ngTruncate', function(){
 			}
 		}
 	};
+});
+
+app.factory('Sale', function($resource) {
+    return $resource('index.php/api/sale/:id', { id: '@id' }, {
+        update: {
+            method: 'PUT' // this method issues a PUT request
+        }
+    });
 });
 
 app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http) {
@@ -188,28 +217,79 @@ app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http)
     $scope.getSalesCollection();
 }]);
 
-app.controller('AddSaleCtrl', ['$scope', function ($scope) {
-	$scope.grandTotal = 0;
-	$scope.shippingCost = 100;
-	$scope.productionCost = 0;
-	$scope.commission = 0;
+app.controller('AddSaleCtrl', ['$scope', 'Sale', function ($scope, Sale) {
 	$scope.discount = 0;
 	$scope.earnings = 0;
-	$scope.applyDiscount = true;
+    
+    $scope.sale = new Sale();
+    $scope.sale.date = new Date();
+	$scope.sale.name = "";
+	$scope.sale.user = "";
+	$scope.sale.email = "";
+	$scope.sale.phone = "";
+	$scope.sale.package = [];
+    
+    $scope.sale.delivery = {};
+	$scope.sale.delivery.addressee = '';
+    $scope.sale.delivery.addressee_phone = '';
+	$scope.sale.delivery.address = '';
+	$scope.sale.delivery.courier = '';
+//	$scope.sale.delivery.trackCode = '';
+	$scope.sale.delivery.cost = 100;
+    
+    $scope.sale.payment = {};
+	$scope.sale.payment.total = 0;
+	$scope.sale.payment.commission = 0;
+	$scope.sale.payment.raw_material = 0;
+	$scope.sale.split_earnings = true;
+    
+    $scope.$watchGroup(
+        ['sale.payment.total', 'sale.payment.rawMaterial', 'sale.payment.commission', 'sale.split_earnings'],
+        function() {
+            if($scope.sale.split_earnings) {
+                $scope.discount = ($scope.sale.payment.total - $scope.sale.payment.rawMaterial - $scope.sale.payment.commission) * 0.30;
+                $scope.discount = Math.round($scope.discount * 100) / 100;
+            } else {
+                $scope.discount = 0;
+            }
+            $scope.earnings = $scope.sale.payment.total - $scope.sale.delivery.cost - $scope.sale.payment.commission - $scope.discount;
+        }
+    );
+    
+}]);
 
-	$scope.$watchGroup(
-		['grandTotal', 'productionCost', 'commission', 'applyDiscount'],
-		function() {
-			if($scope.applyDiscount) {
-				$scope.discount = ($scope.grandTotal - $scope.productionCost - $scope.commission) * 0.30;
-				$scope.discount = Math.round($scope.discount * 100) / 100;
-			} else {
-				$scope.discount = 0;
-			}
-			$scope.earnings = $scope.grandTotal - $scope.productionCost - $scope.commission - $scope.discount;
-		}
-	);
-
+app.controller('UpdateSaleCtrl', ['$scope', 'Sale', function ($scope, Sale) {
+	$scope.discount = 0;
+	$scope.earnings = 0;
+    
+    $scope.populateForm = function(id) {
+        $scope.sale = Sale.get({ id: id }, function(data) {
+            $scope.$watchGroup(
+                ['sale.payment.total', 'sale.payment.rawMaterial', 'sale.payment.commission', 'sale.split_earnings'],
+                function() {
+                    if($scope.sale.split_earnings) {
+                        $scope.discount = ($scope.sale.payment.total - $scope.sale.payment.rawMaterial - $scope.sale.payment.commission) * 0.30;
+                        $scope.discount = Math.round($scope.discount * 100) / 100;
+                    } else {
+                        $scope.discount = 0;
+                    }
+                    $scope.earnings = $scope.sale.payment.total - $scope.sale.delivery.cost - $scope.sale.payment.commission - $scope.discount;
+                }
+            );
+        });
+    };
+    
+    $scope.saveSale = function(sale) {
+        $scope.sale.$update(function() {
+            //updated in the backend
+            alert('Update')
+        });  
+    };
+    
+    $scope.$watch('sale.date', function() {
+        if($scope.sale !== undefined)
+            console.log($scope.sale.date);
+    });
 }]);
 
 app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
@@ -307,8 +387,12 @@ app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.markAsEnded = function(sale) {
         $scope.update_status('mark_as_finished', sale);
     };
+    
+    $scope.updateSale = function(sale) {
+        window.location = "index.php/sales/update/" + sale.id;
+    };
 
-     $scope.closeModal = function(shipment) {
+    $scope.closeModal = function(shipment) {
         $('#commentsModal-' + shipment.id).modal('hide');
     };
 

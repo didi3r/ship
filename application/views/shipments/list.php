@@ -38,7 +38,7 @@
                         </div>
                     </div>
 
-                    <div class="alert alert-info" ng-cloack ng-show="!isLoading && total_rows == 0">
+                    <div class="alert alert-info" ng-cloack ng-show="!isLoading && !isThereError && total_rows == 0">
                         <i class="fa fa-clock-o"></i>
                         No hay envíos pendientes por el momento, revisa más tarde.
                     </div>

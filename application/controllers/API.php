@@ -18,6 +18,21 @@ class API extends CI_Controller {
 
 		echo json_encode($output);
 	}
+    
+    public function sale($id)
+	{
+        $post = file_get_contents("php://input");
+		$params = json_decode($post);
+        if($params) {
+            $sale = (array) $params;
+            $sale['delivery'] = (array) $sale['delivery'];
+            $sale['payment'] = (array) $sale['payment'];
+            $this->sales_model->update($sale);
+        }
+        $output = $this->sales_model->get($id);
+        
+		echo json_encode($output);
+	}
 
 	public function shipments($page, $limit)
 	{
