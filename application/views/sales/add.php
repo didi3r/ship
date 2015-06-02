@@ -1,22 +1,27 @@
 <?php $this->load->view('header'); ?>
 
 <!-- Page Content -->
-<div id="page-wrapper" 
-     ng-controller="<?php echo $edit ? 'UpdateSaleCtrl' : 'AddSaleCtrl' ?>" 
+<div id="page-wrapper"
+     ng-controller="<?php echo $edit ? 'UpdateSaleCtrl' : 'AddSaleCtrl' ?>"
      <?php echo $this->uri->segment(3) ? 'ng-init="populateForm('. $this->uri->segment(3) .')"' : '' ?> >
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">Registrar Venta</h1>
 
+                <div class="alert alert-success" ng-cloack ng-show="!isThereError && isSaved">
+                    <i class="fa fa-check-circle"></i>
+                    Venta guardada correctamente. <a href="<?php echo site_url('sales'); ?>">Ir a la lista de ventas.</a>
+                </div>
+
                 <div class="row">
-                    <form class="col-xs-12">
+                    <form name="saleForm" novalidate class="col-xs-12">
                         <div class="row">
                             <div class="form-group form-inline col-xs-12">
                                 <label for="date">
                                     <i class="fa fa-calendar"></i> Fecha de Venta:
                                 </label>
-                                <input name="date" type="text" class="form-control" datepicker="sale.date" ng-model="sale.date">
+                                <input name="date" type="text" class="form-control" datepicker="sale.date" ng-model="sale.date" required>
                             </div>
                         </div>
 
@@ -24,7 +29,7 @@
                         <div class="row">
                             <div class="form-group col-xs-12 col-sm-6">
                                 <label for="customerName">Nombre</label>
-                                <input type="customerName" class="form-control" id="customerName" placeholder="Nombre del Comprador" ng-model="sale.name">
+                                <input type="customerName" class="form-control" id="customerName" placeholder="Nombre del Comprador" ng-model="sale.name" required>
                             </div>
                             <div class="form-group col-xs-12 col-sm-6">
                                 <label for="MLUsername">Usuario en ML</label>
@@ -59,7 +64,7 @@
                                     <input type="text" class="form-control" name="addressee" placeholder="Nombre de quien recibe" ng-model="sale.delivery.addressee">
 
                                     <label for="addressee_phone">Teléfono: </label>
-                                    <input type="text" class="form-control" name="addressee_phone" placeholder="(123) 123 4567" ng-model="sale.delivery.addressee_phone">
+                                    <input type="text" class="form-control" name="addressee_phone" placeholder="(123) 123 4567" ng-model="sale.delivery.phone">
                                 </div>
                             </div>
                         </div>
@@ -68,13 +73,13 @@
                         <div class="row">
                             <div class="form-group col-xs-12">
                                 <label for="cart">Productos Vendidos</label>
-                                <textarea class="form-control" id="cart" rows="5" placeholder="Lista de productos separados por un salto de linea" ng-model="sale.package"></textarea>
+                                <textarea class="form-control" id="cart" rows="5" placeholder="Lista de productos separados por un salto de linea" ng-model="sale.package" required array-to-list></textarea>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group form-inline col-xs-12 col-md-4">
                                 <label for="total">Total </label><br>
-                                <input name="total" type="text" class="form-control" ng-model="sale.payment.total" ng-currency>
+                                <input name="total" type="text" class="form-control" ng-model="sale.payment.total" required ng-currency>
                             </div>
                             <div class="form-group form-inline col-xs-12 col-md-4">
                                 <label for="shippingCost">Costo de Envío </label><br>
@@ -110,18 +115,6 @@
                             </div>
                         </div>
 
-                        <h4>Pago</h4>
-                        <div class="row">
-                            <div class="form-group form-inline col-xs-12 col-md-4">
-                                <label for="status">Estado: </label>
-                                <select name="status" id="status" class="form-control" ng-model="sale.payment.status">
-                                    <option value="Pendiente">Pendiente</option>
-                                    <option value="Pagado">Pagado</option>
-                                    <option value="Cancelado">Cancelado</option>
-                                </select>
-                            </div>
-                        </div>
-
                         <div class="row">
                             <br><br>
                             <button type="button" class="btn btn-default"
@@ -129,7 +122,8 @@
                                 Cancelar
                             </button>
                             <button type="submit" class="btn btn-success"
-                                ng-click="saveSale(sale)">
+                                ng-click="saveSale(sale)"
+                                ng-disabled="saleForm.$invalid">
                                 Guardar
                             </button>
                         </div>

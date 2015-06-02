@@ -71,27 +71,52 @@ class Sales_Model extends CI_Model {
 
 		return $this->contruct_hierarchy($query->row());
 	}
-    
+
+	public function create($sale)
+    {
+    	// die(print_r($sale));
+    	$data = array(
+	        'date' => $sale['date'],
+	        'name' => $sale['name'],
+	        'user' => $sale['user'],
+	        'email' => $sale['email'],
+	        'phone' => $sale['phone'],
+	        'package' => implode(',', $sale['package']),
+	        'addressee' => $sale['delivery']['addressee'],
+	        'addressee_phone' => $sale['delivery']['phone'],
+	        'address' => $sale['delivery']['address'],
+	        'courier' => $sale['delivery']['courier'],
+	        'shipping_cost' => $sale['delivery']['cost'],
+	        'total' => $sale['payment']['total'],
+	        'commission' => $sale['payment']['commission'],
+	        'raw_material' => $sale['payment']['rawMaterial'],
+	        'split_earnings' => $sale['split_earnings'],
+    	);
+
+        if($this->db->insert('sales', $data)) {
+            return $this->get($this->db->insert_id());
+        }
+    }
+
     public function update($sale)
     {
-//        die(print_r($sale));
         $this->db->set('date', $sale['date']);
         $this->db->set('name', $sale['name']);
         $this->db->set('user', $sale['user']);
         $this->db->set('email', $sale['email']);
+        $this->db->set('phone', $sale['phone']);
         $this->db->set('package', implode(',', $sale['package']));
         $this->db->set('addressee', $sale['delivery']['addressee']);
-        $this->db->set('phone', $sale['delivery']['phone']);
+        $this->db->set('addressee_phone', $sale['delivery']['phone']);
         $this->db->set('address', $sale['delivery']['address']);
         $this->db->set('courier', $sale['delivery']['courier']);
-//        $this->db->set('track_code', $sale['delivery']['trackCode']);
         $this->db->set('shipping_cost', $sale['delivery']['cost']);
         $this->db->set('total', $sale['payment']['total']);
         $this->db->set('commission', $sale['payment']['commission']);
         $this->db->set('raw_material', $sale['payment']['rawMaterial']);
         $this->db->set('split_earnings', $sale['split_earnings']);
         $this->db->where('id', $sale['id']);
-        
+
         if($this->db->update('sales')) {
             return $this->get($sale['id']);
         }
@@ -233,7 +258,7 @@ class Sales_Model extends CI_Model {
 		$array['delivery'] = array(
 			'addressee' => $array['addressee'],
 			'address' => trim($array['address']),
-			'phone' => $array['phone'],
+			'phone' => $array['addressee_phone'],
 			'courier' => $array['courier'],
 			'cost' => $array['shipping_cost'],
 			'date' => $array['shipping_date'],
@@ -244,7 +269,7 @@ class Sales_Model extends CI_Model {
 
 		unset($array['addressee']);
 		unset($array['address']);
-		unset($array['phone']);
+		unset($array['addressee_phone']);
 		unset($array['courier']);
 		unset($array['shipping_cost']);
 		unset($array['shipping_date']);
