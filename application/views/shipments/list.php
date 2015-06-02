@@ -38,17 +38,17 @@
                         </div>
                     </div>
 
-                    <div class="alert alert-info" ng-cloack ng-show="!isLoading && !isThereError && total_rows == 0">
+                    <div class="alert alert-info" ng-cloak ng-show="!isLoading && !isThereError && total_rows == 0">
                         <i class="fa fa-clock-o"></i>
                         No hay envíos pendientes por el momento, revisa más tarde.
                     </div>
 
-                    <div class="alert alert-danger" ng-cloack ng-show="isThereError">
+                    <div class="alert alert-danger" ng-cloak ng-show="isThereError">
                         <i class="fa fa-exclamation-triangle"></i>
                         Oops! Hubo un error al intentar obtener los datos.
                     </div>
 
-                    <div class="search-info" ng-cloack ng-hide="isLoading || total_rows == 0">
+                    <div class="search-info" ng-cloak ng-hide="isLoading || total_rows == 0">
                         <p>
                             Mostrando envíos del
                             <strong>{{result_limit * (current_page - 1) > 0 ? result_limit * (current_page - 1) : 1 }}</strong>
@@ -59,19 +59,13 @@
                         </p>
                     </div>
 
-                    <div class="spinner" ng-show="isLoading">
-                        <div class="rect1"></div>
-                        <div class="rect2"></div>
-                        <div class="rect3"></div>
-                        <div class="rect4"></div>
-                        <div class="rect5"></div>
-                    </div>
+                    <spinner ng-show="isLoading"></spinner>
 
                     <!-- Shipment list -->
                     <shipment class="shipment" ng-repeat="shipment in shipments | filter: filter | orderBy: order" ng-class="{'loading' : isSaleLoading(shipment)}"></shipment>
                     <!-- /Shipment list -->
 
-                    <div class="pagination" ng-cloack ng-show="total_pages > 1">
+                    <div class="pagination" ng-cloak ng-show="total_pages > 1">
                         <button class="btn btn-primary"
                             ng-click="prevPage()"
                             ng-hide="current_page <= 1">

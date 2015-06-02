@@ -65,3 +65,8 @@ UPDATE sales
 SET payment_status = 'Pagado'
 WHERE status = 'Pagado'
 OR shipping_status = 'Enviado'
+
+
+SELECT * FROM sales
+WHERE (status = 'Enviando' AND shipping_status = 'Pendiente')
+OR (status = 'En Camino' AND shipping_status = 'Enviado')

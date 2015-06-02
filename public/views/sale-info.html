@@ -1,10 +1,4 @@
-<div class="spinner absolute">
-    <div class="rect1"></div>
-    <div class="rect2"></div>
-    <div class="rect3"></div>
-    <div class="rect4"></div>
-    <div class="rect5"></div>
-</div>
+<spinner></spinner>
 <div  class="panel panel-default"
     ng-class="{
         'panel-success' : sale.status == 'Finalizado',
@@ -90,7 +84,10 @@
         <div class="row">
             <div class="col-xs-12 col-lg-3">
                 <i class="fa fa-user"></i> <strong>{{sale.name}}</strong><br>
-                &nbsp;&nbsp;&nbsp;&nbsp;(<span ng-truncate="sale.user" ng-truncate-limit="15"></span>)
+                <div ng-show="sale.user">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    (<span ng-truncate="sale.user" ng-truncate-limit="15"></span>)
+                </div>
                 <div ng-show="sale.email">
                     <br>
                     <i class="fa fa-envelope-o"></i> <span ng-truncate="sale.email" ng-truncate-limit="23"></span>

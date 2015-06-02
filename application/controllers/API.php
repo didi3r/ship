@@ -8,6 +8,21 @@ class API extends CI_Controller {
 
 		$this->load->model('sales_model');
 	}
+    
+    public function sales_resume()
+    {
+        $output = array();
+        $output['total_ended'] = $this->sales_model->get_total_sales('Finalizado');
+        $output['total_cancelled'] = $this->sales_model->get_total_sales('Cancelado');
+        $output['sales_this_week'] = $this->sales_model->get_sales_this_week(null, true);
+        $output['sales_last_week'] = $this->sales_model->get_sales_last_week(null, true);
+        $output['total_sales_this_week'] = $this->sales_model->get_sales_this_week();
+        $output['total_pending_shipments'] = $this->sales_model->get_total_sales('Enviando');
+        
+        $output['most_active_buyers'] = $this->sales_model->get_most_active_buyers();
+        
+        echo json_encode($output);
+    }
 
 	public function sales($page, $limit)
 	{

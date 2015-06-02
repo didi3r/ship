@@ -1,4 +1,6 @@
-[ng\:cloak], [ng-cloak], .ng-cloak { display: none; }
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
 
 .ng-invalid.form-control {
   border-color: #A94442;
@@ -12,17 +14,6 @@
   height: 30px;
   text-align: center;
   font-size: 10px;
-}
-
-.spinner.absolute {
-  position: absolute;
-  margin: auto;
-  right: 0;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 1;
-  display: none;
 }
 
 .spinner > div {
@@ -114,13 +105,32 @@
   cursor: pointer;
 }
 
-.sale.loading .spinner.absolute,
-.shipment.loading .spinner.absolute {
+.add-sale-form {
+    position: relative;
+}
+
+.sale .spinner,
+.shipment .spinner,
+.add-sale-form .spinner {
+  position: absolute;
+  margin: auto;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  display: none;
+}
+
+.sale.loading .spinner,
+.shipment.loading .spinner,
+.add-sale-form.loading .spinner{
   display: block;
 }
 
 .sale.loading .panel,
-.shipment.loading .panel {
+.shipment.loading .panel,
+.add-sale-form.loading form {
   opacity: 0.4;
 }
 

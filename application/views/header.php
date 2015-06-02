@@ -25,6 +25,9 @@
 
     <!-- Custom Fonts -->
     <link href="<?php assets_url() ?>bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    <!-- Angular Directives for Chart.js -->
+    <link href="<?php assets_url() ?>bower_components/angular-chart.js/dist/angular-chart.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

@@ -1,5 +1,5 @@
 
-var app = angular.module('MoringaApp', ['ngResource', 'ng-currency']);
+var app = angular.module('MoringaApp', ['chart.js','ngResource', 'ng-currency']);
 
 app.directive('shipment', function(){
 	return {
@@ -12,6 +12,13 @@ app.directive('sale', function(){
 	return {
 		restrict: 'E',
 		templateUrl: 'public/views/sale-info.html'
+	};
+});
+
+app.directive('spinner', function(){
+	return {
+		restrict: 'E',
+		templateUrl: 'public/views/spinner.html'
 	};
 });
 
@@ -124,6 +131,42 @@ app.factory('Sale', function($resource) {
     });
 });
 
+app.controller('DashboardCtrl', ['$scope', '$http', function ($scope, $http) {
+    $scope.isLoading = false;
+    
+    $scope.totalSalesThisWeek = 0;
+    $scope.totalPendingShipments = 0;
+    
+    // History Chart
+    $scope.historyChart = {};
+    $scope.historyChart.labels = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
+    $scope.historyChart.series = ['Semana Actual', 'Semana Pasada'];
+    $scope.historyChart.data = [];
+    
+    // Total Sales Chrat
+    $scope.salesChart = {};
+    $scope.salesChart.labels = ['Finalizadas', 'Canceladas'];
+    $scope.salesChart.data = [];
+    
+    $http.get('index.php?/api/sales_resume')
+    .success(function(data) {
+        if(data.error) {
+            alert(data.error);   
+        } else {
+            $scope.totalEnded = data.total_ended;
+            $scope.totalCancelled = data.total_cancelled;
+            $scope.totalSalesThisWeek = data.total_sales_this_week;
+            $scope.totalPendingShipments = data.total_pending_shipments;
+            $scope.mostActiveBuyers = data.most_active_buyers;
+            
+            $scope.historyChart.data[0] = data.sales_this_week.sales;
+            $scope.historyChart.data[1] = data.sales_last_week.sales;
+            
+            $scope.salesChart.data = [data.total_ended, data.total_cancelled];
+        }
+    });
+}]);
+
 app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.result_limit = 10;
     $scope.current_page = 1;
@@ -185,12 +228,12 @@ app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http)
 
         $http.post('index.php?/api/mark_as_shipped', {id: shipment.id, code: shipment.delivery.trackCode})
         .success(function(data) {
-            if(data.response) {
-                shipment.delivery.trackCode = data.response[0].delivery.trackCode;
-                shipment.delivery.status = data.response[0].delivery.status;
-                shipment.status = data.response[0].status;
-            } else {
+            if(data.error) {
                 alert(data.error);
+            } else {
+                shipment.delivery.trackCode = data.delivery.trackCode;
+                shipment.delivery.status = data.delivery.status;
+                shipment.status = data.status;
             }
         })
         .error(function() {
@@ -218,12 +261,12 @@ app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http)
 
         $http.post('index.php?/api/' + action, {id: sale.id})
         .success(function(data) {
-            if(data.response) {
-                sale.payment.status = data.response[0].payment.status;
-                sale.delivery.status = data.response[0].delivery.status;
-                sale.status = data.response[0].status;
-            } else {
+            if(data.error) {
                 alert(data.error);
+            } else {
+                sale.payment.status = data.payment.status;
+                sale.delivery.status = data.delivery.status;
+                sale.status = data.status;
             }
         })
         .error(function() {
@@ -240,6 +283,7 @@ app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http)
 
 app.controller('AddSaleCtrl', ['$scope', 'Sale', function ($scope, Sale) {
 	$scope.isSaved = false;
+    $scope.isLoading = false;
     $scope.isThereError = false;
 
     $scope.hasAddressee = false;
@@ -258,7 +302,7 @@ app.controller('AddSaleCtrl', ['$scope', 'Sale', function ($scope, Sale) {
 	$scope.sale.delivery.addressee = '';
     $scope.sale.delivery.phone = '';
 	$scope.sale.delivery.address = '';
-	$scope.sale.delivery.courier = '';
+	$scope.sale.delivery.courier = 'Estafeta';
 	$scope.sale.delivery.cost = 100;
 
     $scope.sale.payment = {};
@@ -281,11 +325,13 @@ app.controller('AddSaleCtrl', ['$scope', 'Sale', function ($scope, Sale) {
     );
 
     $scope.saveSale = function(sale) {
+        $scope.isLoading = true;
         $("#saleForm :input").prop("disabled", true);
         Sale.save($scope.sale, function() {
             $scope.isSaved = true;
             $("body").animate({scrollTop: 0}, "slow");
             $("#saleForm :input").prop("disabled", false);
+            $scope.isLoading = false;
         });
     };
 
@@ -293,6 +339,7 @@ app.controller('AddSaleCtrl', ['$scope', 'Sale', function ($scope, Sale) {
 
 app.controller('UpdateSaleCtrl', ['$scope', 'Sale', function ($scope, Sale) {
     $scope.isSaved = false;
+    $scope.isLoading = false;
     $scope.isThereError = false;
 
     $scope.hasAddressee = false;
@@ -300,7 +347,10 @@ app.controller('UpdateSaleCtrl', ['$scope', 'Sale', function ($scope, Sale) {
 	$scope.earnings = 0;
 
     $scope.populateForm = function(id) {
+        $scope.isLoading = true;
+        
         $scope.sale = Sale.get({ id: id }, function(data) {
+            $scope.isLoading = false;
             $scope.hasAddressee = $scope.sale.delivery.addressee ? true : false;
             $scope.$watchGroup(
                 ['sale.payment.total', 'sale.payment.rawMaterial', 'sale.payment.commission', 'sale.split_earnings'],
@@ -396,11 +446,11 @@ app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
 
         $http.post('index.php?/api/request_shipment', {id: sale.id, comments: sale.delivery.comments})
         .success(function(data) {
-        	if(data.response) {
-        		sale.delivery.comments = data.response[0].delivery.comments;
-        		sale.status = data.response[0].status;
-        	} else {
+        	if(data.error) {
         		alert(data.error);
+        	} else {
+        		sale.delivery.comments = data.delivery.comments;
+        		sale.status = data.status;
         	}
         })
         .error(function() {
@@ -438,12 +488,12 @@ app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
 
         $http.post('index.php?/api/' + action, {id: sale.id})
         .success(function(data) {
-        	if(data.response) {
-        		sale.payment.status = data.response[0].payment.status;
-        		sale.delivery.status = data.response[0].delivery.status;
-        		sale.status = data.response[0].status;
-        	} else {
+        	if(data.error) {
         		alert(data.error);
+        	} else {
+        		sale.payment.status = data.payment.status;
+        		sale.delivery.status = data.delivery.status;
+        		sale.status = data.status;
         	}
         })
         .error(function() {

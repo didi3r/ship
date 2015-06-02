@@ -9,12 +9,22 @@
             <div class="col-lg-12">
                 <h1 class="page-header">Registrar Venta</h1>
 
-                <div class="alert alert-success" ng-cloack ng-show="!isThereError && isSaved">
-                    <i class="fa fa-check-circle"></i>
-                    Venta guardada correctamente. <a href="<?php echo site_url('sales'); ?>">Ir a la lista de ventas.</a>
+                <div ng-cloak ng-show="!isThereError && isSaved">
+                    <div class="alert alert-success" >
+                        <i class="fa fa-check-circle"></i>
+                        Venta guardada correctamente. <a href="<?php echo site_url('sales'); ?>">Ir a la lista de ventas.</a>                        
+                    </div>
+                    
+                    <p class="text-center">
+                        <a href="<?php echo site_url('sales/add'); ?>" class="btn btn-primary">Agregar otra venta</a>
+                        <a href="<?php echo site_url('sales'); ?>" class="btn btn-default">Ir a la lista de ventas</a>
+                    </p>
                 </div>
 
-                <div class="row">
+                <div class="row add-sale-form"
+                    ng-class="{'loading' : isLoading}"
+                    ng-hide="!isThereError && isSaved">
+                    <spinner></spinner>
                     <form name="saleForm" id="saleForm" novalidate class="col-xs-12">
                         <div class="row">
                             <div class="form-group form-inline col-xs-12">
@@ -51,6 +61,16 @@
                             <div class="form-group col-xs-12">
                                 <label for="address">Dirección de Envío</label>
                                 <textarea class="form-control" id="address" rows="5" ng-model="sale.delivery.address"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="form-group form-inline col-xs-12">
+                                <label for="courier">Paquetería: </label>
+                                <select class="form-control" id="courier" ng-model="sale.delivery.courier">
+                                    <option value="Estafeta">Estafeta</option>
+                                    <option value="Correos de México">Correos de México</option>
+                                </select>
                             </div>
                         </div>
 
