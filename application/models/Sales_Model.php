@@ -74,7 +74,6 @@ class Sales_Model extends CI_Model {
 
 	public function create($sale)
     {
-    	// die(print_r($sale));
     	$data = array(
 	        'date' => $sale['date'],
 	        'name' => $sale['name'],
@@ -130,7 +129,6 @@ class Sales_Model extends CI_Model {
 		$query = $this->db->get();
 
 		$current_status = $query->row()->status;
-		// die($current_status);
 		switch ($status) {
 			case 'Pendiente':
 				if($current_status != 'Pendiente') {

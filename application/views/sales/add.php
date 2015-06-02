@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="row">
-                    <form name="saleForm" novalidate class="col-xs-12">
+                    <form name="saleForm" id="saleForm" novalidate class="col-xs-12">
                         <div class="row">
                             <div class="form-group form-inline col-xs-12">
                                 <label for="date">

@@ -281,9 +281,11 @@ app.controller('AddSaleCtrl', ['$scope', 'Sale', function ($scope, Sale) {
     );
 
     $scope.saveSale = function(sale) {
+        $("#saleForm :input").prop("disabled", true);
         Sale.save($scope.sale, function() {
             $scope.isSaved = true;
             $("body").animate({scrollTop: 0}, "slow");
+            $("#saleForm :input").prop("disabled", false);
         });
     };
 

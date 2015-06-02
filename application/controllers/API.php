@@ -29,18 +29,18 @@ class API extends CI_Controller {
             $sale = (array) $params;
             $sale['delivery'] = (array) $sale['delivery'];
             $sale['payment'] = (array) $sale['payment'];
-            $this->sales_model->create($sale);
-        }
-
-		// Update request
-        if($id && $params) {
+            $output = $this->sales_model->create($sale);
+        } elseif($id && $params) {
+			// Update request
             $sale = (array) $params;
             $sale['delivery'] = (array) $sale['delivery'];
             $sale['payment'] = (array) $sale['payment'];
-            $this->sales_model->update($sale);
+            $output = $this->sales_model->update($sale);
+        } else{
+        	// Get request
+        	$output = $this->sales_model->get($id);
         }
 
-        $output = $this->sales_model->get($id);
 
 		echo json_encode($output);
 	}
