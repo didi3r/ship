@@ -9,14 +9,14 @@ class Sales_Model extends CI_Model {
 		parent::__construct();
 
 	}
-    
+
     public function get_total_sales($status = null)
     {
         if($status) {
             $this->db->where('status', $status);
         }
         $this->db->from('sales');
-        
+
         return $this->db->count_all_results();
     }
 
@@ -26,7 +26,7 @@ class Sales_Model extends CI_Model {
 		if($limit > 0) {
 			$this->db->limit($limit, $offset);
 		}
-        
+
         if($order) {
             $this->db->order_by($order, $desc ? 'desc' : 'asc');
             $this->db->order_by('id', 'desc');
@@ -73,7 +73,7 @@ class Sales_Model extends CI_Model {
 //            die($this->db->last_query());
 			$output['total_rows'] = $this->db->count_all_results();
 		}
-        
+
 
 		return $output;
 	}
@@ -310,98 +310,98 @@ class Sales_Model extends CI_Model {
 	{
 		return array('error' => $msg);
 	}
-    
+
     public function get_sales_this_week($status = null, $per_day = false)
     {
-        
+
         $today = strtotime(date('Y-m-d'));
         $start = date('Y-m-d', strtotime('last thursday', $today));
         $end = date('Y-m-d', strtotime('next wednesday', strtotime($start)));
-        
+
         if($per_day) {
             $dates = array();
             while($start <= $end) {
                 $dates[] = $start;
                 $start = date('Y-m-d', strtotime($start . ' + 1 days'));;
             }
-            
+
             $output = array();
             foreach($dates as $day) {
                 $this->db->where('date', $day);
                 if($status) {
-                    $this->db->where('status', $status);   
+                    $this->db->where('status', $status);
                 }
 //                $output[] = array(
-//                    'date' => $day, 
+//                    'date' => $day,
 //                    'sales' => (int) $this->db->count_all_results('sales')
 //                );
                 $output['dates'][] = $day;
                 $output['sales'][] = $this->db->count_all_results('sales');
             }
-            
+
         } else {
             $this->db->from('sales');
             $this->db->where('date >=', $start);
             $this->db->where('date <=', $end);
             if($status) {
-                $this->db->where('status', $status);   
+                $this->db->where('status', $status);
             }
             $output = $this->db->count_all_results();
         }
 
         return $output;
     }
-    
+
     public function get_sales_last_week($status = null, $per_day = false)
     {
-        
+
         $sunday = strtotime('-2 weeks sunday', strtotime(date('Y-m-d')));
-        $start = date('Y-m-d', strtotime('last thursday', $sunday));
-        $end = date('Y-m-d', strtotime('next wednesday', strtotime($start)));
-        
+        $start = date('Y-m-d', strtotime('last friday', $sunday));
+        $end = date('Y-m-d', strtotime('next thursday', strtotime($start)));
+
         if($per_day) {
             $dates = array();
             while($start <= $end) {
                 $dates[] = $start;
                 $start = date('Y-m-d', strtotime($start . ' + 1 days'));;
             }
-            
+
             $output = array();
             foreach($dates as $day) {
                 $this->db->where('date', $day);
                 if($status) {
-                    $this->db->where('status', $status);   
+                    $this->db->where('status', $status);
                 }
                 $output['dates'][] = $day;
                 $output['sales'][] = (int) $this->db->count_all_results('sales');
             }
-            
+
         } else {
             $this->db->where('date <=', $start);
             $this->db->where('date >=', $end);
             if($status) {
-                $this->db->where('status', $status);   
+                $this->db->where('status', $status);
             }
             $output = (int) $this->db->count_all_results('sales');
         }
 
         return $output;
     }
-    
+
     public function get_most_active_buyers($limit = 5)
     {
         $sql = "
-            SELECT name, COUNT(*) AS purchases 
+            SELECT name, COUNT(*) AS purchases
             FROM sales
             GROUP BY name
             ORDER BY purchases DESC
             LIMIT 0, " . $limit . "
         ";
         $query = $this->db->query($sql);
-        
+
         return $query->result();
     }
-    
+
 }
 
 /* End of file SalesModel.php */

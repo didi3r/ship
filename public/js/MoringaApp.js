@@ -123,6 +123,47 @@ app.directive('ngTruncate', function(){
 	};
 });
 
+app.filter('sum', ['$parse', function ($parse) {
+    return function (input, property) {
+        var i = input instanceof Array ? input.length : 0,
+            p = $parse(property);
+
+        if (typeof property === 'undefined' || i === 0) {
+            return i;
+        } else if (isNaN(p(input[0]))) {
+            throw 'filter total can count only numeric values';
+        } else {
+            var total = 0;
+            while (i--)
+                total += parseFloat(p(input[i]));
+            return total;
+        }
+    };
+}]);
+
+app.filter('calc', function () {
+    return function (data, type) {
+        if(type === undefined) type = 'total';
+        var total = 0;
+        for (var i = 0; i < data.length; i++) {
+            var subtotal = parseFloat(data[i].payment.total - data[i].payment.commission - data[i].payment.rawMaterial);
+            switch(type) {
+                case 'total':
+                    total += subtotal;
+                    break;
+                case 'splittings':
+                    total += (subtotal * 0.30);
+                    break;
+                case 'earnings':
+                    total += (subtotal * 0.70);
+                    break;
+            }
+        };
+
+        return total;
+    };
+});
+
 app.factory('Sale', function($resource) {
     return $resource('index.php/api/sale/:id', { id: '@id' }, {
         update: {
@@ -133,35 +174,35 @@ app.factory('Sale', function($resource) {
 
 app.controller('DashboardCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.isLoading = false;
-    
+
     $scope.totalSalesThisWeek = 0;
     $scope.totalPendingShipments = 0;
-    
+
     // History Chart
     $scope.historyChart = {};
-    $scope.historyChart.labels = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
+    $scope.historyChart.labels = ['Viernes', 'Sábado', 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves'];
     $scope.historyChart.series = ['Semana Actual', 'Semana Pasada'];
     $scope.historyChart.data = [];
-    
+
     // Total Sales Chrat
     $scope.salesChart = {};
     $scope.salesChart.labels = ['Finalizadas', 'Canceladas'];
     $scope.salesChart.data = [];
-    
+
     $http.get('index.php?/api/sales_resume')
     .success(function(data) {
         if(data.error) {
-            alert(data.error);   
+            alert(data.error);
         } else {
             $scope.totalEnded = data.total_ended;
             $scope.totalCancelled = data.total_cancelled;
             $scope.totalSalesThisWeek = data.total_sales_this_week;
             $scope.totalPendingShipments = data.total_pending_shipments;
             $scope.mostActiveBuyers = data.most_active_buyers;
-            
+
             $scope.historyChart.data[0] = data.sales_this_week.sales;
             $scope.historyChart.data[1] = data.sales_last_week.sales;
-            
+
             $scope.salesChart.data = [data.total_ended, data.total_cancelled];
         }
     });
@@ -348,7 +389,7 @@ app.controller('UpdateSaleCtrl', ['$scope', 'Sale', function ($scope, Sale) {
 
     $scope.populateForm = function(id) {
         $scope.isLoading = true;
-        
+
         $scope.sale = Sale.get({ id: id }, function(data) {
             $scope.isLoading = false;
             $scope.hasAddressee = $scope.sale.delivery.addressee ? true : false;
@@ -506,4 +547,23 @@ app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
 
     // Initial List Population
     $scope.getSalesCollection();
+}]);
+
+app.controller('HistoryCtrl', ['$scope', '$http', '$filter', function ($scope, $http, $filter) {
+    $scope.isLoading = true;
+    $scope.isThereError = false;
+
+    $scope.sales = [];
+
+    $http.get('index.php?/api/sales/0/0')
+    .success(function(data) {
+        $scope.sales = data.response;
+        // $scope.total_rows = data.total_rows;
+        // $scope.total_pages = Math.ceil(data.total_rows / $scope.result_limit);
+    })
+    .error(function() {
+        $scope.isThereError = true;
+    }).finally(function() {
+        $scope.isLoading = false;
+    });
 }]);
