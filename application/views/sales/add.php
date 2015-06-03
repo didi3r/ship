@@ -12,9 +12,9 @@
                 <div ng-cloak ng-show="!isThereError && isSaved">
                     <div class="alert alert-success" >
                         <i class="fa fa-check-circle"></i>
-                        Venta guardada correctamente. <a href="<?php echo site_url('sales'); ?>">Ir a la lista de ventas.</a>                        
+                        Venta guardada correctamente. <a href="<?php echo site_url('sales'); ?>">Ir a la lista de ventas.</a>
                     </div>
-                    
+
                     <p class="text-center">
                         <a href="<?php echo site_url('sales/add'); ?>" class="btn btn-primary">Agregar otra venta</a>
                         <a href="<?php echo site_url('sales'); ?>" class="btn btn-default">Ir a la lista de ventas</a>
@@ -31,7 +31,7 @@
                                 <label for="date">
                                     <i class="fa fa-calendar"></i> Fecha de Venta:
                                 </label>
-                                <input name="date" type="text" class="form-control" datepicker="sale.date" ng-model="sale.date" required>
+                                <input name="date" type="text" class="form-control" datepicker ng-model="sale.date" required>
                             </div>
                         </div>
 
@@ -63,7 +63,7 @@
                                 <textarea class="form-control" id="address" rows="5" ng-model="sale.delivery.address"></textarea>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="form-group form-inline col-xs-12">
                                 <label for="courier">Paquetería: </label>

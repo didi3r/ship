@@ -44,15 +44,21 @@ app.directive('datepicker', function(){
 		restrict: 'A',
         require: 'ngModel',
         scope: {
-          ngModel: '='
+          ngModel: '=',
+          defaultDate: '@datepicker'
         },
 		link: function($scope, $element, $attrs, ngModel) {
             $($element).datepicker({
                 autoclose: true,
-                format: 'dd/MM/yyyy',
-                todayHighlight: true,
-                language: 'es'
+                format: 'dd/M/yyyy',
+                todayHighlight: true
             });
+
+            if($scope.defaultDate) {
+                console.log($scope.defaultDate)
+                var newDate = moment($scope.defaultDate)
+                $($element).datepicker('setDate', newDate.toDate());
+            }
 
             ngModel.$formatters.push(function(value) {
                 if(value !== undefined) {

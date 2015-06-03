@@ -6,6 +6,21 @@
             <div class="col-lg-12">
                 <h1 class="page-header">Historial de Ventas</h1>
                 <div ng-controller="HistoryCtrl">
+                	<!-- Filters -->
+                    <div class="navbar navbar-default">
+                        <div class="navbar-form ">
+                            <div class="form-group">
+                                <label for="since">Desde: </label>
+                                <input type="text" id="since" class="form-control" datepicker="<?php echo date('Y-m-d', strtotime('last friday')) ?>" ng-model="sinceDate">
+
+                                <label for="to">Hasta: </label>
+                                <input type="text" id="to" class="form-control" datepicker="<?php echo date('Y-m-d', strtotime('next thursday')) ?>" ng-model="toDate">
+
+                            	<button class="btn btn-primary">Buscar</button>
+                            </div>
+                        </div>
+                    </div>
+
 	                <table class="table table-striped table-condensed">
 	                	<thead>
 	                		<tr>
@@ -42,7 +57,7 @@
 	                		</tr>
 	                	</tbody>
                 		<tfoot>
-                			<tr>
+                			<tr ng-cloak>
                 				<td></td>
                 				<td></td>
                 				<td class="text-right">Total:</td>
