@@ -112,13 +112,15 @@
   cursor: pointer;
 }
 
-.add-sale-form {
+.add-sale-form,
+.add-expense-form {
     position: relative;
 }
 
 .sale .spinner,
 .shipment .spinner,
-.add-sale-form .spinner {
+.add-sale-form .spinner,
+.add-expense-form .spinner{
   position: absolute;
   margin: auto;
   right: 0;
@@ -129,6 +131,10 @@
   display: none;
 }
 
+.add-expense-form .spinner{
+    margin: 20px auto;
+}
+
 .sale.loading .spinner,
 .shipment.loading .spinner,
 .add-sale-form.loading .spinner{
@@ -137,7 +143,8 @@
 
 .sale.loading .panel,
 .shipment.loading .panel,
-.add-sale-form.loading form {
+.add-sale-form.loading form,
+.add-expense-form.loading form {
   opacity: 0.4;
 }
 

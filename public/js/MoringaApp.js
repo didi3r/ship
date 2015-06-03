@@ -54,12 +54,6 @@ app.directive('datepicker', function(){
                 todayHighlight: true
             });
 
-            if($scope.defaultDate) {
-                console.log($scope.defaultDate)
-                var newDate = moment($scope.defaultDate)
-                $($element).datepicker('setDate', newDate.toDate());
-            }
-
             ngModel.$formatters.push(function(value) {
                 if(value !== undefined) {
                     var date = moment(value);
@@ -71,6 +65,13 @@ app.directive('datepicker', function(){
                 var date = moment(input, 'DD/MMM/YYYY');
                 return date.format('YYYY-MM-DD');
             });
+
+            if($scope.defaultDate) {
+                var newDate = moment($scope.defaultDate)
+                ngModel.$setViewValue(newDate.format('YYYY-MM-DD'));
+                $($element).datepicker('setDate', newDate.toDate());
+            }
+
 
             $scope.$watch('ngModel', function(newValue) {
                 if(newValue !== undefined) {
@@ -149,6 +150,7 @@ app.filter('sum', ['$parse', function ($parse) {
 
 app.filter('calc', function () {
     return function (data, type) {
+        if(data === undefined) return 0;
         if(type === undefined) type = 'total';
         var total = 0;
         for (var i = 0; i < data.length; i++) {
@@ -172,6 +174,14 @@ app.filter('calc', function () {
 
 app.factory('Sale', function($resource) {
     return $resource('index.php/api/sale/:id', { id: '@id' }, {
+        update: {
+            method: 'PUT' // this method issues a PUT request
+        }
+    });
+});
+
+app.factory('Expense', function($resource) {
+    return $resource('index.php/api/expense/:id', { id: '@id' }, {
         update: {
             method: 'PUT' // this method issues a PUT request
         }
@@ -556,20 +566,109 @@ app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
 }]);
 
 app.controller('HistoryCtrl', ['$scope', '$http', '$filter', function ($scope, $http, $filter) {
-    $scope.isLoading = true;
+    $scope.isLoading = false;
     $scope.isThereError = false;
+    $scope.totalRows = 0;
 
     $scope.sales = [];
 
-    $http.get('index.php?/api/sales/0/0')
-    .success(function(data) {
-        $scope.sales = data.response;
-        // $scope.total_rows = data.total_rows;
-        // $scope.total_pages = Math.ceil(data.total_rows / $scope.result_limit);
-    })
-    .error(function() {
-        $scope.isThereError = true;
-    }).finally(function() {
-        $scope.isLoading = false;
-    });
+    $scope.getHistory = function(startDate, endDate) {
+        $scope.isLoading = true;
+        $scope.isThereError = false;
+        $scope.totalRows = 0;
+
+        startDate = moment(startDate).format('YYYY-MM-DD');
+        endDate = moment(endDate).format('YYYY-MM-DD');
+
+        $http.get('index.php?/api/history/' + startDate + '/' + endDate)
+        .success(function(data) {
+            if(data.error) {
+                alert(data.error);
+            } else {
+                $scope.sales = data.response;
+                $scope.totalRows = data.total_rows;
+            }
+        })
+        .error(function() {
+            $scope.isThereError = true;
+        }).finally(function() {
+            $scope.isLoading = false;
+        });
+    };
+
+    setTimeout(function() {
+        $scope.getHistory($scope.sinceDate, $scope.toDate);
+    }, 300);
+}]);
+
+app.controller('AddExpenseCtrl', ['$scope', '$http', 'Expense', function ($scope, $http, Expense) {
+    $scope.isLoading = false;
+    $scope.isSaved = false;
+
+    $scope.expense = new Expense();
+    $scope.expense.description = '';
+    $scope.expense.total = 0;
+
+    $scope.saveExpense = function(expense) {
+        if(expense.description != '' && expense.total != 0) {
+            if(expense.total <= 0) {
+                alert('El total del gasto no puede ser menor o igual a 0')
+            } else {
+                $scope.isSaved = false;
+                $scope.isLoading = true;
+                $("#AddExpenseForm :input").prop("disabled", true);
+
+                Expense.save(expense, function() {
+                    $("body").animate({scrollTop: 0}, "slow");
+                    $("#AddExpenseForm :input").prop("disabled", false);
+                    $scope.isLoading = false;
+                    $scope.isSaved = true;
+
+                    $scope.expense.date = moment().format('YYYY-MM-DD');
+                    $scope.expense.description = '';
+                    $scope.expense.total = 0;
+
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1000);
+                });
+            }
+        }
+    };
+}]);
+
+app.controller('ExpensesCtrl', ['$scope', '$http', function ($scope, $http) {
+    $scope.isLoading = false;
+    $scope.isThereError = false;
+    $scope.totalRows = 0;
+
+    $scope.expenses = [];
+
+    $scope.getExpenses = function(startDate, endDate) {
+        $scope.isLoading = true;
+        $scope.isThereError = false;
+        $scope.totalRows = 0;
+
+        startDate = moment(startDate).format('YYYY-MM-DD');
+        endDate = moment(endDate).format('YYYY-MM-DD');
+
+        $http.get('index.php?/api/expenses/' + startDate + '/' + endDate)
+        .success(function(data) {
+            if(data.error) {
+                alert(data.error);
+            } else {
+                $scope.expenses = data.response;
+                $scope.totalRows = data.total_rows;
+            }
+        })
+        .error(function() {
+            $scope.isThereError = true;
+        }).finally(function() {
+            $scope.isLoading = false;
+        });
+    };
+
+    setTimeout(function() {
+        $scope.getExpenses($scope.sinceDate, $scope.toDate);
+    }, 300);
 }]);

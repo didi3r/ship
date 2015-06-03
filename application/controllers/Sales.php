@@ -6,7 +6,7 @@ class Sales extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-        
+
         $this->load->model('sales_model');
 	}
 
@@ -19,7 +19,7 @@ class Sales extends CI_Controller {
 	{
         $this->load->view('sales/add',array('edit' => false));
 	}
-    
+
     public function update($id)
 	{
         $this->load->view('sales/add',array('edit' => true));

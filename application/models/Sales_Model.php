@@ -1,9 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Sales_Model extends CI_Model {
-
-	public $variable;
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -21,7 +18,7 @@ class Sales_Model extends CI_Model {
     }
 
 	public function get_all($limit = 10, $offset = 0, $order = 'date', $desc = true,
-		$status = '', $courier = '', $search = '')
+        $startDate = null, $endDate = null, $status = '', $courier = '', $search = '')
 	{
 		if($limit > 0) {
 			$this->db->limit($limit, $offset);
@@ -30,6 +27,11 @@ class Sales_Model extends CI_Model {
         if($order) {
             $this->db->order_by($order, $desc ? 'desc' : 'asc');
             $this->db->order_by('id', 'desc');
+        }
+
+        if($startDate && $endDate) {
+            $this->db->where('date >=', $startDate);
+            $this->db->where('date <=', $endDate);
         }
 
 		if(!empty($status)) {
@@ -47,13 +49,15 @@ class Sales_Model extends CI_Model {
 		}
 
 		$query = $this->db->get('sales');
+//        die($this->db->last_query());
 
 		$output = array();
+        $output['response'] = array();
 		foreach ($query->result() as $row) {
 			$output['response'][] = $this->contruct_hierarchy($row);
 		}
 
-		if(empty($status) && empty($courier) && empty($search)) {
+		if(empty($status) && empty($courier) && empty($search) && !$startDate && !$endDate) {
 			$output['total_rows'] = $this->db->count_all('sales');
 		} else {
 			if(!empty($status)) {
@@ -69,8 +73,12 @@ class Sales_Model extends CI_Model {
 				$this->db->where('courier', $courier);
 			}
 
+            if($startDate && $endDate) {
+                $this->db->where('date >=', $startDate);
+                $this->db->where('date <=', $endDate);
+            }
+
 			$this->db->from('sales');
-//            die($this->db->last_query());
 			$output['total_rows'] = $this->db->count_all_results();
 		}
 
@@ -313,10 +321,10 @@ class Sales_Model extends CI_Model {
 
     public function get_sales_this_week($status = null, $per_day = false)
     {
-
+    	date_default_timezone_set('America/Mexico_City');
         $today = strtotime(date('Y-m-d'));
-        $start = date('Y-m-d', strtotime('last thursday', $today));
-        $end = date('Y-m-d', strtotime('next wednesday', strtotime($start)));
+        $start = date('Y-m-d', strtotime('last friday', $today));
+        $end = date('Y-m-d', strtotime('next thursday', strtotime($start)));
 
         if($per_day) {
             $dates = array();
@@ -354,7 +362,7 @@ class Sales_Model extends CI_Model {
 
     public function get_sales_last_week($status = null, $per_day = false)
     {
-
+    	date_default_timezone_set('America/Mexico_City');
         $sunday = strtotime('-2 weeks sunday', strtotime(date('Y-m-d')));
         $start = date('Y-m-d', strtotime('last friday', $sunday));
         $end = date('Y-m-d', strtotime('next thursday', strtotime($start)));

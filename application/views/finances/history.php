@@ -11,17 +11,27 @@
                         <div class="navbar-form ">
                             <div class="form-group">
                                 <label for="since">Desde: </label>
-                                <input type="text" id="since" class="form-control" datepicker="<?php echo date('Y-m-d', strtotime('last friday')) ?>" ng-model="sinceDate">
+                                <input type="text" id="since" class="form-control" datepicker="<?php echo $start_date ?>" ng-model="sinceDate" value="{{sinceDate}}">
 
                                 <label for="to">Hasta: </label>
-                                <input type="text" id="to" class="form-control" datepicker="<?php echo date('Y-m-d', strtotime('next thursday')) ?>" ng-model="toDate">
+                                <input type="text" id="to" class="form-control" datepicker="<?php echo $end_date ?>" ng-model="toDate" value="{{toDate}}">
 
-                            	<button class="btn btn-primary">Buscar</button>
+                            	<button class="btn btn-primary"
+                                    ng-click="getHistory(sinceDate, toDate)">
+                                    Buscar
+                                </button>
                             </div>
                         </div>
                     </div>
+                    <spinner ng-show="isLoading"></spinner>
+                    <div class="alert alert-info" ng-show="!isLoading && totalRows == 0">
+                        No hubo ventas durante ese periodo de tiempo.
+                    </div>
 
-	                <table class="table table-striped table-condensed">
+                    <p class="text-right" ng-cloak ng-show="!isLoading && totalRows != 0">
+                        <i class="fa fa-list-ul"></i> Total: <strong>{{totalRows}}</strong>
+                    </p>
+	                <table class="table table-striped table-condensed" ng-cloak ng-show="!isLoading && totalRows != 0">
 	                	<thead>
 	                		<tr>
 	                			<th>ID</th>
@@ -37,9 +47,9 @@
 	                		</tr>
 	                	</thead>
 	                	<tbody>
-	                		<tr ng-cloak ng-repeat="sale in filteredSales = (sales | limitTo: 10) ">
+	                		<tr ng-cloak ng-repeat="sale in filteredSales = (sales) ">
 	                			<td>#{{sale.id}}</td>
-	                			<td>{{sale.date | date : 'dd/MM/yyyy'}}</td>
+	                			<td>{{sale.date | date : 'dd/MMM/yyyy'}}</td>
 	                			<td>{{sale.name}}</td>
 	                			<td ng-init="controller.totalDeliveryCost = controller.totalDeliveryCost + sale.delivery.cost">{{sale.delivery.cost | currency}}</td>
 	                			<td>{{sale.payment.total | currency}}</td>

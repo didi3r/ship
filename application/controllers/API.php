@@ -33,6 +33,22 @@ class API extends CI_Controller {
 
 		echo json_encode($output);
 	}
+    
+    public function history($startDate, $endDate)
+	{
+		$output = $this->sales_model->get_all(0, 0, null, null, $startDate, $endDate, 'Finalizado');
+
+		echo json_encode($output);
+	}
+    
+    public function expenses($startDate, $endDate)
+	{
+        $this->load->model('expenses_model');
+        
+		$output = $this->expenses_model->get_all($startDate, $endDate);
+
+		echo json_encode($output);
+	}
 
     public function sale($id = null)
 	{
@@ -59,13 +75,36 @@ class API extends CI_Controller {
 
 		echo json_encode($output);
 	}
+    
+    public function expense($id = null)
+	{
+        $this->load->model('expenses_model');
+        
+        $post = file_get_contents("php://input");
+		$params = json_decode($post);
+
+		// Create request
+        if(!$id && $params) {
+            $expense = (array) $params;
+            $output = $this->expenses_model->create($expense);
+        } elseif($id && $params) {
+			// Update request
+            $expense = (array) $params;
+            $output = $this->expenses_model->update($expense);
+        } else{
+        	// Get request
+        	$output = $this->expenses_model->get($id);
+        }
+
+		echo json_encode($output);
+	}
 
 	public function shipments($page, $limit)
 	{
 		if($page <= 0) $page = 1;
 		$offset = ($page - 1) * $limit;
 
-		$output = $this->sales_model->get_all($limit, $offset, 'date', true, 'Enviando,En Camino');
+		$output = $this->sales_model->get_all($limit, $offset, 'date', true, null, null, 'Enviando,En Camino');
 
 		echo json_encode($output);
 	}

@@ -1,3 +1,40 @@
+CREATE TABLE IF NOT EXISTS `sales` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `user` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
+  `phone` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
+  `package` text CHARACTER SET utf8,
+  `addressee` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
+  `address` text,
+  `addressee_phone` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
+  `courier` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT 'Estafeta',
+  `track_code` varchar(1000) CHARACTER SET utf8 DEFAULT NULL,
+  `shipping_cost` float NOT NULL DEFAULT '100',
+  `shipping_date` date DEFAULT NULL,
+  `shipping_status` varchar(15) CHARACTER SET utf8 NOT NULL DEFAULT 'Pendiente',
+  `shipping_comments` text CHARACTER SET utf8,
+  `payment_date` date DEFAULT NULL,
+  `payment_status` varchar(15) CHARACTER SET utf8 NOT NULL DEFAULT 'Pendiente',
+  `total` float NOT NULL DEFAULT '0',
+  `commission` float NOT NULL DEFAULT '0',
+  `raw_material` float NOT NULL DEFAULT '0',
+  `split_earnings` tinyint(1) NOT NULL DEFAULT '1',
+  `status` varchar(15) CHARACTER SET utf8 NOT NULL DEFAULT 'Pendiente',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+
+CREATE TABLE IF NOT EXISTS `expenses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL,
+  `description` varchar(300) CHARACTER SET utf8 NOT NULL,
+  `total` float NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+
 INSERT INTO sales (
 	date,
 	name,
