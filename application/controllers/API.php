@@ -8,7 +8,7 @@ class API extends CI_Controller {
 
 		$this->load->model('sales_model');
 	}
-    
+
     public function sales_resume()
     {
         $output = array();
@@ -18,9 +18,9 @@ class API extends CI_Controller {
         $output['sales_last_week'] = $this->sales_model->get_sales_last_week(null, true);
         $output['total_sales_this_week'] = $this->sales_model->get_sales_this_week();
         $output['total_pending_shipments'] = $this->sales_model->get_total_sales('Enviando');
-        
+
         $output['most_active_buyers'] = $this->sales_model->get_most_active_buyers();
-        
+
         echo json_encode($output);
     }
 
@@ -33,19 +33,28 @@ class API extends CI_Controller {
 
 		echo json_encode($output);
 	}
-    
+
     public function history($startDate, $endDate)
 	{
 		$output = $this->sales_model->get_all(0, 0, null, null, $startDate, $endDate, 'Finalizado');
 
 		echo json_encode($output);
 	}
-    
+
     public function expenses($startDate, $endDate)
 	{
         $this->load->model('expenses_model');
-        
+
 		$output = $this->expenses_model->get_all($startDate, $endDate);
+
+		echo json_encode($output);
+	}
+
+	public function transfers()
+	{
+        $this->load->model('transfers_model');
+
+		$output = $this->transfers_model->get_all();
 
 		echo json_encode($output);
 	}
@@ -75,11 +84,11 @@ class API extends CI_Controller {
 
 		echo json_encode($output);
 	}
-    
+
     public function expense($id = null)
 	{
         $this->load->model('expenses_model');
-        
+
         $post = file_get_contents("php://input");
 		$params = json_decode($post);
 
@@ -94,6 +103,29 @@ class API extends CI_Controller {
         } else{
         	// Get request
         	$output = $this->expenses_model->get($id);
+        }
+
+		echo json_encode($output);
+	}
+
+	public function transfer($id = null)
+	{
+        $this->load->model('transfers_model');
+
+        $post = file_get_contents("php://input");
+		$params = json_decode($post);
+
+		// Create request
+        if(!$id && $params) {
+            $transfer = (array) $params;
+            $output = $this->transfers_model->create($transfer);
+        } elseif($id && $params) {
+			// Update request
+            $transfer = (array) $params;
+            $output = $this->transfers_model->update($transfer);
+        } else{
+        	// Get request
+        	$output = $this->transfers_model->get($id);
         }
 
 		echo json_encode($output);

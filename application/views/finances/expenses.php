@@ -13,7 +13,7 @@
 
                     <div class="alert alert-success" ng-cloak ng-show="!isLoading && isSaved">
                         <i class="fa fa-check-circle"></i>
-                        Gasto guardado correctamente
+                        Registro guardado correctamente
                     </div>
 
                     <spinner></spinner>
@@ -63,6 +63,7 @@
                     </div>
                     <spinner ng-show="isLoading"></spinner>
                     <div class="alert alert-info" ng-cloak ng-show="!isLoading && totalRows == 0">
+                        <i class="fa fa-exclamation-triangle"></i>
                         No hubo gastos durante ese periodo de tiempo.
                     </div>
 

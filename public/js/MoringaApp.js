@@ -188,6 +188,14 @@ app.factory('Expense', function($resource) {
     });
 });
 
+app.factory('Transfer', function($resource) {
+    return $resource('index.php/api/transfer/:id', { id: '@id' }, {
+        update: {
+            method: 'PUT' // this method issues a PUT request
+        }
+    });
+});
+
 app.controller('DashboardCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.isLoading = false;
 
@@ -671,4 +679,69 @@ app.controller('ExpensesCtrl', ['$scope', '$http', function ($scope, $http) {
     setTimeout(function() {
         $scope.getExpenses($scope.sinceDate, $scope.toDate);
     }, 300);
+}]);
+
+app.controller('AddTransferCtrl', ['$scope', '$http', 'Transfer', function ($scope, $http, Transfer) {
+    $scope.isLoading = false;
+    $scope.isSaved = false;
+
+    $scope.transfer = new Transfer();
+    $scope.transfer.account = '';
+    $scope.transfer.total = 0;
+
+    $scope.saveTransfer = function(transfer) {
+        if(transfer.total <= 0) {
+            alert('La transferencia no puede ser menor o igual a 0')
+        } else {
+            $scope.isSaved = false;
+            $scope.isLoading = true;
+            $("#AddTransferForm :input").prop("disabled", true);
+
+            Transfer.save(transfer, function() {
+                $("body").animate({scrollTop: 0}, "slow");
+                $("#AddTransferForm :input").prop("disabled", false);
+                $scope.isLoading = false;
+                $scope.isSaved = true;
+
+                $scope.transfer.date = moment().format('YYYY-MM-DD');
+                $scope.transfer.account = '';
+                $scope.transfer.total = 0;
+
+                setTimeout(function(){
+                    location.reload();
+                }, 1000);
+            });
+        }
+    };
+}]);
+
+app.controller('TransfersCtrl', ['$scope', '$http', function ($scope, $http) {
+    $scope.isLoading = false;
+    $scope.isThereError = false;
+    $scope.totalRows = 0;
+
+    $scope.transfers = [];
+
+    $scope.getTransfers = function() {
+        $scope.isLoading = true;
+        $scope.isThereError = false;
+        $scope.totalRows = 0;
+
+        $http.get('index.php?/api/transfers')
+        .success(function(data) {
+            if(data.error) {
+                alert(data.error);
+            } else {
+                $scope.transfers = data.response;
+                $scope.totalRows = data.total_rows;
+            }
+        })
+        .error(function() {
+            $scope.isThereError = true;
+        }).finally(function() {
+            $scope.isLoading = false;
+        });
+    };
+
+    $scope.getTransfers();
 }]);

@@ -25,6 +25,7 @@
                     </div>
                     <spinner ng-show="isLoading"></spinner>
                     <div class="alert alert-info" ng-show="!isLoading && totalRows == 0">
+                        <i class="fa fa-exclamation-triangle"></i>
                         No hubo ventas durante ese periodo de tiempo.
                     </div>
 

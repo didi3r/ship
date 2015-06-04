@@ -29,6 +29,11 @@ class Finances extends CI_Controller {
 		$this->load->view('finances/expenses', $data);
 	}
 
+	public function transfers()
+	{
+		$this->load->view('finances/transfers');
+	}
+
 }
 
 /* End of file Finances.php */
