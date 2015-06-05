@@ -32,7 +32,7 @@ class Finances extends CI_Controller {
 
 		$this->load->view('finances/expenses', $data);
 	}
-    
+
     public function inversions()
 	{
 		date_default_timezone_set('America/Mexico_City');
@@ -45,6 +45,7 @@ class Finances extends CI_Controller {
 
 	public function transfers()
 	{
+		date_default_timezone_set('America/Mexico_City');
         $data = array(
 			'today' => date('Y-m-d')
 		);
