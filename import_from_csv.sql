@@ -1,3 +1,12 @@
+CREATE TABLE `users` (
+	`id` int(32) unsigned NOT NULL AUTO_INCREMENT,
+	`email` varchar(255) NOT NULL,
+	`password` varchar(255) NOT NULL,
+	`first_name` varchar(255) NULL,
+	`last_name` varchar(255) NULL,
+	PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
+
 CREATE TABLE IF NOT EXISTS `sales` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` date NOT NULL,
@@ -30,6 +39,26 @@ CREATE TABLE IF NOT EXISTS `expenses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` date NOT NULL,
   `description` varchar(300) CHARACTER SET utf8 NOT NULL,
+  `total` float NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+
+
+CREATE TABLE IF NOT EXISTS `payments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL,
+  `description` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `total` float NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+
+
+CREATE TABLE IF NOT EXISTS `transfers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL,
+  `account` varchar(100) CHARACTER SET utf8 NOT NULL,
   `total` float NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -107,3 +136,15 @@ OR shipping_status = 'Enviado'
 SELECT * FROM sales
 WHERE (status = 'Enviando' AND shipping_status = 'Pendiente')
 OR (status = 'En Camino' AND shipping_status = 'Enviado')
+
+SELECT 
+	ROUND(SUM(total), 2) AS total,
+    ROUND(SUM(commission), 2) AS commission,
+    ROUND(SUM(raw_material), 2) AS raw_material,
+    ROUND(
+        ROUND(SUM(total), 2) - 
+        ROUND(SUM(commission), 2) - 
+        ROUND(SUM(raw_material), 2) 
+    , 2) AS incomings
+FROM sales 
+WHERE status = 'Finalizado'

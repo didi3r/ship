@@ -21,7 +21,7 @@
                     <form name="AddTransferForm" id="AddTransferForm">
                         <div class="col-xs-12 col-sm-3 form-group">
                             <label>Fecha</label>
-                            <input type="text" class="form-control" datepicker="<?php echo date('Y-m-d') ?>" ng-model="transfer.date" required>
+                            <input type="text" class="form-control" datepicker="<?php echo $today ?>" ng-model="transfer.date" required>
                         </div>
                         <div class="col-xs-12 col-sm-3 form-group">
                             <label>Cuenta</label>
@@ -47,7 +47,26 @@
 
                 <h3>Listado de Transferencias</h3>
                 <div ng-controller="TransfersCtrl">
+                    <div class="row" ng-cloak>
+                        <div class="col-xs-6">
+                            <div class="well well-sm">
+                                Materia Prima: <span class="green">{{totalRawMaterial | currency}}</span> <br>
+                                Pago Inmediato: <span class="red">-{{payedRawMaterial | currency}}</span> <br>
+                                Transferido: <span class="red">-{{transferedRawMaterial | currency}}</span> <br>
+                                Por Transferir: <span class="green">{{pendingRawMaterial | currency}}</span> <br>
+                            </div> 
+                        </div>
 
+                        <div class="col-xs-6">
+                            <div class="well well-sm">
+                                Dividendo: <span class="green">{{totalSplittings | currency}}</span> <br>
+                                Gastos: <span class="red">-{{expensesSplittings | currency}}</span> <br>
+                                Transferido: <span class="red">-{{transferedSplittings | currency}}</span> <br>
+                                Por Transferir: <span class="green">{{pendingSplittings | currency}}</span> <br>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <spinner ng-show="isLoading"></spinner>
                     <div class="alert alert-info" ng-cloak ng-show="!isLoading && totalRows == 0">
                     	<i class="fa fa-exclamation-triangle"></i>
@@ -58,63 +77,68 @@
                         <i class="fa fa-list-ul"></i> Total: <strong>{{totalRows}}</strong>
                     </p>
 
-                    <div class="col-xs-12 col-md-6">
-	                    <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
-		                	<thead>
-		                		<tr>
-		                			<th>ID</th>
-		                			<th>Fecha</th>
-		                			<th>Cuenta</th>
-		                			<th>Total</th>
-		                		</tr>
-		                	</thead>
-		                	<tbody>
-		                		<tr ng-repeat="transfer in victorTransfers = (transfers | filter: {account : 'Victor'})">
-	                                <td>#{{transfer.id}}</td>
-	                                <td>{{transfer.date | date : 'dd/MMM/yyyy'}}</td>
-	                                <td>{{transfer.account}}</td>
-	                                <td class="green">{{transfer.total | currency}}</td>
-	                            </tr>
-		                	</tbody>
-	                		<tfoot>
-	                			<tr ng-cloak>
-	                				<td></td>
-	                				<td></td>
-	                                <td class="text-right">Total:</td>
-	                				<td class="green">{{victorTransfers | sum:'total' | currency}}</td>
-	                            </tr>
-	                		</tfoot>
-		                </table>
-                    </div>
+                    
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6" ng-cloack ng-hide="victorTransfers.length == 0">
+                            <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Fecha</th>
+                                        <th>Cuenta</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="transfer in victorTransfers = (transfers | filter: {account : 'Victor'})">
+                                        <td>#{{transfer.id}}</td>
+                                        <td>{{transfer.date | date : 'dd/MMM/yyyy'}}</td>
+                                        <td>{{transfer.account}}</td>
+                                        <td class="green">{{transfer.total | currency}}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr ng-cloak>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="text-right">Total:</td>
+                                        <td class="green">{{victorTransfers | sum:'total' | currency}}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
 
-                    <div class="col-xs-12 col-md-6">
-	                    <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
-		                	<thead>
-		                		<tr>
-		                			<th>ID</th>
-		                			<th>Fecha</th>
-		                			<th>Cuenta</th>
-		                			<th>Total</th>
-		                		</tr>
-		                	</thead>
-		                	<tbody>
-		                		<tr ng-repeat="transfer in aztridTransfers = (transfers | filter: {account : 'Aztrid'})">
-	                                <td>#{{transfer.id}}</td>
-	                                <td>{{transfer.date | date : 'dd/MMM/yyyy'}}</td>
-	                                <td>{{transfer.account}}</td>
-	                                <td class="green">{{transfer.total | currency}}</td>
-	                            </tr>
-		                	</tbody>
-	                		<tfoot>
-	                			<tr ng-cloak>
-	                				<td></td>
-	                				<td></td>
-	                                <td class="text-right">Total:</td>
-	                				<td class="green">{{aztridTransfers | sum:'total' | currency}}</td>
-	                            </tr>
-	                		</tfoot>
-		                </table>
+                        <div class="col-xs-12 col-md-6" ng-cloack ng-hide="aztridTransfers.length == 0">
+                            <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Fecha</th>
+                                        <th>Cuenta</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="transfer in aztridTransfers = (transfers | filter: {account : 'Aztrid'})">
+                                        <td>#{{transfer.id}}</td>
+                                        <td>{{transfer.date | date : 'dd/MMM/yyyy'}}</td>
+                                        <td>{{transfer.account}}</td>
+                                        <td class="green">{{transfer.total | currency}}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr ng-cloak>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="text-right">Total:</td>
+                                        <td class="green">{{aztridTransfers | sum:'total' | currency}}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
+                    <!-- /.row -->
+                    
                 </div>
             </div>
             <!-- /.col-lg-12 -->

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Expenses_model extends CI_Model {
+class Inversions_model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
@@ -19,7 +19,7 @@ class Expenses_model extends CI_Model {
             $this->db->where('date <=', $endDate);
         }
         
-        $query = $this->db->get('expenses');
+        $query = $this->db->get('payments');
         
         $output = array();
         $output['response'] = $query->result();
@@ -31,7 +31,7 @@ class Expenses_model extends CI_Model {
     public function get($id)
 	{
 		$this->db->where('id', $id);
-		$query = $this->db->get('expenses');
+		$query = $this->db->get('payments');
 
 		return $query->row();
 	}
@@ -45,7 +45,7 @@ class Expenses_model extends CI_Model {
             'total' => $expense['total']
     	);
 
-        if($this->db->insert('expenses', $data)) {
+        if($this->db->insert('payments', $data)) {
             return $this->get($this->db->insert_id());
         }
     }
@@ -56,7 +56,7 @@ class Expenses_model extends CI_Model {
         $this->db->set('description', $expense['description']);
         $this->db->set('total', $expense['total']);
 
-        if($this->db->update('expenses')) {
+        if($this->db->update('payments')) {
             return $this->get($expense['id']);
         }
     }

@@ -4,11 +4,11 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Gastos</h1>
-                <h3>Registrar Gasto</h3>
+                <h1 class="page-header">Inversiones</h1>
+                <h3>Registrar Inversiones</h3>
 
                 <div class="row add-expense-form"
-                     ng-controller="AddExpenseCtrl"
+                     ng-controller="AddInversionCtrl"
                      ng-class="{'loading' : isLoading}">
 
                     <div class="alert alert-success" ng-cloak ng-show="!isLoading && isSaved">
@@ -18,53 +18,37 @@
 
                     <spinner></spinner>
 
-                    <form name="AddExpenseForm" id="AddExpenseForm">
+                    <form name="AddInversionForm" id="AddInversionForm">
                         <div class="col-xs-12 col-sm-3 col-lg-2 form-group">
                             <label>Fecha</label>
-                            <input type="text" class="form-control" datepicker="<?php echo $today ?>" ng-model="expense.date" required>
+                            <input type="text" class="form-control" datepicker="<?php echo $today ?>" ng-model="inversion.date" required>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-lg-6 form-group">
                             <label>Descripción</label>
-                            <input type="text" class="form-control" placeholder="Descripción del gasto" ng-model="expense.description" required>
+                            <input type="text" class="form-control" placeholder="Descripción de la inversión" ng-model="inversion.description" required>
                         </div>
                         <div class="col-xs-12 col-sm-3 col-lg-2 form-group">
                             <label>Total</label>
-                            <input type="text" class="form-control" ng-model="expense.total" ng-currency required>
+                            <input type="text" class="form-control" ng-model="inversion.total" ng-currency required>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-lg-2 form-group">
                             <label>&nbsp;</label>
                             <button class="btn btn-primary" style="display:block"
-                                ng-disabled="AddExpenseForm.$invalid"
-                                ng-click="saveExpense(expense)">
+                                ng-disabled="AddInversionForm.$invalid"
+                                ng-click="saveInversion(inversion)">
                                 Guardar
                             </button>
                         </div>
                     </form>
                 </div>
 
-                <h3>Listado de Gastos</h3>
-                <div ng-controller="ExpensesCtrl">
-                	<!-- Filters -->
-                    <div class="navbar navbar-default">
-                        <div class="navbar-form ">
-                            <div class="form-group">
-                                <label for="since">Desde: </label>
-                                <input type="text" id="since" class="form-control" datepicker="<?php echo $start_date ?>" ng-model="sinceDate" value="{{sinceDate}}">
-
-                                <label for="to">Hasta: </label>
-                                <input type="text" id="to" class="form-control" datepicker="<?php echo $end_date ?>" ng-model="toDate" value="{{toDate}}">
-
-                            	<button class="btn btn-primary"
-                                    ng-click="getExpenses(sinceDate, toDate)">
-                                    Buscar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                <h3>Listado de Inversiones</h3>
+                <div ng-controller="InversionsCtrl">
+                	
                     <spinner ng-show="isLoading"></spinner>
                     <div class="alert alert-info" ng-cloak ng-show="!isLoading && totalRows == 0">
                         <i class="fa fa-exclamation-triangle"></i>
-                        No hubo gastos durante ese periodo de tiempo.
+                        Actualmente no hay inversiones
                     </div>
 
                     <p class="text-right" ng-cloak ng-show="!isLoading && totalRows != 0">
@@ -75,16 +59,16 @@
 	                		<tr>
 	                			<th>ID</th>
 	                			<th>Fecha</th>
-	                			<th>Nombre</th>
+	                			<th>Descipción</th>
 	                			<th>Total</th>
 	                		</tr>
 	                	</thead>
 	                	<tbody>
-	                		<tr ng-repeat="expense in filteredExpenses = expenses">
-                                <td>#{{expense.id}}</td>
-                                <td>{{expense.date | date : 'dd/MMM/yyyy'}}</td>
-                                <td>{{expense.description}}</td>
-                                <td class="red">-{{expense.total | currency}}</td>
+	                		<tr ng-repeat="inversion in filteredInversions = inversions">
+                                <td>#{{inversion.id}}</td>
+                                <td>{{inversion.date | date : 'dd/MMM/yyyy'}}</td>
+                                <td>{{inversion.description}}</td>
+                                <td class="green">{{inversion.total | currency}}</td>
                             </tr>
 	                	</tbody>
                 		<tfoot>
@@ -92,7 +76,7 @@
                 				<td></td>
                 				<td></td>
                                 <td class="text-right">Total:</td>
-                				<td class="red">-{{filteredExpenses | sum:'total' | currency}}</td>
+                				<td class="green">{{filteredInversions | sum:'total' | currency}}</td>
                             </tr>
                 		</tfoot>
 	                </table>

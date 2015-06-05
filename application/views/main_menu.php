@@ -30,6 +30,9 @@
                         <a href="<?php echo site_url('finances/expenses'); ?>">Gastos</a>
                     </li>
                     <li>
+                        <a href="<?php echo site_url('finances/inversions'); ?>">Inversiones</a>
+                    </li>
+                    <li>
                         <a href="<?php echo site_url('finances/transfers'); ?>">Transferencias</a>
                     </li>
                 </ul>

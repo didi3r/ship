@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Transfers_Model extends CI_Model {
+class Transfers_model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
@@ -59,6 +59,66 @@ class Transfers_Model extends CI_Model {
         if($this->db->update('transfers')) {
             return $this->get($expense['id']);
         }
+    }
+    
+    public function get_raw_material_total()
+    {
+        $output = array();
+        $this->db->select('SUM(raw_material) AS total');
+        $this->db->where('status', 'Finalizado');
+        $query = $this->db->get('sales');
+        
+        $output['total'] = (float) $query->row()->total ? $query->row()->total : 0;
+        
+        $this->db->select('SUM(total) AS total');
+        $query = $this->db->get('payments');
+        
+        $output['payed'] = (float) $query->row()->total ? $query->row()->total : 0;
+        
+        $this->db->select('SUM(total) AS total');
+        $this->db->where('account', 'Victor');
+        $query = $this->db->get('transfers');
+        
+        $output['transfered'] = (float) $query->row()->total ? $query->row()->total : 0;
+        
+        $output['pending'] = $output['total'] - $output['payed'] - $output['transfered'];
+        
+        return $output;
+    }
+
+    public function get_splittings_total()
+    {
+        $output = array();
+        
+        $sql = "
+            SELECT 
+                ROUND(
+                    ROUND(SUM(total), 2) - 
+                    ROUND(SUM(commission), 2) - 
+                    ROUND(SUM(raw_material), 2) 
+                , 2) * 0.30 AS total
+            FROM sales 
+            WHERE status = 'Finalizado'
+        ";
+        
+        $query = $this->db->query($sql);
+        
+        $output['total'] = (float) $query->row()->total ? $query->row()->total : 0;
+        
+        $this->db->select('SUM(total) AS total');
+        $this->db->where('account', 'Aztrid');
+        $query = $this->db->get('transfers');
+        
+        $output['transfered'] = (float) $query->row()->total ? $query->row()->total : 0;
+        
+        $this->db->select('SUM(total) AS total');
+        $query = $this->db->get('expenses');
+
+        $output['expenses'] = (float) $query->row()->total ? $query->row()->total : 0;
+        
+        $output['pending'] = $output['total'] - $output['expenses'] - $output['transfered'];
+        
+        return $output;
     }
 
 

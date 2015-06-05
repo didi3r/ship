@@ -6,6 +6,9 @@ class Sales extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+        if (!$this->authentication->is_loggedin()) {
+            redirect('login/?url=' . "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+        }
 
         $this->load->model('sales_model');
 	}

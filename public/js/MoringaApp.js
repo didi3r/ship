@@ -188,6 +188,14 @@ app.factory('Expense', function($resource) {
     });
 });
 
+app.factory('Inversion', function($resource) {
+    return $resource('index.php/api/inversion/:id', { id: '@id' }, {
+        update: {
+            method: 'PUT' // this method issues a PUT request
+        }
+    });
+});
+
 app.factory('Transfer', function($resource) {
     return $resource('index.php/api/transfer/:id', { id: '@id' }, {
         update: {
@@ -681,6 +689,78 @@ app.controller('ExpensesCtrl', ['$scope', '$http', function ($scope, $http) {
     }, 300);
 }]);
 
+app.controller('AddInversionCtrl', ['$scope', '$http', 'Inversion', function ($scope, $http, Inversion) {
+    $scope.isLoading = false;
+    $scope.isSaved = false;
+
+    $scope.inversion = new Inversion();
+    $scope.inversion.description = '';
+    $scope.inversion.total = 0;
+
+    $scope.saveInversion = function(inversion) {
+        if(inversion.description != '' && inversion.total != 0) {
+            if(inversion.total <= 0) {
+                alert('El total del gasto no puede ser menor o igual a 0')
+            } else {
+                $scope.isSaved = false;
+                $scope.isLoading = true;
+                $("#AddExpenseForm :input").prop("disabled", true);
+
+                Inversion.save(inversion, function() {
+                    $("body").animate({scrollTop: 0}, "slow");
+                    $("#AddExpenseForm :input").prop("disabled", false);
+                    $scope.isLoading = false;
+                    $scope.isSaved = true;
+
+                    $scope.inversion.date = moment().format('YYYY-MM-DD');
+                    $scope.inversion.description = '';
+                    $scope.inversion.total = 0;
+
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1000);
+                });
+            }
+        }
+    };
+}]);
+
+app.controller('InversionsCtrl', ['$scope', '$http', function ($scope, $http) {
+    $scope.isLoading = false;
+    $scope.isThereError = false;
+    $scope.totalRows = 0;
+
+    $scope.inversions = [];
+
+    $scope.getInversions = function(startDate, endDate) {
+        $scope.isLoading = true;
+        $scope.isThereError = false;
+        $scope.totalRows = 0;
+
+//        startDate = moment(startDate).format('YYYY-MM-DD');
+//        endDate = moment(endDate).format('YYYY-MM-DD');
+
+        $http.get('index.php?/api/inversions/')
+        .success(function(data) {
+            if(data.error) {
+                alert(data.error);
+            } else {
+                $scope.inversions = data.response;
+                $scope.totalRows = data.total_rows;
+            }
+        })
+        .error(function() {
+            $scope.isThereError = true;
+        }).finally(function() {
+            $scope.isLoading = false;
+        });
+    };
+
+    setTimeout(function() {
+        $scope.getInversions();
+    }, 300);
+}]);
+
 app.controller('AddTransferCtrl', ['$scope', '$http', 'Transfer', function ($scope, $http, Transfer) {
     $scope.isLoading = false;
     $scope.isSaved = false;
@@ -721,6 +801,14 @@ app.controller('TransfersCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.totalRows = 0;
 
     $scope.transfers = [];
+    $scope.totalRawMaterial = 0;
+    $scope.payedRawMaterial = 0;
+    $scope.transferedRawMaterial = 0;
+    $scope.pendingRawMaterial = 0;
+    $scope.totalSplittings = 0;
+    $scope.expensesSplittings = 0;
+    $scope.transferedSplittings = 0;
+    $scope.pendingSplittings = 0;
 
     $scope.getTransfers = function() {
         $scope.isLoading = true;
@@ -733,6 +821,15 @@ app.controller('TransfersCtrl', ['$scope', '$http', function ($scope, $http) {
                 alert(data.error);
             } else {
                 $scope.transfers = data.response;
+                $scope.totalRawMaterial = data.total_raw_material;
+                $scope.payedRawMaterial = data.payed_raw_material;
+                $scope.transferedRawMaterial = data.transfered_raw_material;
+                $scope.pendingRawMaterial = data.pending_raw_material;
+                $scope.totalSplittings = data.total_splittings;
+                $scope.expensesSplittings = data.expenses_splittings;
+                $scope.transferedSplittings = data.transfered_splittings;
+                $scope.pendingSplittings = data.pending_splittings;
+
                 $scope.totalRows = data.total_rows;
             }
         })

@@ -1,10 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class API extends CI_Controller {
+class Api extends CI_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
+        if (!$this->authentication->is_loggedin()) {
+            redirect('login/?url=' . "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+        }
 
 		$this->load->model('sales_model');
 	}
@@ -50,11 +53,33 @@ class API extends CI_Controller {
 		echo json_encode($output);
 	}
 
+    
+    public function inversions()
+	{
+        $this->load->model('inversions_model');
+
+		$output = $this->inversions_model->get_all();
+
+		echo json_encode($output);
+	}
+
 	public function transfers()
 	{
         $this->load->model('transfers_model');
 
 		$output = $this->transfers_model->get_all();
+        
+        $transfers_totals = $this->transfers_model->get_raw_material_total();
+        $output['total_raw_material'] = $transfers_totals['total'];
+        $output['payed_raw_material'] = $transfers_totals['payed'];
+        $output['transfered_raw_material'] = $transfers_totals['transfered'];
+        $output['pending_raw_material'] = $transfers_totals['pending'];
+        
+        $transfers_totals = $this->transfers_model->get_splittings_total();
+        $output['total_splittings'] = $transfers_totals['total'];
+        $output['expenses_splittings'] = $transfers_totals['expenses'];
+        $output['transfered_splittings'] = $transfers_totals['transfered'];
+        $output['pending_splittings'] = $transfers_totals['pending'];
 
 		echo json_encode($output);
 	}
@@ -103,6 +128,29 @@ class API extends CI_Controller {
         } else{
         	// Get request
         	$output = $this->expenses_model->get($id);
+        }
+
+		echo json_encode($output);
+	}
+    
+    public function inversion($id = null)
+	{
+        $this->load->model('inversions_model');
+
+        $post = file_get_contents("php://input");
+		$params = json_decode($post);
+
+		// Create request
+        if(!$id && $params) {
+            $inversion = (array) $params;
+            $output = $this->inversions_model->create($inversion);
+        } elseif($id && $params) {
+			// Update request
+            $inversion = (array) $params;
+            $output = $this->inversions_model->update($inversion);
+        } else{
+        	// Get request
+        	$output = $this->inversions_model->get($id);
         }
 
 		echo json_encode($output);
