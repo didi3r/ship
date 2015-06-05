@@ -119,6 +119,31 @@ FROM `table 2`
 WHERE `Usuario ML` <> ""
 ORDER BY STR_TO_DATE(`Fecha Compra`, "%e-%b-%Y")
 
+INSERT INTO expenses (
+	date,
+	description,
+	total
+)
+SELECT
+	STR_TO_DATE(`Fecha`, "%e-%b-%Y"),
+	`Descripción`,
+	REPLACE(REPLACE(Gasto, '$', ''), ',', '')
+FROM `TABLE 8`
+ORDER BY STR_TO_DATE(`Fecha`, "%e-%b-%Y")
+
+INSERT INTO transfers (
+	date,
+	account,
+	total
+)
+SELECT
+	STR_TO_DATE(`Fecha`, "%e-%b-%Y"),
+	`Cuenta`,
+	REPLACE(REPLACE(Total, '$', ''), ',', '')
+FROM `TABLE 7`
+ORDER BY STR_TO_DATE(`Fecha`, "%e-%b-%Y")
+
+
 UPDATE sales
 SET addressee = name
 
@@ -137,14 +162,14 @@ SELECT * FROM sales
 WHERE (status = 'Enviando' AND shipping_status = 'Pendiente')
 OR (status = 'En Camino' AND shipping_status = 'Enviado')
 
-SELECT 
+SELECT
 	ROUND(SUM(total), 2) AS total,
     ROUND(SUM(commission), 2) AS commission,
     ROUND(SUM(raw_material), 2) AS raw_material,
     ROUND(
-        ROUND(SUM(total), 2) - 
-        ROUND(SUM(commission), 2) - 
-        ROUND(SUM(raw_material), 2) 
+        ROUND(SUM(total), 2) -
+        ROUND(SUM(commission), 2) -
+        ROUND(SUM(raw_material), 2)
     , 2) AS incomings
-FROM sales 
+FROM sales
 WHERE status = 'Finalizado'
