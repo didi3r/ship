@@ -14,21 +14,21 @@ app.config(['$provide', function($provide) {
 app.directive('shipment', function(){
 	return {
 		restrict: 'E',
-		templateUrl: 'public/views/shipment-info.html'
+		templateUrl: 'application/views/ng-partials/shipment-info.php'
 	};
 });
 
 app.directive('sale', function(){
 	return {
 		restrict: 'E',
-		templateUrl: 'public/views/sale-info.html'
+		templateUrl: 'application/views/ng-partials/sale-info.php'
 	};
 });
 
 app.directive('spinner', function(){
 	return {
 		restrict: 'E',
-		templateUrl: 'public/views/spinner.html'
+		templateUrl: 'application/views/ng-partials/spinner.php'
 	};
 });
 
