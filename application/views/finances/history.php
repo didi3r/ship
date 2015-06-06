@@ -42,8 +42,8 @@
 	                			<th>Total</th>
 	                			<th>Comisión</th>
 	                			<th>Mat. Prima</th>
-	                			<th>Ingreso</th>
                                 <?php if($this->authentication->is_admin()) : ?>
+                                <th>Ingreso</th>
 	                			<th>Dividendo</th>
 	                			<th>Ganancia</th>
                                 <?php endif; ?>
@@ -55,13 +55,13 @@
 	                			<td>{{sale.date | date : 'dd/MMM/yyyy'}}</td>
 	                			<td>{{sale.name}}</td>
 	                			<td ng-init="controller.totalDeliveryCost = controller.totalDeliveryCost + sale.delivery.cost">{{sale.delivery.cost | currency}}</td>
-	                			<td>{{sale.payment.total | currency}}</td>
+	                			<td class="green">{{sale.payment.total | currency}}</td>
 	                			<td class="red">-{{sale.payment.commission | currency}}</td>
 	                			<td class="red">-{{sale.payment.rawMaterial | currency}}</td>
-	                			<td class="green">
-	                				{{sale.payment.total - sale.payment.commission - sale.payment.rawMaterial | currency}}
-	                			</td>
                                 <?php if($this->authentication->is_admin()) : ?>
+                                <td class="green">
+                                    {{sale.payment.total - sale.payment.commission - sale.payment.rawMaterial | currency}}
+                                </td>
 	                			<td class="red">
 	                				-{{(sale.payment.total - sale.payment.commission - sale.payment.rawMaterial) * 0.30 | currency}}
 	                			</td>
@@ -77,11 +77,11 @@
                 				<td></td>
                 				<td class="text-right">Total:</td>
                 				<td>{{filteredSales | sum:'delivery.cost' | currency}}</td>
-                				<td>{{filteredSales | sum:'payment.total' | currency}}</td>
+                				<td class="green">{{filteredSales | sum:'payment.total' | currency}}</td>
                 				<td class="red">{{filteredSales | sum:'payment.commission' | currency}}</td>
                 				<td class="red">{{filteredSales | sum:'payment.rawMaterial' | currency}}</td>
-                				<td class="green">{{filteredSales | calc:'total' | currency}}</td>
                 				<?php if($this->authentication->is_admin()) : ?>
+                                <td class="green">{{filteredSales | calc:'total' | currency}}</td>
                                 <td class="red">{{filteredSales | calc:'splittings' | currency}}</td>
                 				<td class="green">{{filteredSales | calc:'earnings' | currency}}</td>
                 			    <?php endif; ?>

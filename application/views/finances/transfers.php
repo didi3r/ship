@@ -53,7 +53,7 @@
                     <div class="row" ng-cloak>
                         <div class="col-xs-6">
                             <div class="well well-sm">
-                                Inversiones: <span class="">{{payedRawMaterial | currency}}</span> <br>
+                                <!-- Inversiones: <span class="">{{payedRawMaterial | currency}}</span> <br> -->
                                 Materia Prima: <span class="green">{{totalRawMaterial | currency}}</span> <br>
                                 Transferido: <span class="red">-{{transferedRawMaterial | currency}}</span> <br>
                                 <strong>Por Transferir: <span class="green">{{pendingRawMaterial | currency}}</span> <br></strong>
@@ -62,8 +62,11 @@
 
                         <div class="col-xs-6">
                             <div class="well well-sm">
+                                <?php if($this->authentication->is_admin()) : ?>
                                 Dividendo: <span class="green">{{totalSplittings | currency}}</span> <br>
                                 Gastos: <span class="red">-{{expensesSplittings | currency}}</span> <br>
+                                <?php endif; ?>
+                                <?php if(!$this->authentication->is_admin()) : ?><br><?php endif; ?>
                                 Transferido: <span class="red">-{{transferedSplittings | currency}}</span> <br>
                                 <strong>Por Transferir: <span class="green">{{pendingSplittings | currency}}</span> <br></strong>
                             </div>
