@@ -5,7 +5,7 @@
  * Authentication Class
  *
  * Very basic user authentication for CodeIgniter.
- * 
+ *
  * @package		Authentication
  * @version		1.0
  * @author		Joel Vardy <info@joelvardy.com>
@@ -390,6 +390,11 @@ class Authentication {
 			return FALSE;
 		}
 
+	}
+
+	public function is_admin()
+	{
+		return $this->read('username') == 'ventas.nd.fm@gmail.com';
 	}
 
 

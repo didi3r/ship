@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `expenses` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
+ALTER TABLE  `expenses` ADD  `user` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER  `date` ;
 
 CREATE TABLE IF NOT EXISTS `payments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -63,6 +64,10 @@ CREATE TABLE IF NOT EXISTS `transfers` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+
+INSERT INTO `users` (`id`, `email`, `password`, `first_name`, `last_name`) VALUES
+(1, 'ventas.nd.fm@gmail.com', '$2a$16$yG/kse7AT1uDp2LFmzEvceFHTDWnptGfszbKkIZHlv2VZKzNUY4/G', 'Nadia', 'Flores'),
+(2, 'ddr2002@prodigy.net.mx', '$2a$16$NPmJ4GlDLe7IweyYKWzwnO6HFbCN9JULD2vQvSXSZrXKjVsy62hSa', 'Victor', 'Magaña');
 
 INSERT INTO sales (
 	date,
@@ -156,6 +161,8 @@ UPDATE sales
 SET payment_status = 'Pagado'
 WHERE status = 'Pagado'
 OR shipping_status = 'Enviado'
+
+UPDATE expenses SET user = 'ventas.nd.fm@gmail.com'
 
 
 SELECT * FROM sales

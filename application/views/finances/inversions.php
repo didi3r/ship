@@ -5,6 +5,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">Inversiones</h1>
+
+                <?php if($this->authentication->is_admin()) : ?>
                 <h3>Registrar Inversiones</h3>
 
                 <div class="row add-expense-form"
@@ -41,10 +43,11 @@
                         </div>
                     </form>
                 </div>
+                <?php endif; ?>
 
                 <h3>Listado de Inversiones</h3>
                 <div ng-controller="InversionsCtrl">
-                	
+
                     <spinner ng-show="isLoading"></spinner>
                     <div class="alert alert-info" ng-cloak ng-show="!isLoading && totalRows == 0">
                         <i class="fa fa-exclamation-triangle"></i>

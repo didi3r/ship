@@ -5,6 +5,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">Transferencias</h1>
+
+                <?php if($this->authentication->is_admin()) : ?>
                 <h3>Registrar Transferencia</h3>
 
                 <div class="row add-expense-form"
@@ -44,6 +46,7 @@
                         </div>
                     </form>
                 </div>
+                <?php endif; ?>
 
                 <h3>Listado de Transferencias</h3>
                 <div ng-controller="TransfersCtrl">
@@ -54,7 +57,7 @@
                                 Pago Inmediato: <span class="red">-{{payedRawMaterial | currency}}</span> <br>
                                 Transferido: <span class="red">-{{transferedRawMaterial | currency}}</span> <br>
                                 Por Transferir: <span class="green">{{pendingRawMaterial | currency}}</span> <br>
-                            </div> 
+                            </div>
                         </div>
 
                         <div class="col-xs-6">
@@ -66,7 +69,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <spinner ng-show="isLoading"></spinner>
                     <div class="alert alert-info" ng-cloak ng-show="!isLoading && totalRows == 0">
                     	<i class="fa fa-exclamation-triangle"></i>
@@ -77,7 +80,7 @@
                         <i class="fa fa-list-ul"></i> Total: <strong>{{totalRows}}</strong>
                     </p>
 
-                    
+
                     <div class="row">
                         <div class="col-xs-12 col-md-6" ng-cloack ng-hide="victorTransfers.length == 0">
                             <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
@@ -138,7 +141,7 @@
                         </div>
                     </div>
                     <!-- /.row -->
-                    
+
                 </div>
             </div>
             <!-- /.col-lg-12 -->

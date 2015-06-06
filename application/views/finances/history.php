@@ -43,8 +43,10 @@
 	                			<th>Comisión</th>
 	                			<th>Mat. Prima</th>
 	                			<th>Ingreso</th>
+                                <?php if($this->authentication->is_admin()) : ?>
 	                			<th>Dividendo</th>
 	                			<th>Ganancia</th>
+                                <?php endif; ?>
 	                		</tr>
 	                	</thead>
 	                	<tbody>
@@ -59,12 +61,14 @@
 	                			<td class="green">
 	                				{{sale.payment.total - sale.payment.commission - sale.payment.rawMaterial | currency}}
 	                			</td>
+                                <?php if($this->authentication->is_admin()) : ?>
 	                			<td class="red">
 	                				-{{(sale.payment.total - sale.payment.commission - sale.payment.rawMaterial) * 0.30 | currency}}
 	                			</td>
 	                			<td class="green">
 	                				{{(sale.payment.total - sale.payment.commission - sale.payment.rawMaterial) * 0.70 | currency}}
 	                			</td>
+                                <?php endif; ?>
 	                		</tr>
 	                	</tbody>
                 		<tfoot>
@@ -77,9 +81,11 @@
                 				<td class="red">{{filteredSales | sum:'payment.commission' | currency}}</td>
                 				<td class="red">{{filteredSales | sum:'payment.rawMaterial' | currency}}</td>
                 				<td class="green">{{filteredSales | calc:'total' | currency}}</td>
-                				<td class="red">{{filteredSales | calc:'splittings' | currency}}</td>
+                				<?php if($this->authentication->is_admin()) : ?>
+                                <td class="red">{{filteredSales | calc:'splittings' | currency}}</td>
                 				<td class="green">{{filteredSales | calc:'earnings' | currency}}</td>
-                			</tr>
+                			    <?php endif; ?>
+                            </tr>
                 		</tfoot>
 	                </table>
                 </div>

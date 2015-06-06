@@ -5,6 +5,7 @@
             <li>
                 <a href="<?php echo site_url(); ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
+            <?php if($this->authentication->is_admin()) : ?>
             <li>
                 <a href="#"><i class="fa fa-shopping-cart fa-fw"></i> Ventas<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
@@ -17,6 +18,7 @@
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
+            <?php endif; ?>
             <li>
                 <a href="<?php echo site_url('shipments'); ?>"><i class="fa fa-truck fa-fw"></i> Envíos</a>
             </li>

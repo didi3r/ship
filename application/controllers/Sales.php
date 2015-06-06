@@ -10,6 +10,10 @@ class Sales extends CI_Controller {
             redirect('login/?url=' . "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
         }
 
+        if(!$this->authentication->is_admin()) {
+        	redirect('welcome');
+        }
+
         $this->load->model('sales_model');
 	}
 

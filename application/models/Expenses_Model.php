@@ -6,28 +6,28 @@ class Expenses_model extends CI_Model {
 		parent::__construct();
 
 	}
-    
+
     public function get_all($startDate = null, $endDate = null, $order = 'date', $desc = true)
     {
         if($order) {
             $this->db->order_by($order, $desc ? 'desc' : 'asc');
             $this->db->order_by('id', 'desc');
         }
-        
+
         if($startDate && $endDate) {
             $this->db->where('date >=', $startDate);
             $this->db->where('date <=', $endDate);
         }
-        
+
         $query = $this->db->get('expenses');
-        
+
         $output = array();
         $output['response'] = $query->result();
         $output['total_rows'] = count($query->result());
-        
+
         return $output;
     }
-    
+
     public function get($id)
 	{
 		$this->db->where('id', $id);
@@ -36,11 +36,12 @@ class Expenses_model extends CI_Model {
 		return $query->row();
 	}
 
-    
+
     public function create($expense)
     {
     	$data = array(
 	        'date' => $expense['date'],
+            'user' => $expense['user'],
 	        'description' => $expense['description'],
             'total' => $expense['total']
     	);
@@ -61,5 +62,5 @@ class Expenses_model extends CI_Model {
         }
     }
 
-    
+
 }

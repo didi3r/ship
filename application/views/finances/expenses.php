@@ -9,7 +9,8 @@
 
                 <div class="row add-expense-form"
                      ng-controller="AddExpenseCtrl"
-                     ng-class="{'loading' : isLoading}">
+                     ng-class="{'loading' : isLoading}"
+                     ng-init="expense.user='<?php echo $this->authentication->read('username') ?>'">
 
                     <div class="alert alert-success" ng-cloak ng-show="!isLoading && isSaved">
                         <i class="fa fa-check-circle"></i>
@@ -75,7 +76,8 @@
 	                		<tr>
 	                			<th>ID</th>
 	                			<th>Fecha</th>
-	                			<th>Nombre</th>
+                                <th>Usuario</th>
+	                			<th>Descripción</th>
 	                			<th>Total</th>
 	                		</tr>
 	                	</thead>
@@ -83,6 +85,7 @@
 	                		<tr ng-repeat="expense in filteredExpenses = expenses">
                                 <td>#{{expense.id}}</td>
                                 <td>{{expense.date | date : 'dd/MMM/yyyy'}}</td>
+                                <td>{{expense.user}}</td>
                                 <td>{{expense.description}}</td>
                                 <td class="red">-{{expense.total | currency}}</td>
                             </tr>
@@ -90,6 +93,7 @@
                 		<tfoot>
                 			<tr ng-cloak>
                 				<td></td>
+                                <td></td>
                 				<td></td>
                                 <td class="text-right">Total:</td>
                 				<td class="red">-{{filteredExpenses | sum:'total' | currency}}</td>

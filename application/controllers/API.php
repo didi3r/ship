@@ -39,7 +39,7 @@ class Api extends CI_Controller {
 
     public function history($startDate, $endDate)
 	{
-		$output = $this->sales_model->get_all(0, 0, null, null, $startDate, $endDate, 'Finalizado');
+		$output = $this->sales_model->get_all(0, 0, 'date', true, $startDate, $endDate, 'Finalizado');
 
 		echo json_encode($output);
 	}
@@ -53,7 +53,7 @@ class Api extends CI_Controller {
 		echo json_encode($output);
 	}
 
-    
+
     public function inversions()
 	{
         $this->load->model('inversions_model');
@@ -68,13 +68,13 @@ class Api extends CI_Controller {
         $this->load->model('transfers_model');
 
 		$output = $this->transfers_model->get_all();
-        
+
         $transfers_totals = $this->transfers_model->get_raw_material_total();
         $output['total_raw_material'] = $transfers_totals['total'];
         $output['payed_raw_material'] = $transfers_totals['payed'];
         $output['transfered_raw_material'] = $transfers_totals['transfered'];
         $output['pending_raw_material'] = $transfers_totals['pending'];
-        
+
         $transfers_totals = $this->transfers_model->get_splittings_total();
         $output['total_splittings'] = $transfers_totals['total'];
         $output['expenses_splittings'] = $transfers_totals['expenses'];
@@ -132,7 +132,7 @@ class Api extends CI_Controller {
 
 		echo json_encode($output);
 	}
-    
+
     public function inversion($id = null)
 	{
         $this->load->model('inversions_model');
