@@ -309,7 +309,7 @@ app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http)
         $scope.saleLoading = shipment;
         shipment.delivery.trackCode = $('#trackCode-' + shipment.id).val();
 
-        $http.post('index.php?/api/mark_as_shipped', {id: shipment.id, code: shipment.delivery.trackCode})
+        $http.post('index.php?/api/mark_as_shipped', {id: shipment.id, code: shipment.delivery.trackCode, date: moment().format('YYYY-MM-DD')})
         .success(function(data) {
             if(data.error) {
                 alert(data.error);
@@ -471,7 +471,6 @@ app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
 	$scope.saleLoading = null;
 
     $scope.getSalesCollection =  function() {
-        $scope.sales = [];
         $scope.isLoading = true;
         $scope.isThereError = false;
 
@@ -586,6 +585,15 @@ app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
         	$scope.saleLoading = null;
         });
 	};
+
+    $scope.checkEstafetaStatus = function(sale) {
+        if(sale.status == 'En Camino' && sale.delivery.courier == 'Estafeta') {
+            $http.get('index.php?/api/estafeta_status/' + sale.delivery.trackCode)
+            .success(function(data) {
+                sale.estafetaStatus = data;
+            });
+        }
+    };
 
     // Initial List Population
     $scope.getSalesCollection();

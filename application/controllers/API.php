@@ -254,7 +254,7 @@ class Api extends CI_Controller {
 			die(json_encode(array('error' => 'Undefined variable: id')));
 		}
 
-		$output = $this->sales_model->update_status($params->id, 'En Camino', array('delivery_code' => $params->code));
+		$output = $this->sales_model->update_status($params->id, 'En Camino', array('delivery_code' => $params->code, 'date' => $params->date));
 
 		echo json_encode($output);
 	}
@@ -300,6 +300,55 @@ class Api extends CI_Controller {
 
 		echo json_encode($output);
 	}
+
+	public function estafeta_status($code)
+	{
+		require 'simple_html_dom.php';
+
+		$url = 'http://rastreo3.estafeta.com/RastreoWebInternet/consultaEnvio.do';
+		$params = array(
+            'idioma' => 'es',
+            'dispatch' => 'doRastreoInternet',
+            'tipoGuia' => 'REFERENCE',
+            'guias' => $code
+        );
+
+		$curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($curl, CURLOPT_VERBOSE, TRUE);
+        curl_setopt($curl, CURLOPT_HEADER, TRUE);
+
+        curl_setopt($curl, CURLOPT_POST, TRUE);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+
+        $reponse = curl_exec($curl);
+        $header = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+        $html = substr($reponse, $header);
+        curl_close($curl);
+
+        $parser = str_get_html($html);
+
+        $imgs = array();
+		foreach ($parser->find('img') as $element) {
+			$imgs[] = $element->src;
+		}
+
+		if(array_search('images/noInformacion.png', $imgs)) {
+			die('No hay información disponible');
+		}
+
+		if(array_search('images/pendiente.png', $imgs)) {
+			die('Pendiente en Tránsito');
+		}
+
+		if(array_search('images/palomita.png', $imgs)) {
+			die('Entregado');
+		}
+
+		die('Error al consultar status');
+	}
+
 
 }
 

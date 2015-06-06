@@ -110,7 +110,7 @@ SELECT
 	IF(SUBSTRING(`Código de Rastreo`, 1, 1) = 'M', 'Correos de México', 'Estafeta') AS Paqueteria,
 	`Código de Rastreo`,
 	REPLACE(REPLACE(`Costo Envio`, '$', ''), ',', ''),
-	`Fecha Envio`,
+	STR_TO_DATE(`Fecha Envio`, "%e-%b-%Y"),
 	IF(`Código de Rastreo` <> '', "Enviado", "Pendiente"),
 	null,
 	IF(`Código de Rastreo` <> '', "Pagado", "Pendiente"),
@@ -122,7 +122,7 @@ SELECT
 	IF(Pago = "Cancelado", 0, 1)
 FROM `table 2`
 WHERE `Usuario ML` <> ""
-ORDER BY STR_TO_DATE(`Fecha Compra`, "%e-%b-%Y")
+ORDER BY STR_TO_DATE(`Fecha Compra`, "%e-%b-%Y");
 
 INSERT INTO expenses (
 	date,
@@ -134,7 +134,7 @@ SELECT
 	`Descripción`,
 	REPLACE(REPLACE(Gasto, '$', ''), ',', '')
 FROM `TABLE 8`
-ORDER BY STR_TO_DATE(`Fecha`, "%e-%b-%Y")
+ORDER BY STR_TO_DATE(`Fecha`, "%e-%b-%Y");
 
 INSERT INTO transfers (
 	date,
@@ -146,28 +146,36 @@ SELECT
 	`Cuenta`,
 	REPLACE(REPLACE(Total, '$', ''), ',', '')
 FROM `TABLE 7`
-ORDER BY STR_TO_DATE(`Fecha`, "%e-%b-%Y")
+ORDER BY STR_TO_DATE(`Fecha`, "%e-%b-%Y"):
 
 
 UPDATE sales
-SET addressee = name
+SET addressee = name;
+
+UPDATE sales
+SET shipping_date = null
+WHERE shipping_status = 'Pendiente';
+
+UPDATE sales
+SET shipping_date = null
+WHERE shipping_date = '0000-00-00';
 
 UPDATE sales
 SET status = 'Finalizado'
 WHERE payment_status = 'Pagado'
-AND shipping_status = 'Enviado'
+AND shipping_status = 'Enviado';
 
 UPDATE sales
 SET payment_status = 'Pagado'
 WHERE status = 'Pagado'
-OR shipping_status = 'Enviado'
+OR shipping_status = 'Enviado';
 
-UPDATE expenses SET user = 'ventas.nd.fm@gmail.com'
+UPDATE expenses SET user = 'ventas.nd.fm@gmail.com';
 
 
 SELECT * FROM sales
 WHERE (status = 'Enviando' AND shipping_status = 'Pendiente')
-OR (status = 'En Camino' AND shipping_status = 'Enviado')
+OR (status = 'En Camino' AND shipping_status = 'Enviado');
 
 SELECT
 	ROUND(SUM(total), 2) AS total,
@@ -179,4 +187,4 @@ SELECT
         ROUND(SUM(raw_material), 2)
     , 2) AS incomings
 FROM sales
-WHERE status = 'Finalizado'
+WHERE status = 'Finalizado';

@@ -98,8 +98,20 @@
                 {{sale.delivery.courier}}
                 <blockquote>{{sale.delivery.address}}</blockquote>
                 <div ng-show="sale.delivery.status == 'Enviado'">
-                    <i class="fa fa-barcode"></i> <strong>{{sale.delivery.trackCode}}</strong>
+                    <i class="fa fa-barcode"></i>
+                    <span ng-if="sale.delivery.date">
+                        ({{sale.delivery.date | date : 'dd/MMMM/yyyy'}})
+                    </span>
+                    <strong>{{sale.delivery.trackCode}}</strong>
                 </div>
+                <span ng-init="checkEstafetaStatus(sale)">
+                    <i class="fa" ng-class="{
+                        'fa-exclamation-triangle red' : sale.estafetaStatus == 'No hay información disponible',
+                        'fa-clock-o' : sale.estafetaStatus == 'Pendiente en Tránsito',
+                        'fa-check green' : sale.estafetaStatus == 'Entregado'}">
+                    </i>
+                    {{sale.estafetaStatus}}
+                </span>
             </div>
             <div class="col-xs-12 col-lg-3">
                 <i class="fa fa-shopping-cart"></i> Paquete:

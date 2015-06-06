@@ -14,7 +14,6 @@ class Shipments extends CI_Controller {
 	{
 		$this->load->view('shipments/list');
 	}
-
 }
 
 /* End of file Shipmentsphp */

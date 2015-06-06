@@ -214,6 +214,7 @@ class Sales_model extends CI_Model {
 						$update = array(
 							'shipping_status' => 'Enviado',
 							'status' => 'En Camino',
+							'shipping_date' => $args['date'],
 							'track_code' => $args['delivery_code']
 						);
 					} else {
