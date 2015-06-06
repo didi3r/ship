@@ -1,6 +1,16 @@
 
 var app = angular.module('MoringaApp', ['chart.js','ngResource', 'ng-currency']);
 
+app.config(['$provide', function($provide) {
+    $provide.decorator('$locale', ['$delegate', function($delegate) {
+        if($delegate.id == 'en-us') {
+            $delegate.NUMBER_FORMATS.PATTERNS[1].negPre = '-\u00A4';
+            $delegate.NUMBER_FORMATS.PATTERNS[1].negSuf = '';
+        }
+        return $delegate;
+    }]);
+}]);
+
 app.directive('shipment', function(){
 	return {
 		restrict: 'E',
