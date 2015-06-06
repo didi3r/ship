@@ -54,6 +54,7 @@
                         <div class="col-xs-6">
                             <div class="well well-sm">
                                 <!-- Inversiones: <span class="">{{payedRawMaterial | currency}}</span> <br> -->
+                                <?php if($this->authentication->is_admin()) : ?><br><?php endif; ?>
                                 Materia Prima: <span class="green">{{totalRawMaterial | currency}}</span> <br>
                                 Transferido: <span class="red">-{{transferedRawMaterial | currency}}</span> <br>
                                 <strong>Por Transferir: <span class="green">{{pendingRawMaterial | currency}}</span> <br></strong>
