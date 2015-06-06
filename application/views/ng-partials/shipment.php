@@ -42,7 +42,7 @@
                 </div>
                 <i class="fa fa-home"></i> Dirección: <br>
                 <blockquote>{{shipment.delivery.address }}</blockquote>
-                
+
                 <div ng-hide="shipment.delivery.phone" ng-cloak>
                     <i class="fa fa-phone"></i> Teléfono: {{shipment.phone}}<br>
                 </div>
