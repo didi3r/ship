@@ -56,7 +56,7 @@
                                 Inversiones: <span class="">{{payedRawMaterial | currency}}</span> <br>
                                 Materia Prima: <span class="green">{{totalRawMaterial | currency}}</span> <br>
                                 Transferido: <span class="red">-{{transferedRawMaterial | currency}}</span> <br>
-                                Por Transferir: <span class="green">{{pendingRawMaterial | currency}}</span> <br>
+                                <strong>Por Transferir: <span class="green">{{pendingRawMaterial | currency}}</span> <br></strong>
                             </div>
                         </div>
 
@@ -65,7 +65,7 @@
                                 Dividendo: <span class="green">{{totalSplittings | currency}}</span> <br>
                                 Gastos: <span class="red">-{{expensesSplittings | currency}}</span> <br>
                                 Transferido: <span class="red">-{{transferedSplittings | currency}}</span> <br>
-                                Por Transferir: <span class="green">{{pendingSplittings | currency}}</span> <br>
+                                <strong>Por Transferir: <span class="green">{{pendingSplittings | currency}}</span> <br></strong>
                             </div>
                         </div>
                     </div>
