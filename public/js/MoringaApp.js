@@ -14,14 +14,14 @@ app.config(['$provide', function($provide) {
 app.directive('shipment', function(){
 	return {
 		restrict: 'E',
-		templateUrl: 'application/views/ng-partials/shipment-info.php'
+		templateUrl: 'application/views/ng-partials/shipment.php'
 	};
 });
 
 app.directive('sale', function(){
 	return {
 		restrict: 'E',
-		templateUrl: 'application/views/ng-partials/sale-info.php'
+		templateUrl: 'application/views/ng-partials/sale.php'
 	};
 });
 
