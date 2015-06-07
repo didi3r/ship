@@ -21,7 +21,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="<?php echo site_url('sales') ?>">
+                    <a href="<?php echo $this->authentication->is_admin() ? site_url('sales') : site_url('finances') ?>">
                         <div class="panel-footer">
                             <span class="pull-left">Ver Ventas</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -65,7 +65,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="<?php echo site_url('sales') ?>">
+                    <a href="<?php echo $this->authentication->is_admin() ? site_url('sales') : site_url('finances') ?>">
                         <div class="panel-footer">
                             <span class="pull-left">Ver Ventas</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -87,7 +87,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="<?php echo site_url('sales') ?>">
+                    <a href="<?php echo $this->authentication->is_admin() ? site_url('sales') : site_url('finances') ?>">
                         <div class="panel-footer">
                             <span class="pull-left">Ver Ventas</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -107,13 +107,13 @@
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        <canvas id="line" class="chart chart-line" 
+                        <canvas id="line" class="chart chart-line"
                             data="historyChart.data"
-                            labels="historyChart.labels" 
+                            labels="historyChart.labels"
                             series="historyChart.series"
                             legend="true"
                             click="onClick">
-                        </canvas> 
+                        </canvas>
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -128,7 +128,7 @@
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        <canvas id="doughnut" class="chart chart-pie" 
+                        <canvas id="doughnut" class="chart chart-pie"
                             data="salesChart.data"
                             labels="salesChart.labels"
                             legend="true">
@@ -137,7 +137,7 @@
                     <!-- /.panel-body -->
                 </div>
                 <!-- /.panel -->
-                
+
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <i class="fa fa-list-ul fa-fw"></i> Compradores más activos

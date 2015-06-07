@@ -150,6 +150,7 @@
                 <br>
                 <i class="fa fa-truck"></i> <strong>Comentarios del Envío:</strong> <br>
                 {{sale.delivery.comments}}
+                | <a href="">Eliminar</a>
             </div>
         </div>
     </div>
