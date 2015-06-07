@@ -1,5 +1,5 @@
 
-var app = angular.module('MoringaApp', ['chart.js','ngResource', 'ng-currency']);
+var app = angular.module('MoringaApp', ['chart.js','ngResource', 'ngFileUpload', 'ng-currency']);
 
 app.config(['$provide', function($provide) {
     $provide.decorator('$locale', ['$delegate', function($delegate) {
@@ -25,12 +25,12 @@ app.directive('sale', function(){
     };
 });
 
-app.directive('saleDetails', ['$timeout', function($timeout) {
+app.directive('saleDetailsModal', ['$timeout', function($timeout) {
     return {
         restrict: 'A',
         templateUrl: 'application/views/ng-partials/sale_details.php',
         scope: {
-            sale: '=saleDetails',
+            sale: '=saleDetailsModal',
             show: '='
         },
         link: function($scope, $element, $attrs) {
@@ -46,6 +46,77 @@ app.directive('saleDetails', ['$timeout', function($timeout) {
                     $($element).find('.modal').modal('show');
                 }
             });
+        }
+    };
+}]);
+
+app.directive('uploadFileModal', ['$timeout', '$http', 'Upload', function($timeout, $http, Upload) {
+    return {
+        restrict: 'A',
+        templateUrl: 'application/views/ng-partials/upload_file.php',
+        scope: {
+            sale: '=uploadFileModal',
+            show: '='
+        },
+        link: function($scope, $element, $attrs) {
+            $($element).find('.modal').on('hide.bs.modal', function (event) {
+                $timeout(function() {
+                    $scope.sale = null;
+                    $scope.show = false;
+                });
+            });
+
+            $scope.$watch('show', function(newValue) {
+                if(newValue !== undefined && newValue) {
+                    $($element).find('.modal').modal('show');
+                }
+            });
+        },
+        controller: function($scope, $element, $attrs) {
+            $scope.isLoading = false;
+            $scope.progress = 0;
+            $scope.files = [];
+
+            $scope.$watch('files', function (newValue) {
+                if($scope.sale === undefined || !newValue) return;
+                $scope.uploadFile($scope.sale.id, newValue);
+            });
+
+            $scope.uploadFile = function(saleId, files) {
+                $scope.isLoading = true;
+                $scope.progress = 0;
+
+                if (files && files.length) {
+                    for (var i = 0; i < files.length; i++) {
+                        var file = files[i];
+                        Upload.upload({
+                            url: 'index.php?/api/upload_sale_file',
+                            fields: {
+                                'id': saleId
+                            },
+                            file: file
+                        }).progress(function (evt) {
+                            $scope.progress = parseInt(100.0 * evt.loaded / evt.total);
+                        }).success(function (data, status, headers, config) {
+                            $scope.progress = 0;
+                            $scope.isLoading = false;
+                            $scope.sale.files = data;
+                        });
+                    }
+                }
+            };
+
+            $scope.deleteFile = function(saleId, fileId) {
+                $scope.isLoading = true;
+                $http.post('index.php?/api/delete_sale_file', {sale_id: saleId, file_id: fileId})
+                .success(function(data) {
+                    console.log(data)
+                    $scope.sale.files = data;
+                })
+                .finally(function() {
+                    $scope.isLoading = false;
+                });
+            };
         }
     };
 }]);
@@ -669,6 +740,11 @@ app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
         	$scope.saleLoading = null;
         });
 	};
+
+    $scope.showFileUploader = function(sale) {
+        $scope.selectedSale = sale;
+        $scope.showModal = true;
+    };
 
     $scope.checkEstafetaStatus = function(sale) {
         if(sale.status == 'En Camino' && sale.delivery.courier == 'Estafeta') {

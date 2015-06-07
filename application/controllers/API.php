@@ -194,7 +194,7 @@ class Api extends CI_Controller {
 		$post = file_get_contents("php://input");
 		$params = json_decode($post);
 
-		if(!$params->id) {
+		if(!isset($params->id)) {
 			die(json_encode(array('error' => 'Undefined variable: id')));
 		}
 
@@ -208,7 +208,7 @@ class Api extends CI_Controller {
 		$post = file_get_contents("php://input");
 		$params = json_decode($post);
 
-		if(!$params->id) {
+		if(!isset($params->id)) {
 			die(json_encode(array('error' => 'Undefined variable: id')));
 		}
 
@@ -222,7 +222,7 @@ class Api extends CI_Controller {
 		$post = file_get_contents("php://input");
 		$params = json_decode($post);
 
-		if(!$params->id) {
+		if(!isset($params->id)) {
 			die(json_encode(array('error' => 'Undefined variable: id')));
 		}
 
@@ -236,7 +236,7 @@ class Api extends CI_Controller {
 		$post = file_get_contents("php://input");
 		$params = json_decode($post);
 
-		if(!$params->id) {
+		if(!isset($params->id)) {
 			die(json_encode(array('error' => 'Undefined variable: id')));
 		}
 
@@ -250,7 +250,7 @@ class Api extends CI_Controller {
 		$post = file_get_contents("php://input");
 		$params = json_decode($post);
 
-		if(!$params->id) {
+		if(!isset($params->id)) {
 			die(json_encode(array('error' => 'Undefined variable: id')));
 		}
 
@@ -264,7 +264,7 @@ class Api extends CI_Controller {
 		$post = file_get_contents("php://input");
 		$params = json_decode($post);
 
-		if(!$params->id) {
+		if(!isset($params->id)) {
 			die(json_encode(array('error' => 'Undefined variable: id')));
 		}
 
@@ -278,7 +278,7 @@ class Api extends CI_Controller {
 		$post = file_get_contents("php://input");
 		$params = json_decode($post);
 
-		if(!$params->id) {
+		if(!isset($params->id)) {
 			die(json_encode(array('error' => 'Undefined variable: id')));
 		}
 
@@ -292,7 +292,7 @@ class Api extends CI_Controller {
 		$post = file_get_contents("php://input");
 		$params = json_decode($post);
 
-		if(!$params->id) {
+		if(!isset($params->id)) {
 			die(json_encode(array('error' => 'Undefined variable: id')));
 		}
 
@@ -306,7 +306,7 @@ class Api extends CI_Controller {
 		$post = file_get_contents("php://input");
 		$params = json_decode($post);
 
-		if($params && $params->search) {
+		if($params && isset($params->search)) {
 			$output = $this->sales_model->search_for_customer($params->search);
 		} else {
 			$output = $this->sales_model->search_for_customer();
@@ -363,6 +363,39 @@ class Api extends CI_Controller {
 		die('Error al consultar status');
 	}
 
+	public function upload_sale_file()
+	{
+		if(isset($_POST['id']) && $_FILES['file']) {
+			$this->load->model('files_model');
+
+			$output = $this->files_model->save_file($_POST['id'], $_FILES['file']);
+
+			echo json_encode($output);
+		}
+	}
+
+	public function get_sale_files($sale_id)
+	{
+		$this->load->model('files_model');
+
+		$output = $this->files_model->get_files($sale_id);
+
+		echo json_encode($output);
+	}
+
+	public function delete_sale_file()
+	{
+		$this->load->model('files_model');
+
+		$post = file_get_contents("php://input");
+		$params = json_decode($post);
+
+		if($params && isset($params->sale_id) && isset($params->file_id)) {
+			$output = $this->files_model->delete_file($params->sale_id, $params->file_id);
+
+			echo $output ? json_encode($output) : '';
+		}
+	}
 
 }
 

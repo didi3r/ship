@@ -38,8 +38,9 @@
             <button class="btn btn-xs btn-default"
                     ng-show="sale.status == 'Pagado'
                     && sale.delivery.status == 'Pendiente'"
-                    ng-disabled="isSaleLoading(sale)">
-                <i class="fa fa-barcode"></i> Ajuntar Guía
+                    ng-disabled="isSaleLoading(sale)"
+                    ng-click="showFileUploader(sale)">
+                <i class="fa fa-barcode"></i> Adjuntar Guía
             </button>
             <button class="btn btn-xs btn-default"
                     data-toggle="modal" data-target="#commentsModal-{{sale.id}}"

@@ -312,6 +312,11 @@ class Sales_model extends CI_Model {
 		unset($array['payment_date']);
 		unset($array['payment_status']);
 
+		if($array['has_files']) {
+			$this->load->model('files_model');
+			$array['files'] = $this->files_model->get_files($array['id']);
+		}
+
 		return $array;
 	}
 

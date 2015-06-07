@@ -88,7 +88,7 @@
                             </tr>
                 		</tfoot>
 	                </table>
-                    <div sale-details="selectedSale" show="showModal"></div>
+                    <div sale-details-modal="selectedSale" show="showModal"></div>
                 </div>
             </div>
             <!-- /.col-lg-12 -->

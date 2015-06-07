@@ -232,6 +232,10 @@ blockquote {
   padding-bottom: 0;
 }
 
+.progress {
+  margin-bottom: 0;
+}
+
 @media screen and (max-width: 768px) {
 	.shipment h4 {
 		display: block;
