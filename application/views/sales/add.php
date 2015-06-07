@@ -31,7 +31,7 @@
                                 <label for="date">
                                     <i class="fa fa-calendar"></i> Fecha de Venta:
                                 </label>
-                                <input name="date" type="text" class="form-control" datepicker ng-model="sale.date" required>
+                                <input id="date" type="text" class="form-control" datepicker ng-model="sale.date" required>
                             </div>
                         </div>
 
@@ -48,14 +48,14 @@
                                 <div load-customer-info show="showModal"></div>
                             </div>
                             <div class="form-group col-xs-12 col-sm-6">
-                                <label for="MLUsername">Usuario en ML</label>
-                                <input type="text" class="form-control" id="MLUsername" placeholder="Ejem. VENTAS_ND" ng-model="sale.user">
+                                <label for="customerUser">Usuario en ML</label>
+                                <input type="text" class="form-control" id="customerUser" placeholder="Ejem. VENTAS_ND" ng-model="sale.user">
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-xs-12 col-sm-6">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" placeholder="correo@servidor.com" ng-model="sale.email">
+                                <label for="customerMail">Email</label>
+                                <input type="email" class="form-control" id="customerMail" placeholder="correo@servidor.com" ng-model="sale.email">
                             </div>
                             <div class="form-group col-xs-12 col-sm-6">
                                 <label for="telephone">Número Telefónico</label>
@@ -65,8 +65,8 @@
 
                         <div class="row">
                             <div class="form-group col-xs-12">
-                                <label for="address">Dirección de Envío</label>
-                                <textarea class="form-control" id="address" rows="5" ng-model="sale.delivery.address"></textarea>
+                                <label for="customerAddress">Dirección de Envío</label>
+                                <textarea class="form-control" id="customerAddress" rows="5" placeholder="Dirección separada por salros de línea" ng-model="sale.delivery.address"></textarea>
                             </div>
                         </div>
 
@@ -82,15 +82,15 @@
 
                         <div class="row">
                             <div class="form-group form-inline col-xs-12">
-                                <input type="checkbox" name="hasAddressee" id="hasAddressee" ng-model="hasAddressee">
+                                <input type="checkbox" id="hasAddressee" ng-model="hasAddressee">
                                 <label for="hasAddressee"> Recibe una persona diferente</label>
 
                                 <div ng-show="hasAddressee">
                                     <label for="addressee">Nombre:</label>
-                                    <input type="text" class="form-control" name="addressee" placeholder="Nombre de quien recibe" ng-model="sale.delivery.addressee">
+                                    <input type="text" class="form-control" id="addressee" placeholder="Nombre de quien recibe" ng-model="sale.delivery.addressee">
 
                                     <label for="addressee_phone">Teléfono: </label>
-                                    <input type="text" class="form-control" name="addressee_phone" placeholder="(123) 123 4567" ng-model="sale.delivery.phone">
+                                    <input type="text" class="form-control" id="addressee_phone" placeholder="(123) 123 4567" ng-model="sale.delivery.phone">
                                 </div>
                             </div>
                         </div>
@@ -99,27 +99,27 @@
                         <div class="row">
                             <div class="form-group col-xs-12">
                                 <label for="cart">Productos Vendidos</label>
-                                <textarea class="form-control" id="cart" rows="5" placeholder="Lista de productos separados por un salto de linea" ng-model="sale.package" required array-to-list></textarea>
+                                <textarea class="form-control" id="cart" rows="5" placeholder="Lista de productos separados por saltos de línea" ng-model="sale.package" required array-to-list></textarea>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group form-inline col-xs-12 col-md-4">
                                 <label for="total">Total </label><br>
-                                <input name="total" type="text" class="form-control" ng-model="sale.payment.total" required ng-currency>
+                                <input id="total" type="text" class="form-control" ng-model="sale.payment.total" required ng-currency>
                             </div>
                             <div class="form-group form-inline col-xs-12 col-md-4">
                                 <label for="shippingCost">Costo de Envío </label><br>
-                                <input name="shippingCost" type="text" class="form-control" ng-model="sale.delivery.cost" ng-currency>
+                                <input id="shippingCost" type="text" class="form-control" ng-model="sale.delivery.cost" ng-currency>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group form-inline col-xs-12 col-md-4">
                                 <label for="commission">Comisión ML </label><br>
-                                <input name="commission" type="text" class="form-control" ng-model="sale.payment.commission" ng-currency>
+                                <input id="commission" type="text" class="form-control" ng-model="sale.payment.commission" ng-currency>
                             </div>
                             <div class="form-group form-inline col-xs-12 col-md-4">
                                 <label for="productionCost">Materia Prima </label><br>
-                                <input name="productionCost" type="text" class="form-control" ng-model="sale.payment.rawMaterial" ng-currency>
+                                <input id="productionCost" type="text" class="form-control" ng-model="sale.payment.rawMaterial" ng-currency>
                             </div>
                         </div>
                         <div class="row">
@@ -128,7 +128,7 @@
 
                                 <div class="input-group">
                                     <div class="input-group-addon">
-                                        <input name="discount" id="discount" type="checkbox" ng-model="sale.split_earnings">
+                                        <input id="discount" id="discount" type="checkbox" ng-model="sale.split_earnings">
                                     </div>
 
                                     <input type="text" class="form-control" readonly ng-model="discount" ng-currency>

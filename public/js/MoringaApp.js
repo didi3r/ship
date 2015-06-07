@@ -61,19 +61,18 @@ app.directive('loadCustomerInfo', ['$http', '$timeout', function($http, $timeout
     return {
         restrict: 'A',
         scope: {
-            show: '='
+            show: '=',
         },
         templateUrl: 'application/views/ng-partials/customer_search.php',
         link: function($scope, $element, $attrs) {
             $($element).find('.modal').on('shown.bs.modal', function (event) {
                 $scope.getSearchResults();
-                $('#search').focus()
+                $('#search').focus();
             });
 
             $($element).find('.modal').on('hide.bs.modal', function (event) {
-                $timeout(function() {
-                    $scope.show = false;
-                });
+                $scope.show = false;
+                $('#cart').focus();
             });
 
 
@@ -111,12 +110,19 @@ app.directive('loadCustomerInfo', ['$http', '$timeout', function($http, $timeout
             };
 
             $scope.populateCustomerInfo = function(customer) {
-                $timeout(function() {
-                    $('#customerName').val(customer.name);
-                    $('#address').val(customer.address);
+                $('#customerName').val(customer.name).trigger('input');
+                $('#customerUser').val(customer.user).trigger('input');
+                $('#customerMail').val(customer.email).trigger('input');
+                $('#customerPhone').val(customer.phone).trigger('input');
+                $('#customerAddress').val(customer.address).trigger('input');
 
-                    $($element).find('.modal').modal('hide');
-                });
+                if(customer.addressee) {
+                    $('#hasAddressee').trigger('click');
+                    $('#addressee').val(customer.addressee).trigger('input');
+                    $('#addressee_phone').val(customer.addressee_phone).trigger('input');
+                }
+
+                $($element).find('.modal').modal('hide');
             };
         }
     };

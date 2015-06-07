@@ -413,7 +413,7 @@ class Sales_model extends CI_Model {
 
     public function search_for_customer($name = null)
     {
-    	$this->db->select('name, address');
+    	$this->db->select('name, user, email, phone, address, addressee, addressee_phone');
         if($name) {
             $this->db->like('name', $name);
         } else {
