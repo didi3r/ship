@@ -57,22 +57,71 @@ app.directive('spinner', function(){
 	};
 });
 
-app.directive('collapsablePanel', function(){
-	return {
-		restrict: 'A',
-		link: function($scope, $element, $attrs) {
-			var panel = $($element).find('.panel');
-			panel.find('.panel-heading').css('cursor', 'pointer').click(function(){
-				var content = panel.find('.panel-body');
-				if(content.hasClass('collapsed')) {
-					content.slideDown().removeClass('collapsed');
-				} else {
-					content.slideUp().addClass('collapsed');
-				}
-			});
-		}
-	};
-});
+app.directive('loadCustomerInfo', ['$http', '$timeout', function($http, $timeout) {
+    return {
+        restrict: 'A',
+        scope: {
+            show: '='
+        },
+        templateUrl: 'application/views/ng-partials/customer_search.php',
+        link: function($scope, $element, $attrs) {
+            $($element).find('.modal').on('shown.bs.modal', function (event) {
+                $scope.getSearchResults();
+                $('#search').focus()
+            });
+
+            $($element).find('.modal').on('hide.bs.modal', function (event) {
+                $timeout(function() {
+                    $scope.show = false;
+                });
+            });
+
+
+            $scope.$watch('show', function(newValue) {
+                if(newValue !== undefined && newValue) {
+                    $($element).find('.modal').modal('show');
+                }
+            });
+        },
+        controller: function($scope, $element, $attrs) {
+            $scope.isLoading = false;
+            $scope.search = '';
+            $scope.results = [];
+
+            $scope.getSearchResults = function(search) {
+                if(search === undefined) search = null;
+
+                $scope.isLoading = true;
+                $http.post('index.php/api/customer_search', {search: search})
+                .success(function(data) {
+                    $scope.results = data;
+                })
+                .finally(function() {
+                     $scope.isLoading = false;
+                });
+            };
+
+            var keyUpTimeOut;
+            $scope.triggerSearch = function(search) {
+                if (keyUpTimeOut) $timeout.cancel(keyUpTimeOut);
+
+                keyUpTimeOut = $timeout(function() {
+                    $scope.getSearchResults(search);
+                }, 700);
+            };
+
+            $scope.populateCustomerInfo = function(customer) {
+                $timeout(function() {
+                    $('#customerName').val(customer.name);
+                    $('#address').val(customer.address);
+
+                    $($element).find('.modal').modal('hide');
+                });
+            };
+        }
+    };
+}]);
+
 
 app.directive('datepicker', function(){
 	return {
@@ -431,6 +480,10 @@ app.controller('AddSaleCtrl', ['$scope', 'Sale', function ($scope, Sale) {
             $scope.earnings = $scope.sale.payment.total - $scope.sale.payment.rawMaterial - $scope.sale.payment.commission - $scope.discount;
         }
     );
+
+    $scope.showCustomerSearch = function(sale) {
+        $scope.showModal = true;
+    };
 
     $scope.saveSale = function(sale) {
         $scope.isLoading = true;

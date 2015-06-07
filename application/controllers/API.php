@@ -22,7 +22,7 @@ class Api extends CI_Controller {
         $output['total_sales_this_week'] = $this->sales_model->get_sales_this_week();
         $output['total_pending_shipments'] = $this->sales_model->get_total_sales('Enviando');
 
-        $output['most_active_buyers'] = $this->sales_model->get_most_active_buyers();
+        $output['most_active_buyers'] = $this->sales_model->get_most_active_customers();
 
         echo json_encode($output);
     }
@@ -297,6 +297,20 @@ class Api extends CI_Controller {
 		}
 
 		$output = $this->sales_model->update_status($params->id, 'Cancelado');
+
+		echo json_encode($output);
+	}
+
+	public function customer_search()
+	{
+		$post = file_get_contents("php://input");
+		$params = json_decode($post);
+
+		if($params && $params->search) {
+			$output = $this->sales_model->search_for_customer($params->search);
+		} else {
+			$output = $this->sales_model->search_for_customer();
+		}
 
 		echo json_encode($output);
 	}

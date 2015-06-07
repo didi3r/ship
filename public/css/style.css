@@ -119,8 +119,9 @@
 
 .sale .spinner,
 .shipment .spinner,
+.search-box .spinner,
 .add-sale-form .spinner,
-.add-expense-form .spinner{
+.add-expense-form .spinner {
   position: absolute;
   margin: auto;
   right: 0;
@@ -137,6 +138,7 @@
 
 .sale.loading .spinner,
 .shipment.loading .spinner,
+.search-box.loading .spinner,
 .add-sale-form.loading .spinner{
   display: block;
 }
@@ -144,6 +146,7 @@
 .sale.loading .panel,
 .shipment.loading .panel,
 .add-sale-form.loading form,
+.search-box.loading .results,
 .add-expense-form.loading form {
   opacity: 0.4;
 }
@@ -163,7 +166,7 @@
 blockquote {
 	margin-top: 5px;
 	font-size: 0.9em;
-    white-space: pre;
+  white-space: pre;
 }
 
 .shipment .info .btn-guia {
@@ -212,6 +215,21 @@ blockquote {
 
 .pagination .btn {
   margin-right: 5px;
+}
+
+.search-box {
+  position: relative;
+}
+
+.customer-search .results  {
+  height: 250px;
+  overflow-y: scroll;
+}
+
+.customer-search .results blockquote {
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 @media screen and (max-width: 768px) {

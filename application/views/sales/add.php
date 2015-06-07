@@ -39,7 +39,13 @@
                         <div class="row">
                             <div class="form-group col-xs-12 col-sm-6">
                                 <label for="customerName">Nombre</label>
-                                <input type="customerName" class="form-control" id="customerName" placeholder="Nombre del Comprador" ng-model="sale.name" required>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="customerName" placeholder="Nombre del Comprador" ng-model="sale.name" required>
+                                    <a href="" class="input-group-addon" ng-click="showCustomerSearch()">
+                                        <i class="fa fa-user-plus"></i>
+                                    </a>
+                                </div>
+                                <div load-customer-info show="showModal"></div>
                             </div>
                             <div class="form-group col-xs-12 col-sm-6">
                                 <label for="MLUsername">Usuario en ML</label>

@@ -397,7 +397,7 @@ class Sales_model extends CI_Model {
         return $output;
     }
 
-    public function get_most_active_buyers($limit = 5)
+    public function get_most_active_customers($limit = 5)
     {
         $sql = "
             SELECT name, COUNT(*) AS purchases
@@ -409,6 +409,26 @@ class Sales_model extends CI_Model {
         $query = $this->db->query($sql);
 
         return $query->result();
+    }
+
+    public function search_for_customer($name = null)
+    {
+    	$this->db->select('name, address');
+        if($name) {
+            $this->db->like('name', $name);
+        } else {
+        	$this->db->limit(5);
+        }
+        $this->db->group_by('address');
+        $this->db->order_by('count(*)', 'desc');
+        $query = $this->db->get('sales');
+
+        $output = $query->result();
+        foreach ($output as &$row) {
+        	$row->address = trim($row->address);
+        }
+
+        return $output;
     }
 
 }
