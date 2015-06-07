@@ -40,7 +40,9 @@
                     && sale.delivery.status == 'Pendiente'"
                     ng-disabled="isSaleLoading(sale)"
                     ng-click="showFileUploader(sale)">
-                <i class="fa fa-barcode"></i> Adjuntar Guía
+                <i class="fa fa-barcode"></i>
+
+                {{sale.files ? 'Modificar Guía' : 'Adjuntar Guía'}}
             </button>
             <button class="btn btn-xs btn-default"
                     data-toggle="modal" data-target="#commentsModal-{{sale.id}}"

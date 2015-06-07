@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS `sales` (
   `raw_material` float NOT NULL DEFAULT '0',
   `split_earnings` tinyint(1) NOT NULL DEFAULT '1',
   `status` varchar(15) CHARACTER SET utf8 NOT NULL DEFAULT 'Pendiente',
+  `has_files` tinyint(1) NOT NULL DEFAULT '0',
   `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
@@ -61,6 +62,16 @@ CREATE TABLE IF NOT EXISTS `transfers` (
   `date` date NOT NULL,
   `account` varchar(100) CHARACTER SET utf8 NOT NULL,
   `total` float NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+
+CREATE TABLE IF NOT EXISTS `files` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sale_id` int(11) NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `path` varchar(200) CHARACTER SET utf8 NOT NULL,
+  `url` varchar(200) CHARACTER SET utf8 NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;

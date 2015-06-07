@@ -9,6 +9,7 @@
                 <p class="text-center">
                     <button class="btn btn-primary"
                         ngf-select ng-model="files" ngf-multiple="multiple"
+                        ngf-accept="'image/*,application/pdf'"
                         ng-disabled="isLoading">
                         Seleccionar Archivos
                     </button>

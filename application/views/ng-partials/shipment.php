@@ -50,7 +50,13 @@
                     <i class="fa fa-phone"></i> Teléfono: {{shipment.delivery.phone}}<br>
                 </div>
 
-                <button class="btn btn-xs btn-info btn-guia" ng-show="shipment.delivery.pdf">Descargar Guía</button>
+                <div ng-if="shipment.files">
+                    <a href="{{file.url}}" target="_blank" class="btn btn-xs btn-info btn-guia"
+                        ng-repeat="file in shipment.files track by $index">
+                        Descargar Guía {{$index + 1}}
+                    </a>
+                </div>
+
             </div>
 
             <!-- Paquete -->
