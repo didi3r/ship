@@ -51,7 +51,7 @@
 	                	</thead>
 	                	<tbody>
 	                		<tr ng-cloak ng-repeat="sale in filteredSales = (sales) ">
-	                			<td>#{{sale.id}}</td>
+	                			<td><a href="" ng-click="showSaleDetails(sale)">#{{sale.id}}</a></td>
 	                			<td>{{sale.date | date : 'dd/MMM/yyyy'}}</td>
 	                			<td>{{sale.name}}</td>
 	                			<td ng-init="controller.totalDeliveryCost = controller.totalDeliveryCost + sale.delivery.cost">{{sale.delivery.cost | currency}}</td>
@@ -88,6 +88,7 @@
                             </tr>
                 		</tfoot>
 	                </table>
+                    <div sale-details="selectedSale" show="showModal"></div>
                 </div>
             </div>
             <!-- /.col-lg-12 -->

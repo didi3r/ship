@@ -201,7 +201,8 @@ blockquote {
 	display: block;
 }*/
 
-.sale strong.total {
+.sale strong.total,
+.modal strong.total {
 	font-size: 1.2em;
 }
 

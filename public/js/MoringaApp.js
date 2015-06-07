@@ -19,11 +19,36 @@ app.directive('shipment', function(){
 });
 
 app.directive('sale', function(){
-	return {
-		restrict: 'E',
-		templateUrl: 'application/views/ng-partials/sale.php'
-	};
+    return {
+        restrict: 'E',
+        templateUrl: 'application/views/ng-partials/sale.php'
+    };
 });
+
+app.directive('saleDetails', ['$timeout', function($timeout) {
+    return {
+        restrict: 'A',
+        templateUrl: 'application/views/ng-partials/sale_details.php',
+        scope: {
+            sale: '=saleDetails',
+            show: '='
+        },
+        link: function($scope, $element, $attrs) {
+            $($element).find('.modal').on('hide.bs.modal', function (event) {
+                $timeout(function() {
+                    $scope.sale = null;
+                    $scope.show = false;
+                });
+            });
+
+            $scope.$watch('show', function(newValue) {
+                if(newValue !== undefined && newValue) {
+                    $($element).find('.modal').modal('show');
+                }
+            });
+        }
+    };
+}]);
 
 app.directive('spinner', function(){
 	return {
@@ -628,6 +653,11 @@ app.controller('HistoryCtrl', ['$scope', '$http', '$filter', function ($scope, $
         }).finally(function() {
             $scope.isLoading = false;
         });
+    };
+
+    $scope.showSaleDetails = function(sale) {
+        $scope.selectedSale = sale;
+        $scope.showModal = true;
     };
 
     setTimeout(function() {
