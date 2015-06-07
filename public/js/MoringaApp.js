@@ -613,7 +613,7 @@ app.controller('UpdateSaleCtrl', ['$scope', 'Sale', function ($scope, Sale) {
     };
 }]);
 
-app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
+app.controller('SalesListCtrl', ['$scope', '$http', 'Sale', function ($scope, $http, Sale) {
     $scope.result_limit = 20;
     $scope.current_page = 1;
     $scope.total_pages = 1;
@@ -740,6 +740,20 @@ app.controller('SalesListCtrl', ['$scope', '$http', function ($scope, $http) {
         	$scope.saleLoading = null;
         });
 	};
+
+    $scope.deleteComments = function(sale) {
+        if(sale.delivery.comments) {
+            $scope.saleLoading = sale;
+            var update = new Sale.get({id: sale.id}, function() {
+                update.delivery.comments = null;
+                console.log(update);
+                update.$update(function() {
+                    $scope.saleLoading = null;
+                    sale.delivery.comments = null;
+                });
+            });
+        }
+    };
 
     $scope.showFileUploader = function(sale) {
         $scope.selectedSale = sale;

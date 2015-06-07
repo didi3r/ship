@@ -132,6 +132,7 @@ class Sales_model extends CI_Model {
         $this->db->set('address', $sale['delivery']['address']);
         $this->db->set('courier', $sale['delivery']['courier']);
         $this->db->set('shipping_cost', $sale['delivery']['cost']);
+        $this->db->set('shipping_comments', $sale['delivery']['comments']);
         $this->db->set('total', $sale['payment']['total']);
         $this->db->set('commission', $sale['payment']['commission']);
         $this->db->set('raw_material', $sale['payment']['rawMaterial']);

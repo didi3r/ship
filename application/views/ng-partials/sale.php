@@ -150,7 +150,7 @@
                 <br>
                 <i class="fa fa-truck"></i> <strong>Comentarios del Envío:</strong> <br>
                 {{sale.delivery.comments}}
-                | <a href="">Eliminar</a>
+                | <a href="" ng-click="deleteComments(sale)">Eliminar</a>
             </div>
         </div>
     </div>
