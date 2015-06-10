@@ -20,7 +20,7 @@
         </i>
         {{sale.status}}
 
-        <div class="buttons"ng->
+        <div class="buttons">
             <button class="btn btn-xs btn-default"
                     ng-show="sale.status == 'Pendiente'
                     && sale.payment.status == 'Pendiente'"
