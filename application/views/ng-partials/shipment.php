@@ -5,7 +5,7 @@
     }">
 
     <div class="panel-heading">
-        <i class="fa fa-calendar-o"></i> {{shipment.date | date : 'dd/MMMM/yyyy'}} |
+        <i class="fa fa-calendar-o"></i> {{shipment.date}} |
         <i class="fa"
             ng-class="{
                 'fa-clock-o' : shipment.delivery.status == 'Pendiente',
