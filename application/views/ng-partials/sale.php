@@ -20,7 +20,8 @@
         </i>
         {{sale.status}}
 
-        <div class="buttons"ng->
+        <?php if($this->authentication->is_admin()) : ?>
+        <div class="buttons">
             <button class="btn btn-xs btn-default"
                     ng-show="sale.status == 'Pendiente'
                     && sale.payment.status == 'Pendiente'"
@@ -82,6 +83,7 @@
                 <i class="fa fa-check"></i>
             </button>
         </div>
+        <?php endif; ?>
     </div>
     <div class="panel-body">
         <div class="row">
@@ -128,6 +130,7 @@
                 <i class="fa fa-usd"></i>
                 <strong class="total">Total: {{sale.payment.total + sale.shippingCost | currency}}</strong> <br>
                 Envío: {{sale.delivery.cost | currency}} <br>
+                <?php if($this->authentication->is_admin()) : ?>
                 Ganancia: {{(sale.payment.total - sale.payment.rawMaterial - sale.payment.commission)  | currency}}
 
                 <i class="fa fa-info-circle payment-breakdown"
@@ -137,6 +140,7 @@
                     M. Prima: -{{sale.payment.rawMaterial | currency}}<br>
                     Dividendo: -{{(sale.payment.total - sale.payment.rawMaterial - sale.payment.commission) * 0.30 | currency}}">
                 </i>
+                <?php endif; ?>
 
 
                 <div class="payment-status">
@@ -145,6 +149,7 @@
                 </div>
             </div>
         </div>
+        <?php if($this->authentication->is_admin()) : ?>
         <div class="row" ng-show="sale.delivery.comments">
             <div class="col-xs-12">
                 <br>
@@ -153,8 +158,10 @@
                 | <a href="" ng-click="deleteComments(sale)">Eliminar</a>
             </div>
         </div>
+        <?php endif; ?>
     </div>
 </div>
+<?php if($this->authentication->is_admin()) : ?>
 <!-- Modal -->
 <div class="modal fade" id="commentsModal-{{sale.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -181,3 +188,4 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+<?php endif; ?>
