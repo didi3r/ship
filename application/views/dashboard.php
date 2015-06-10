@@ -21,9 +21,9 @@
                             </div>
                         </div>
                     </div>
-                    <a href="<?php echo $this->authentication->is_admin() ? site_url('sales') : site_url('finances') ?>">
+                    <a href="<?php echo $this->authentication->is_admin() ? site_url('sales/add') : site_url('finances') ?>">
                         <div class="panel-footer">
-                            <span class="pull-left">Ver Ventas</span>
+                            <span class="pull-left">Añadir Venta</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
                         </div>
