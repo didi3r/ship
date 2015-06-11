@@ -36,12 +36,15 @@ class Sales_model extends CI_Model {
 
 		if(!empty($status)) {
 			$status_array = explode(',', $status);
+			$where = "(";
 			foreach ($status_array as $i => $term) {
 				if($i == 0)
-					$this->db->where('status', $term);
+					$where .= "status = '" . $term . "'";
 				else
-					$this->db->or_where('status', $term);
+					$where .= " || status = '" . $term . "'";
 			}
+			$where .= ")";
+			$this->db->where($where);
 		}
 
 		if(!empty($courier)) {
