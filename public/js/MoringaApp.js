@@ -639,6 +639,7 @@ app.controller('SalesListCtrl', ['$scope', '$http', 'Sale', function ($scope, $h
             $scope.isThereError = true;
         }).finally(function() {
             $scope.isLoading = false;
+            $('[data-toggle="popover"]').popover();
         });
     };
 
