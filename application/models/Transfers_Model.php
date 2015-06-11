@@ -66,7 +66,7 @@ class Transfers_model extends CI_Model {
         $output = array();
         $this->db->select('SUM(raw_material) AS total');
         $this->db->where('status', 'Finalizado');
-        $this->db->or_where('status', 'En Camimno');
+        $this->db->or_where('status', 'En Camino');
         $query = $this->db->get('sales');
 
         $output['total'] = (float) $query->row()->total ? $query->row()->total : 0;
