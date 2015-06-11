@@ -26,7 +26,7 @@
                                     <option value="Pendiente">Pendientes</option>
                                     <option value="Pagado">Pagado</option>
                                     <option value="Enviando">Enviando</option>
-                                    <option value="Enviado">Enviados</option>
+                                    <option value="En Camino">En Camino</option>
                                     <option value="Finalizado">Finalizados</option>
                                     <option value="Cancelado">Cancelados</option>
                                 </select>
