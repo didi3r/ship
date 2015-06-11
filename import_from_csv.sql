@@ -36,6 +36,8 @@ CREATE TABLE IF NOT EXISTS `sales` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
+ALTER TABLE  `sales` ADD  `from_inversions` BOOLEAN NOT NULL DEFAULT FALSE AFTER  `raw_material` ;
+
 CREATE TABLE IF NOT EXISTS `expenses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` date NOT NULL,
