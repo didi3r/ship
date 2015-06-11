@@ -159,6 +159,10 @@
     color:  #A00 !important;
 }
 
+.readmore span {
+  cursor: pointer;
+}
+
 .shipment .buttons {
 	float: right;
 }

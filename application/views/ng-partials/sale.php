@@ -148,9 +148,10 @@
         <div class="row" ng-show="sale.delivery.comments">
             <div class="col-xs-12">
                 <br>
-                <i class="fa fa-truck"></i> <strong>Comentarios del Envío:</strong> <br>
-                <p read-more="100">{{sale.delivery.comments}}</p>
-                | <a href="" ng-click="deleteComments(sale)">Eliminar</a>
+                <i class="fa fa-truck"></i>
+                <strong>Comentarios del Envío:</strong>
+                | <a href="" ng-click="deleteComments(sale)">Eliminar</a> <br>
+                <p read-more ng-model="sale.delivery.comments" words="true" length="40"></p>
             </div>
         </div>
     </div>

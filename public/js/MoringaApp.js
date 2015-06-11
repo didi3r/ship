@@ -1,5 +1,12 @@
 
-var app = angular.module('MoringaApp', ['chart.js','ngResource', 'ngFileUpload', 'ng-currency']);
+var app = angular.module('MoringaApp', [
+    'chart.js',
+    'readMore',
+    'ngResource',
+    'ngFileUpload',
+    'ng-currency'
+
+]);
 
 app.config(['$provide', function($provide) {
     $provide.decorator('$locale', ['$delegate', function($delegate) {
@@ -287,36 +294,6 @@ app.directive('ngTruncate', function(){
             } else {
                 $element.append($scope.text);
             }
-        }
-    };
-});
-
-app.directive('readMore', function(){
-    return {
-        restrict: 'A',
-        scope: {
-            limit: "=readMore"
-        },
-        link: function($scope, $element, $attrs) {
-            if($scope.text.length > $scope.limit) {
-                $element.append($scope.shortenText);
-                $element.append(
-                    '<a href="" ng-click="toggleExpand()">' +
-                    'Leer ' + $scope.isExpanded ? 'más' : 'menos' +
-                    '</a>'
-                );
-            }
-        },
-        link: function($scope, $element, $attrs) {
-            $scope.shortenText;
-            $scope.isExpanded = false;
-            $scope.text = $element.text();
-
-            $scope.toggleExpand = function() {
-                $scope.isExpanded = !$scope.isExpanded;
-                $scope.shortenText = $scope.isExpanded ? $scope.text : $scope.text.substr(0, $scope.limit-1) + '&hellip;';
-            }
-
         }
     };
 });
