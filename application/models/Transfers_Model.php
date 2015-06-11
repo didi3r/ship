@@ -99,7 +99,7 @@ class Transfers_model extends CI_Model {
                     ROUND(SUM(raw_material), 2)
                 , 2) * 0.30 AS total
             FROM sales
-            WHERE status = 'Finalizado'
+            WHERE (status = 'Finalizado' OR status = 'En Camino'
             AND split_earnings
         ";
 
