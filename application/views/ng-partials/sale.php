@@ -128,14 +128,14 @@
                 <i class="fa fa-usd"></i>
                 <strong class="total">Total: {{sale.payment.total + sale.shippingCost | currency}}</strong> <br>
                 Envío: {{sale.delivery.cost | currency}} <br>
-                Ganancia: {{(sale.payment.total - sale.payment.rawMaterial - sale.payment.commission)  | currency}}
+                Ganancia: {{(sale.payment.total - sale.payment.rawMaterial - sale.payment.commission - (sale.split_earnings ? sale.payment.splittings : 0))  | currency}}
 
                 <i class="fa fa-info-circle payment-breakdown"
                 data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="
                     Producto: {{sale.payment.total | currency}}<br>
                     Comisión: -{{sale.payment.commission | currency}}<br>
                     M. Prima: -{{sale.payment.rawMaterial | currency}}<br>
-                    Dividendo: -{{(sale.payment.total - sale.payment.rawMaterial - sale.payment.commission) * 0.30 | currency}}">
+                    Dividendo: -{{sale.split_earnings ? (sale.payment.total - sale.payment.rawMaterial - sale.payment.commission) * 0.30 : 0 | currency}}">
                 </i>
 
 
