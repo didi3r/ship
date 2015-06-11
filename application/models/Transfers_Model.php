@@ -65,7 +65,7 @@ class Transfers_model extends CI_Model {
     {
         $output = array();
         $this->db->select('SUM(raw_material) AS total');
-        $this->db->where("(status = 'Finalizado || status = 'En Camino')");
+        $this->db->where("(status = 'Finalizado OR status = 'En Camino')");
         $this->db->where('from_inversions', false);
         $query = $this->db->get('sales');
 
