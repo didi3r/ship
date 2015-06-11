@@ -149,7 +149,7 @@
             <div class="col-xs-12">
                 <br>
                 <i class="fa fa-truck"></i> <strong>Comentarios del Envío:</strong> <br>
-                {{sale.delivery.comments}}
+                <p read-more="100">{{sale.delivery.comments}}</p>
                 | <a href="" ng-click="deleteComments(sale)">Eliminar</a>
             </div>
         </div>

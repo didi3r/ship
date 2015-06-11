@@ -265,30 +265,60 @@ app.directive('arrayToList', function(){
 });
 
 app.directive('ngTruncate', function(){
-	return {
-		restrict: 'A',
-		scope: {
-			text: "=ngTruncate",
-			limit: "=ngTruncateLimit"
-		},
-		link: function($scope, $element, $attrs) {
-			$element.empty();
+    return {
+        restrict: 'A',
+        scope: {
+            text: "=ngTruncate",
+            limit: "=ngTruncateLimit"
+        },
+        link: function($scope, $element, $attrs) {
+            $element.empty();
 
-			if($scope.text.length > $scope.limit) {
-				$element.append($scope.text.substr(0, $scope.limit-1) + '&hellip;');
-				$element.append(
-					'<i class="fa fa-info-circle"' +
-	                	'data-container="body" ' +
-	                	'data-toggle="popover" ' +
-	                	'data-placement="top" ' +
-	                	'data-content="' + $scope.text + '">' +
-	                '</i>	'
-				);
-			} else {
-				$element.append($scope.text);
-			}
-		}
-	};
+            if($scope.text.length > $scope.limit) {
+                $element.append($scope.text.substr(0, $scope.limit-1) + '&hellip;');
+                $element.append(
+                    '<i class="fa fa-info-circle"' +
+                        'data-container="body" ' +
+                        'data-toggle="popover" ' +
+                        'data-placement="top" ' +
+                        'data-content="' + $scope.text + '">' +
+                    '</i>   '
+                );
+            } else {
+                $element.append($scope.text);
+            }
+        }
+    };
+});
+
+app.directive('readMore', function(){
+    return {
+        restrict: 'A',
+        scope: {
+            limit: "=readMore"
+        },
+        link: function($scope, $element, $attrs) {
+            if($scope.text.length > $scope.limit) {
+                $element.append($scope.shortenText);
+                $element.append(
+                    '<a href="" ng-click="toggleExpand()">' +
+                    'Leer ' + $scope.isExpanded ? 'más' : 'menos' +
+                    '</a>'
+                );
+            }
+        },
+        link: function($scope, $element, $attrs) {
+            $scope.shortenText;
+            $scope.isExpanded = false;
+            $scope.text = $element.text();
+
+            $scope.toggleExpand = function() {
+                $scope.isExpanded = !$scope.isExpanded;
+                $scope.shortenText = $scope.isExpanded ? $scope.text : $scope.text.substr(0, $scope.limit-1) + '&hellip;';
+            }
+
+        }
+    };
 });
 
 app.filter('sum', ['$parse', function ($parse) {
