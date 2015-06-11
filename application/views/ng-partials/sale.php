@@ -128,7 +128,7 @@
                 <i class="fa fa-usd"></i>
                 <strong class="total">Total: {{sale.payment.total + sale.shippingCost | currency}}</strong> <br>
                 Envío: {{sale.delivery.cost | currency}} <br>
-                Ganancia: {{(sale.payment.total - sale.payment.rawMaterial - sale.payment.commission - (sale.split_earnings ? sale.payment.splittings : 0))  | currency}}
+                Ganancia: {{(sale.payment.total - sale.payment.rawMaterial - sale.payment.commission) * (sale.split_earnings ? 0.70 : 1)  | currency}}
 
                 <i class="fa fa-info-circle payment-breakdown"
                 data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="

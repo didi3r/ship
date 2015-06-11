@@ -24,15 +24,15 @@
                         </div>
                     </div>
                     <spinner ng-show="isLoading"></spinner>
-                    <div class="alert alert-info" ng-show="!isLoading && totalRows == 0">
+                    <div class="alert alert-info" ng-show="!isLoading && sales.length == 0">
                         <i class="fa fa-exclamation-triangle"></i>
                         No hubo ventas durante ese periodo de tiempo.
                     </div>
 
-                    <p class="text-right" ng-cloak ng-show="!isLoading && totalRows != 0">
+                    <p class="text-right" ng-cloak ng-show="!isLoading && sales.length != 0">
                         <i class="fa fa-list-ul"></i> Total: <strong>{{totalRows}}</strong>
                     </p>
-	                <table class="table table-striped table-condensed" ng-cloak ng-show="!isLoading && totalRows != 0">
+	                <table class="table table-striped table-condensed" ng-cloak ng-show="!isLoading && sales.length != 0">
 	                	<thead>
 	                		<tr>
 	                			<th>ID</th>
@@ -63,10 +63,10 @@
                                     {{sale.payment.total - sale.payment.commission - sale.payment.rawMaterial | currency}}
                                 </td>
 	                			<td class="red">
-	                				-{{(sale.payment.total - sale.payment.commission - sale.payment.rawMaterial) * 0.30 | currency}}
+	                				-{{sale.split_earnings ? (sale.payment.total - sale.payment.commission - sale.payment.rawMaterial) * 0.30 : 0 | currency}}
 	                			</td>
 	                			<td class="green">
-	                				{{(sale.payment.total - sale.payment.commission - sale.payment.rawMaterial) * 0.70 | currency}}
+	                				{{(sale.payment.total - sale.payment.commission - sale.payment.rawMaterial) * (sale.split_earnings ? 0.70 : 1) | currency}}
 	                			</td>
                                 <?php endif; ?>
 	                		</tr>

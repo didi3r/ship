@@ -328,10 +328,10 @@ app.filter('calc', function () {
                     total += subtotal;
                     break;
                 case 'splittings':
-                    total += (subtotal * 0.30);
+                    total += data[i].split_earnings ? (subtotal * 0.30) : 0;
                     break;
                 case 'earnings':
-                    total += (subtotal * 0.70);
+                    total += data[i].split_earnings ? (subtotal * 0.70) : 0;
                     break;
             }
         };
