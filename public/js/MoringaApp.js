@@ -331,7 +331,7 @@ app.filter('calc', function () {
                     total += data[i].split_earnings ? (subtotal * 0.30) : 0;
                     break;
                 case 'earnings':
-                    total += data[i].split_earnings ? (subtotal * 0.70) : 0;
+                    total += data[i].split_earnings ? (subtotal * 0.70) : subtotal;
                     break;
             }
         };
