@@ -125,6 +125,7 @@ class Sales_model extends CI_Model {
 	        'commission' => $sale['payment']['commission'],
 	        'raw_material' => $sale['payment']['rawMaterial'],
 	        'split_earnings' => $sale['split_earnings'],
+	        'from_inversions' => $sale['from_inversions'],
     	);
 
         if($this->db->insert('sales', $data)) {
@@ -150,6 +151,7 @@ class Sales_model extends CI_Model {
         $this->db->set('commission', $sale['payment']['commission']);
         $this->db->set('raw_material', $sale['payment']['rawMaterial']);
         $this->db->set('split_earnings', $sale['split_earnings']);
+        $this->db->set('from_inversions', $sale['from_inversions']);
         $this->db->where('id', $sale['id']);
 
         if($this->db->update('sales')) {
@@ -289,6 +291,7 @@ class Sales_model extends CI_Model {
 
 		$array['package'] = preg_split('/\s*,\s*/', trim($array['package'] ));
         $array['split_earnings'] = (boolean) $array['split_earnings'];
+        $array['from_inversions'] = (boolean) $array['from_inversions'];
 
 		$array['delivery'] = array(
 			'addressee' => $array['addressee'],
@@ -314,7 +317,7 @@ class Sales_model extends CI_Model {
 
 		$array['payment'] = array(
 			'commission' => $array['commission'],
-			'rawMaterial' => $array['from_inversions'] ? 0 : $array['raw_material'],
+			'rawMaterial' => $array['raw_material'],
 			'total' => $array['total'],
 			'date' => $array['payment_date'],
 			'status' => $array['payment_status']

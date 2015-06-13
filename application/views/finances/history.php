@@ -57,7 +57,7 @@
 	                			<td ng-init="controller.totalDeliveryCost = controller.totalDeliveryCost + sale.delivery.cost">{{sale.delivery.cost | currency}}</td>
 	                			<td class="green">{{sale.payment.total | currency}}</td>
 	                			<td class="red">-{{sale.payment.commission | currency}}</td>
-	                			<td class="red">-{{sale.payment.rawMaterial | currency}}</td>
+	                			<td class="red">-{{sale.from_inversions ? 0 : sale.payment.rawMaterial | currency}}</td>
                                 <?php if($this->authentication->is_admin()) : ?>
                                 <td class="green">
                                     {{sale.payment.total - sale.payment.commission - sale.payment.rawMaterial | currency}}
@@ -79,7 +79,7 @@
                 				<td>{{filteredSales | sum:'delivery.cost' | currency}}</td>
                 				<td class="green">{{filteredSales | sum:'payment.total' | currency}}</td>
                 				<td class="red">{{filteredSales | sum:'payment.commission' | currency}}</td>
-                				<td class="red">{{filteredSales | sum:'payment.rawMaterial' | currency}}</td>
+                				<td class="red">{{filteredSales | calc:'rawMaterial' | currency}}</td>
                 				<?php if($this->authentication->is_admin()) : ?>
                                 <td class="green">{{filteredSales | calc:'total' | currency}}</td>
                                 <td class="red">{{filteredSales | calc:'splittings' | currency}}</td>

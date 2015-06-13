@@ -120,6 +120,10 @@
                             <div class="form-group form-inline col-xs-12 col-md-4">
                                 <label for="productionCost">Materia Prima </label><br>
                                 <input id="productionCost" type="text" class="form-control" ng-model="sale.payment.rawMaterial" ng-currency>
+                                <label style="font-weight: normal">
+                                    <input type="checkbox" ng-model="sale.from_inversions">
+                                    ¿Descontarlo de inveriones?
+                                </label>
                             </div>
                         </div>
                         <div class="row">
@@ -137,7 +141,6 @@
                             <div class="form-group form-inline col-xs-12 col-md-4">
                                 <label for="earnings">Ganancia </label><br>
                                 <input type="text" class="form-control" readonly ng-model="earnings" ng-currency>
-
                             </div>
                         </div>
 

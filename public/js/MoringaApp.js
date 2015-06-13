@@ -322,13 +322,17 @@ app.filter('calc', function () {
         if(type === undefined) type = 'total';
         var total = 0;
         for (var i = 0; i < data.length; i++) {
-            var subtotal = parseFloat(data[i].payment.total - data[i].payment.commission - data[i].payment.rawMaterial);
+            var rawMaterial = data[i].from_inversions ? 0 : data[i].payment.rawMaterial;
+            var subtotal = parseFloat(data[i].payment.total - data[i].payment.commission - rawMaterial);
             switch(type) {
                 case 'total':
                     total += subtotal;
                     break;
                 case 'splittings':
                     total += data[i].split_earnings ? (subtotal * 0.30) : 0;
+                    break;
+                case 'rawMaterial':
+                    total += rawMaterial;
                     break;
                 case 'earnings':
                     total += data[i].split_earnings ? (subtotal * 0.70) : subtotal;
@@ -551,6 +555,7 @@ app.controller('AddSaleCtrl', ['$scope', 'Sale', function ($scope, Sale) {
 	$scope.sale.payment.commission = 0;
 	$scope.sale.payment.rawMaterial = 0;
     $scope.sale.split_earnings = true;
+    $scope.sale.from_inversions = false;
 
     $scope.$watchGroup(
         ['sale.payment.total', 'sale.payment.rawMaterial', 'sale.payment.commission', 'sale.split_earnings'],
