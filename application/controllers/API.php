@@ -59,7 +59,14 @@ class Api extends CI_Controller {
 	{
         $this->load->model('inversions_model');
 
+		$sales = $this->sales_model->get_all_from_inversions();
+
+		foreach ($sales as &$sale) {
+			$sale->total *= -1;
+		}
+
 		$output = $this->inversions_model->get_all();
+		$output['response'] = array_merge($output['response'], $sales);
 
 		echo json_encode($output);
 	}

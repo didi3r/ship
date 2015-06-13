@@ -89,6 +89,16 @@ class Sales_model extends CI_Model {
 		return $output;
 	}
 
+	public function get_all_from_inversions()
+	{
+		$this->db->select("date, 'Venta #' + id + ': ' + name AS description , raw_material AS total");
+		$this->db->where('from_inversions', true);
+		$this->db->where("(status = 'Finalizado' OR status = 'En Camino')");
+		$query = $this->db->get('sales');
+
+		return $query->result();
+	}
+
 	public function get($id)
 	{
 		$this->db->where('id', $id);
