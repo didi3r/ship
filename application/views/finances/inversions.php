@@ -71,7 +71,7 @@
                                 <td>#{{inversion.id}}</td>
                                 <td>{{inversion.date | date : 'dd/MMM/yyyy'}}</td>
                                 <td>{{inversion.description}}</td>
-                                <td class="green">{{inversion.total | currency}}</td>
+                                <td class="{{inversion.total > 0 ? 'green' : 'red'}}">{{inversion.total | currency}}</td>
                             </tr>
 	                	</tbody>
                 		<tfoot>
@@ -79,7 +79,7 @@
                 				<td></td>
                 				<td></td>
                                 <td class="text-right">Total:</td>
-                				<td class="green">{{filteredInversions | sum:'total' | currency}}</td>
+                				<td class="{{totalInversions > 0 ? 'green' : 'red'}}">{{filteredInversions | sum:'total' | currency}}</td>
                             </tr>
                 		</tfoot>
 	                </table>

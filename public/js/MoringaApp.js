@@ -951,6 +951,7 @@ app.controller('InversionsCtrl', ['$scope', '$http', function ($scope, $http) {
                 alert(data.error);
             } else {
                 $scope.inversions = data.response;
+                $scope.totalInversions = data.total_inversions;
                 $scope.totalRows = data.total_rows;
             }
         })
