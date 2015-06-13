@@ -65,7 +65,7 @@
 
 
                     <div class="row">
-                        <div class="col-xs-12 col-md-6" ng-cloack ng-hide="rawTransfers.length == 0">
+                        <div class="col-xs-12 col-md-6" ng-cloak ng-hide="rawTransfers.length == 0">
                             <h4>Materia Prima</h4>
 
                             <div class="well well-sm">
@@ -105,7 +105,7 @@
                             </table>
                         </div>
 
-                        <div class="col-xs-12 col-md-6" ng-cloack ng-hide="splitTransfers.length == 0">
+                        <div class="col-xs-12 col-md-6" ng-cloak ng-hide="splitTransfers.length == 0">
                             <h4>Dividendo</h4>
 
                             <div class="well well-sm">
@@ -149,7 +149,7 @@
                     <!-- /.row -->
 
                     <div class="row">
-                        <div class="col-xs-12 col-md-6" ng-cloack ng-hide="expensesTransfers.length == 0">
+                        <div class="col-xs-12 col-md-6" ng-cloak ng-hide="expensesTransfers.length == 0">
                             <h4>Gastos</h4>
 
                             <div class="well well-sm">
