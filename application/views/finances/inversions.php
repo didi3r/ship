@@ -79,7 +79,7 @@
                 				<td></td>
                 				<td></td>
                                 <td class="text-right">Total:</td>
-                				<td class="{{totalInversions > 0 ? 'green' : 'red'}}">{{filteredInversions | sum:'total' | currency}}</td>
+                				<td class="{{totalInversions > 0 ? 'green' : 'red'}}">{{filteredInversions | sum:'total' | currency | orderBy: 'date'}}</td>
                             </tr>
                 		</tfoot>
 	                </table>
