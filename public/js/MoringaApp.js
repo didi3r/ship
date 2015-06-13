@@ -322,7 +322,7 @@ app.filter('calc', function () {
         if(type === undefined) type = 'total';
         var total = 0;
         for (var i = 0; i < data.length; i++) {
-            var rawMaterial = data[i].from_inversions ? 0 : data[i].payment.rawMaterial;
+            var rawMaterial = parseFloat(data[i].from_inversions ? 0 : data[i].payment.rawMaterial);
             var subtotal = parseFloat(data[i].payment.total - data[i].payment.commission - rawMaterial);
             switch(type) {
                 case 'total':
