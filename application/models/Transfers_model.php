@@ -87,6 +87,27 @@ class Transfers_model extends CI_Model {
         return $output;
     }
 
+    public function get_expenses_total()
+    {
+        $output = array();
+        $this->db->select('SUM(total) AS total');
+        $this->db->where('user', 'ddr2002@prodigy.net.mx');
+        $query = $this->db->get('expenses');
+
+        $output['total'] = (float) $query->row()->total ? $query->row()->total : 0;
+
+
+        $this->db->select('SUM(total) AS total');
+        $this->db->where('account', 'Victor');
+        $query = $this->db->get('transfers');
+
+        $output['transfered'] = (float) $query->row()->total ? $query->row()->total : 0;
+
+        $output['pending'] = $output['total'] - $output['transfered'];
+
+        return $output;
+    }
+
     public function get_splittings_total()
     {
         $output = array();

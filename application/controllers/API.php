@@ -82,6 +82,11 @@ class Api extends CI_Controller {
         $output['transfered_splittings'] = $transfers_totals['transfered'];
         $output['pending_splittings'] = $transfers_totals['pending'];
 
+		$transfers_totals = $this->transfers_model->get_expenses_total();
+        $output['total_expenses'] = $transfers_totals['total'];
+        $output['transfered_expenses'] = $transfers_totals['transfered'];
+        $output['pending_expenses'] = $transfers_totals['pending'];
+
 		echo json_encode($output);
 	}
 

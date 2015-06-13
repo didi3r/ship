@@ -1034,6 +1034,9 @@ app.controller('TransfersCtrl', ['$scope', '$http', function ($scope, $http) {
                 $scope.expensesSplittings = data.expenses_splittings;
                 $scope.transferedSplittings = data.transfered_splittings;
                 $scope.pendingSplittings = data.pending_splittings;
+                $scope.totalExpenses = data.total_expenses;
+                $scope.transferedExpenses = data.transfered_expenses;
+                $scope.pendingExpenses = data.pending_expenses;
 
                 $scope.totalRows = data.total_rows;
             }
