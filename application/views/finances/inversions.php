@@ -67,7 +67,7 @@
 	                		</tr>
 	                	</thead>
 	                	<tbody>
-	                		<tr ng-repeat="inversion in filteredInversions = inversions">
+	                		<tr ng-repeat="inversion in filteredInversions = (inversions | orderBy: 'date')">
                                 <td>#{{inversion.id}}</td>
                                 <td>{{inversion.date | date : 'dd/MMM/yyyy'}}</td>
                                 <td>{{inversion.description}}</td>
@@ -79,7 +79,7 @@
                 				<td></td>
                 				<td></td>
                                 <td class="text-right">Total:</td>
-                				<td class="{{totalInversions > 0 ? 'green' : 'red'}}">{{filteredInversions | sum:'total' | currency | orderBy: 'date'}}</td>
+                				<td class="{{totalInversions > 0 ? 'green' : 'red'}}">{{filteredInversions | sum:'total' | currency}}</td>
                             </tr>
                 		</tfoot>
 	                </table>
