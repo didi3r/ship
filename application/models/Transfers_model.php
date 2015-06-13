@@ -77,7 +77,7 @@ class Transfers_model extends CI_Model {
         $output['payed'] = (float) $query->row()->total ? $query->row()->total : 0;
 
         $this->db->select('SUM(total) AS total');
-        $this->db->where('account', 'Victor');
+        $this->db->where('account', 'MPrima');
         $query = $this->db->get('transfers');
 
         $output['transfered'] = (float) $query->row()->total ? $query->row()->total : 0;
