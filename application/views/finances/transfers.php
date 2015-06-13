@@ -28,7 +28,9 @@
                         <div class="col-xs-12 col-sm-3 form-group">
                             <label>Cuenta</label>
                             <select class="form-control" ng-model="transfer.account" required>
-                            	<option value="Victor">Victor</option>
+                                <option value=""></option>
+                            	<option value="MPrima">MPrima</option>
+                                <option value="Victor">Victor</option>
                             	<option value="Aztrid">Aztrid</option>
                             </select>
                         </div>
@@ -50,34 +52,10 @@
 
                 <h3>Listado de Transferencias</h3>
                 <div ng-controller="TransfersCtrl">
-                    <div class="row" ng-cloak>
-                        <div class="col-xs-6">
-                            <div class="well well-sm">
-                                <?php if($this->authentication->is_admin()) : ?>
-                                Inversiones: <span class="">{{payedRawMaterial | currency}}</span> <br>
-                                <?php endif; ?>
-                                Materia Prima: <span class="green">{{totalRawMaterial | currency}}</span> <br>
-                                Transferido: <span class="red">-{{transferedRawMaterial | currency}}</span> <br>
-                                <strong>Por Transferir: <span class="green">{{pendingRawMaterial | currency}}</span> <br></strong>
-                            </div>
-                        </div>
-
-                        <div class="col-xs-6">
-                            <div class="well well-sm">
-                                <?php if($this->authentication->is_admin()) : ?>
-                                Dividendo: <span class="green">{{totalSplittings | currency}}</span> <br>
-                                Gastos: <span class="red">-{{expensesSplittings | currency}}</span> <br>
-                                <?php endif; ?>
-                                <?php if(!$this->authentication->is_admin()) : ?><br><?php endif; ?>
-                                Transferido: <span class="red">-{{transferedSplittings | currency}}</span> <br>
-                                <strong>Por Transferir: <span class="green">{{pendingSplittings | currency}}</span> <br></strong>
-                            </div>
-                        </div>
-                    </div>
 
                     <spinner ng-show="isLoading"></spinner>
                     <div class="alert alert-info" ng-cloak ng-show="!isLoading && totalRows == 0">
-                    	<i class="fa fa-exclamation-triangle"></i>
+                        <i class="fa fa-exclamation-triangle"></i>
                         No hay tranferencias registradas actualmente.
                     </div>
 
@@ -87,7 +65,18 @@
 
 
                     <div class="row">
-                        <div class="col-xs-12 col-md-6" ng-cloack ng-hide="victorTransfers.length == 0">
+                        <div class="col-xs-12 col-md-6" ng-cloack ng-hide="rawTransfers.length == 0">
+                            <h4>Materia Prima</h4>
+
+                            <div class="well well-sm">
+                                <?php if($this->authentication->is_admin()) : ?>
+                                Inversiones: <span class="">{{payedRawMaterial | currency}}</span> <br>
+                                <?php endif; ?>
+                                Materia Prima: <span class="green">{{totalRawMaterial | currency}}</span> <br>
+                                Transferido: <span class="red">-{{transferedRawMaterial | currency}}</span> <br>
+                                <strong>Por Transferir: <span class="green">{{pendingRawMaterial | currency}}</span> <br></strong>
+                            </div>
+
                             <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
                                 <thead>
                                     <tr>
@@ -98,7 +87,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="transfer in victorTransfers = (transfers | filter: {account : 'Victor'})">
+                                    <tr ng-repeat="transfer in rawTransfers = (transfers | filter: {account : 'MPrima'})">
                                         <td>#{{transfer.id}}</td>
                                         <td>{{transfer.date | date : 'dd/MMM/yyyy'}}</td>
                                         <td>{{transfer.account}}</td>
@@ -110,13 +99,25 @@
                                         <td></td>
                                         <td></td>
                                         <td class="text-right">Total:</td>
-                                        <td class="green">{{victorTransfers | sum:'total' | currency}}</td>
+                                        <td class="green">{{rawTransfers | sum:'total' | currency}}</td>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
 
-                        <div class="col-xs-12 col-md-6" ng-cloack ng-hide="aztridTransfers.length == 0">
+                        <div class="col-xs-12 col-md-6" ng-cloack ng-hide="splitTransfers.length == 0">
+                            <h4>Dividendo</h4>
+
+                            <div class="well well-sm">
+                                <?php if($this->authentication->is_admin()) : ?>
+                                Dividendo: <span class="green">{{totalSplittings | currency}}</span> <br>
+                                Gastos: <span class="red">-{{expensesSplittings | currency}}</span> <br>
+                                <?php endif; ?>
+                                <?php if(!$this->authentication->is_admin()) : ?><br><?php endif; ?>
+                                Transferido: <span class="red">-{{transferedSplittings | currency}}</span> <br>
+                                <strong>Por Transferir: <span class="green">{{pendingSplittings | currency}}</span> <br></strong>
+                            </div>
+
                             <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
                                 <thead>
                                     <tr>
@@ -127,7 +128,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="transfer in aztridTransfers = (transfers | filter: {account : 'Aztrid'})">
+                                    <tr ng-repeat="transfer in splitTransfers = (transfers | filter: {account : 'Aztrid'})">
                                         <td>#{{transfer.id}}</td>
                                         <td>{{transfer.date | date : 'dd/MMM/yyyy'}}</td>
                                         <td>{{transfer.account}}</td>
@@ -139,7 +140,47 @@
                                         <td></td>
                                         <td></td>
                                         <td class="text-right">Total:</td>
-                                        <td class="green">{{aztridTransfers | sum:'total' | currency}}</td>
+                                        <td class="green">{{splitTransfers | sum:'total' | currency}}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6" ng-cloack ng-hide="expensesTransfers.length == 0">
+                            <h4>Gastos</h4>
+
+                            <div class="well well-sm">
+                                Gastos: <span class="green">{{totalExpenses | currency}}</span> <br>
+                                Transferido: <span class="red">-{{transferedExpenses | currency}}</span> <br>
+                                <strong>Por Transferir: <span class="green">{{pendingExpenses | currency}}</span> <br></strong>
+                            </div>
+
+                            <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Fecha</th>
+                                        <th>Cuenta</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="transfer in expensesTransfers = (transfers | filter: {account : 'Victor'})">
+                                        <td>#{{transfer.id}}</td>
+                                        <td>{{transfer.date | date : 'dd/MMM/yyyy'}}</td>
+                                        <td>{{transfer.account}}</td>
+                                        <td class="green">{{transfer.total | currency}}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr ng-cloak>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="text-right">Total:</td>
+                                        <td class="green">{{expensesTransfers | sum:'total' | currency}}</td>
                                     </tr>
                                 </tfoot>
                             </table>
