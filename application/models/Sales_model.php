@@ -304,7 +304,7 @@ class Sales_model extends CI_Model {
 
 		$array['payment'] = array(
 			'commission' => $array['commission'],
-			'rawMaterial' => $array['raw_material'],
+			'rawMaterial' => $array['from_inversions'] ? 0 : $array['raw_material'],
 			'total' => $array['total'],
 			'date' => $array['payment_date'],
 			'status' => $array['payment_status']
