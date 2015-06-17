@@ -10,7 +10,7 @@ class Mail_model extends CI_Model {
 
 	public function send($subject, $msg)
 	{
-		$to = 'bob@example.com';
+		$to = 'ventas.nd.fm@gmail.com';
 
 		$headers = "From: robot@bioleafy.com\r\n";
 		$headers .= "Reply-To: robot@bioleafy.com\r\n";
