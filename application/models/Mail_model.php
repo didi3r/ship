@@ -22,7 +22,7 @@ class Mail_model extends CI_Model {
 
 	public function notify_shipment($sale_id)
 	{
-		$this->load->model('Sales_model');
+		$this->load->model('sales_model');
 		$sale = $this->sales_model->get($sale_id);
 
 		$subject = 'Paquete #' . $sale['id'] . ' enviado';
@@ -30,7 +30,7 @@ class Mail_model extends CI_Model {
 		$msg = 'El paquete con el número de venta #' . $sale['id'] . ' ha sido enviado:';
 		$msg .= '<table>';
 		$msg .= '<tr><td>Comprador:</td><td>' . $sale['name'] . '</td></tr>';
-		$msg .= '<tr><td>Código de Rastreo:</td><td>' . $sale['track_code'] . '</td></tr>';
+		$msg .= '<tr><td>Código de Rastreo:</td><td>' . $sale['delivery']['trackCode'] . '</td></tr>';
 		$msg .= '<tr><td>Paquete:</td><td>' . implode(',', $sale['package']) . '</td></tr>';
 		$msg .= '</table>';
 
