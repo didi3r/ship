@@ -275,6 +275,9 @@ class Api extends CI_Controller {
 			die(json_encode(array('error' => 'Undefined variable: id')));
 		}
 
+		$this->load->model('Mail_model');
+		$this->mail_model->notify_shipment($params->id);
+
 		$output = $this->sales_model->update_status($params->id, 'En Camino', array('delivery_code' => $params->code, 'date' => $params->date));
 
 		echo json_encode($output);
