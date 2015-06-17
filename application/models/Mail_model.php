@@ -27,7 +27,7 @@ class Mail_model extends CI_Model {
 
 		$subject = 'Paquete #' . $sale['id'] . ' enviado';
 
-		$msg = 'El paquete con el número de venta #' . $sale['id'] . ' ha sido enviado:';
+		$msg = 'El paquete con el número de venta #' . $sale['id'] . ' ha sido enviado:<br><br>';
 		$msg .= '<table>';
 		$msg .= '<tr><td>Comprador:</td><td>' . $sale['name'] . '</td></tr>';
 		$msg .= '<tr><td>Código de Rastreo:</td><td>' . $sale['delivery']['trackCode'] . '</td></tr>';
