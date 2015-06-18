@@ -387,6 +387,37 @@ class Api extends CI_Controller {
 		die('Error al consultar status');
 	}
 
+	public function sepomex_status($code)
+	{
+		$url = 'http://www.17track.net/r/handlertrack.ashx?num=' . $code;
+
+		$curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
+
+        $reponse = curl_exec($curl);
+        $json = json_decode($reponse);
+        curl_close($curl);
+
+        if($json && isset($json->dat)) {
+		    if($json->dat->e == 40) {
+		    	die('Entregado');
+		    }
+
+		    if($json->dat->e == 10) {
+		    	die('Pendiente en Tránsito');
+		    }
+
+			if($json->dat->e == 0) {
+		    	die('No hay información disponible');
+			}
+        }
+
+		die('Error al consultar status');
+
+	}
+
 	public function upload_sale_file()
 	{
 		if(isset($_POST['id']) && $_FILES['file']) {

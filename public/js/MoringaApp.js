@@ -773,11 +773,16 @@ app.controller('SalesListCtrl', ['$scope', '$http', 'Sale', function ($scope, $h
         $scope.showModal = true;
     };
 
-    $scope.checkEstafetaStatus = function(sale) {
-        if(sale.status == 'En Camino' && sale.delivery.courier == 'Estafeta') {
-            $http.get('index.php?/api/estafeta_status/' + sale.delivery.trackCode)
-            .success(function(data) {
-                sale.estafetaStatus = data;
+    $scope.checkDeliveryStatus = function(sale) {
+        if(sale.status == 'En Camino' && sale.delivery.trackCode) {
+            var url;
+            if($sale.delivery.courier == 'Estafeta') {
+                url ='index.php?/api/estafeta_status/' + sale.delivery.trackCode
+            } else {
+                url = 'index.php?/api/sepomex_status/' + sale.delivery.trackCode
+            }
+            $http.get(url).success(function(data) {
+                sale.deliveryStatus = data;
             });
         }
     };

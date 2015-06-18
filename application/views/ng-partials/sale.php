@@ -107,13 +107,18 @@
                     </span>
                     <strong>{{sale.delivery.trackCode}}</strong>
                 </div>
-                <span ng-init="checkEstafetaStatus(sale)">
-                    <i class="fa" ng-class="{
-                        'fa-exclamation-triangle red' : sale.estafetaStatus == 'No hay información disponible',
-                        'fa-clock-o' : sale.estafetaStatus == 'Pendiente en Tránsito',
-                        'fa-check green' : sale.estafetaStatus == 'Entregado'}">
-                    </i>
-                    {{sale.estafetaStatus}}
+                <span ng-init="checkDeliveryStatus(sale)">
+                    <div ng-show="sale.status == 'En Camino' && sale.delivery.trackCode && !sale.deliveryStatus">
+                        <i class="fa fa-spinner fa-spin"></i> Cargando Estatus del envío
+                    </div>
+                    <div ng-show="sale.deliveryStatus">
+                        <i class="fa" ng-class="{
+                            'fa-exclamation-triangle red' : sale.deliveryStatus == 'No hay información disponible',
+                            'fa-clock-o' : sale.deliveryStatus == 'Pendiente en Tránsito',
+                            'fa-check green' : sale.deliveryStatus == 'Entregado'}">
+                        </i>
+                        {{sale.deliveryStatus}}
+                    </div>
                 </span>
             </div>
             <div class="col-xs-12 col-lg-3">
