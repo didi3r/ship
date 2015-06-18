@@ -101,15 +101,16 @@
                 {{sale.delivery.courier}}
                 <blockquote>{{sale.delivery.address}}</blockquote>
                 <div ng-show="sale.delivery.status == 'Enviado'">
-                    <i class="fa fa-barcode"></i>
                     <span ng-if="sale.delivery.date">
-                        ({{sale.delivery.date | date : 'dd/MMMM/yyyy'}})
-                    </span>
+                        <i class="fa fa-calendar-o"></i>
+                        {{sale.delivery.date | date : 'dd/MMMM/yyyy'}}
+                    </span><br>
+                    <i class="fa fa-barcode"></i>
                     <strong>{{sale.delivery.trackCode}}</strong>
                 </div>
                 <span ng-init="checkDeliveryStatus(sale)">
                     <div ng-show="sale.status == 'En Camino' && sale.delivery.trackCode && !sale.deliveryStatus">
-                        <i class="fa fa-spinner fa-spin"></i> Cargando Estatus del envío
+                        <i class="fa fa-refresh fa-spin"></i> Cargando Estatus del envío
                     </div>
                     <div ng-show="sale.deliveryStatus">
                         <i class="fa" ng-class="{
