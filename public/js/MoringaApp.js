@@ -418,7 +418,7 @@ app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http)
     $scope.total_pages = 1;
     $scope.total_rows = 0;
 
-	$scope.orderBy = '-delivery.status';
+	$scope.orderBy = '-date';
 	$scope.shipments = [];
 	$scope.isLoading = false;
 	$scope.isThereError = false;
