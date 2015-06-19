@@ -345,7 +345,7 @@ class Sales_model extends CI_Model {
     public function get_sales_this_week($status = null, $per_day = false)
     {
     	date_default_timezone_set('America/Mexico_City');
-    	if(if(date('j', time()) === '5') ) {
+    	if(date('j', time()) === '5') {
     		$start = date('Y-m-d');
     	} else {
 	        $today = strtotime(date('Y-m-d'));
