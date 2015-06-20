@@ -10,8 +10,8 @@ class Mail_model extends CI_Model {
 
 	public function send($to, $subject, $msg)
 	{
-		$headers = "From: ventas.nd.fm@gmail.com\r\n";
-		$headers .= "Reply-To: ventas.nd.fm@gmail.com\r\n";
+		$headers = "From: robot@bioleafy.com\r\n";
+		$headers .= "Reply-To: robot@bioleafy.com\r\n";
 		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
@@ -38,7 +38,7 @@ class Mail_model extends CI_Model {
 			'package' => implode(',', $sale['package'])
 		);
 
-		$subject = 'Paquete #' . $sale['id'] . ' enviado';
+		$subject = '¡Tu paquete ha sido enviado!';
 		$msg = $this->load->view('mails/customer/shipped', $data, true);
 		// $this->send($sale['email'], $subject, $msg);
 		$this->send_to_admin($subject, $msg);
