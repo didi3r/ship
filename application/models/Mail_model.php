@@ -40,8 +40,8 @@ class Mail_model extends CI_Model {
 
 		$subject = '¡Tu paquete ha sido enviado!';
 		$msg = $this->load->view('mails/customer/shipped', $data, true);
-		// $this->send($sale['email'], $subject, $msg);
-		$this->send_to_admin($subject, $msg);
+		$this->send($sale['email'], $subject, $msg);
+		// $this->send_to_admin($subject, $msg);
 
 		$subject = 'Paquete #' . $sale['id'] . ' enviado';
 		$msg = $this->load->view('mails/admin/shipped', $data, true);
