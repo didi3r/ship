@@ -24,6 +24,7 @@ class Api extends CI_Controller {
 
         $output['most_active_buyers'] = $this->sales_model->get_most_active_customers();
 
+        header('Content-Type: application/json');
         echo json_encode($output);
     }
 
@@ -34,6 +35,7 @@ class Api extends CI_Controller {
 
 		$output = $this->sales_model->get_all($limit, $offset);
 
+		header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -42,6 +44,7 @@ class Api extends CI_Controller {
 		$output = $this->sales_model->get_all(0, 0, 'date', true, $startDate, $endDate, 'Finalizado,En Camino');
 		unset($output['total_rows']);
 
+		header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -51,6 +54,7 @@ class Api extends CI_Controller {
 
 		$output = $this->expenses_model->get_all($startDate, $endDate);
 
+		header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -76,6 +80,7 @@ class Api extends CI_Controller {
 		}
 		$output['total_inversions'] = $total;
 
+		header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -102,6 +107,7 @@ class Api extends CI_Controller {
         $output['transfered_expenses'] = $transfers_totals['transfered'];
         $output['pending_expenses'] = $transfers_totals['pending'];
 
+        header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -127,7 +133,7 @@ class Api extends CI_Controller {
         	$output = $this->sales_model->get($id);
         }
 
-
+        header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -151,6 +157,7 @@ class Api extends CI_Controller {
         	$output = $this->expenses_model->get($id);
         }
 
+        header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -174,6 +181,7 @@ class Api extends CI_Controller {
         	$output = $this->inversions_model->get($id);
         }
 
+        header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -197,6 +205,7 @@ class Api extends CI_Controller {
         	$output = $this->transfers_model->get($id);
         }
 
+        header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -207,6 +216,7 @@ class Api extends CI_Controller {
 
 		$output = $this->sales_model->get_all($limit, $offset, 'date', true, null, null, 'Enviando,En Camino');
 
+		header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -221,6 +231,7 @@ class Api extends CI_Controller {
 
 		$output = $this->sales_model->update_status($params->id, 'Pagado');
 
+		header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -235,6 +246,7 @@ class Api extends CI_Controller {
 
 		$output = $this->sales_model->update_status($params->id, 'Pendiente');
 
+		header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -249,6 +261,7 @@ class Api extends CI_Controller {
 
 		$output = $this->sales_model->update_status($params->id, 'Enviando', array('delivery_comments' => $params->comments));
 
+		header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -263,6 +276,7 @@ class Api extends CI_Controller {
 
 		$output = $this->sales_model->update_status($params->id, 'Pagado');
 
+		header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -280,6 +294,7 @@ class Api extends CI_Controller {
 		$this->load->model('mail_model');
 		$this->mail_model->notify_shipment($params->id);
 
+		header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -294,6 +309,7 @@ class Api extends CI_Controller {
 
 		$output = $this->sales_model->update_status($params->id, 'Enviando');
 
+		header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -308,6 +324,7 @@ class Api extends CI_Controller {
 
 		$output = $this->sales_model->update_status($params->id, 'Finalizado');
 
+		header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -322,6 +339,7 @@ class Api extends CI_Controller {
 
 		$output = $this->sales_model->update_status($params->id, 'Cancelado');
 
+		header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -336,6 +354,7 @@ class Api extends CI_Controller {
 			$output = $this->sales_model->search_for_customer();
 		}
 
+		header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 
@@ -425,6 +444,7 @@ class Api extends CI_Controller {
 
 			$output = $this->files_model->save_file($_POST['id'], $_FILES['file']);
 
+			header('Content-Type: application/json');
 			echo json_encode($output);
 		}
 	}
@@ -435,6 +455,7 @@ class Api extends CI_Controller {
 
 		$output = $this->files_model->get_files($sale_id);
 
+		header('Content-Type: application/json');
 		echo json_encode($output);
 	}
 

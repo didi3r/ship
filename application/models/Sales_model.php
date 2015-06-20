@@ -345,7 +345,7 @@ class Sales_model extends CI_Model {
     public function get_sales_this_week($status = null, $per_day = false)
     {
     	date_default_timezone_set('America/Mexico_City');
-    	if(date('j', time()) === '5') {
+    	if(date('w', time()) === '5') {
     		$start = date('Y-m-d');
     	} else {
 	        $today = strtotime(date('Y-m-d'));
@@ -366,10 +366,6 @@ class Sales_model extends CI_Model {
                 if($status) {
                     $this->db->where('status', $status);
                 }
-//                $output[] = array(
-//                    'date' => $day,
-//                    'sales' => (int) $this->db->count_all_results('sales')
-//                );
                 $output['dates'][] = $day;
                 $output['sales'][] = $this->db->count_all_results('sales');
             }
@@ -390,9 +386,15 @@ class Sales_model extends CI_Model {
     public function get_sales_last_week($status = null, $per_day = false)
     {
     	date_default_timezone_set('America/Mexico_City');
-        $sunday = strtotime('-2 weeks sunday', strtotime(date('Y-m-d')));
-        $start = date('Y-m-d', strtotime('last friday', $sunday));
-        $end = date('Y-m-d', strtotime('next thursday', strtotime($start)));
+    	if(date('w', time()) === '5') {
+	        $today = strtotime(date('Y-m-d'));
+	        $start = date('Y-m-d', strtotime('last friday', $today));
+        	$end = date('Y-m-d', strtotime('next thursday', strtotime($start)));
+    	} else {
+	        $sunday = strtotime('-2 weeks sunday', strtotime(date('Y-m-d')));
+	        $start = date('Y-m-d', strtotime('last friday', $sunday));
+	        $end = date('Y-m-d', strtotime('next thursday', strtotime($start)));
+    	}
 
         if($per_day) {
             $dates = array();
