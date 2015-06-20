@@ -8,16 +8,21 @@ class Mail_model extends CI_Model {
 
 	}
 
-	public function send($subject, $msg)
+	public function send($to, $subject, $msg)
 	{
-		$to = 'ventas.nd.fm@gmail.com';
-
-		$headers = "From: robot@bioleafy.com\r\n";
-		$headers .= "Reply-To: robot@bioleafy.com\r\n";
+		$headers = "From: ventas.nd.fm@gmail.com\r\n";
+		$headers .= "Reply-To: ventas.nd.fm@gmail.com\r\n";
 		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
 		mail($to, $subject, $msg, $headers);
+	}
+
+	public function send_to_admin($subject, $msg)
+	{
+		$to = 'ventas.nd.fm@gmail.com';
+
+		$this->send($to, $subject, $msg);
 	}
 
 	public function notify_shipment($sale_id)
@@ -25,16 +30,22 @@ class Mail_model extends CI_Model {
 		$this->load->model('sales_model');
 		$sale = $this->sales_model->get($sale_id);
 
+		$data = array(
+			'id' => $sale['id'],
+			'name' => $sale['name'],
+			'courier' => $sale['delivery']['courier'],
+			'track_code' => $sale['delivery']['trackCode'],
+			'package' => implode(',', $sale['package'])
+		);
+
 		$subject = 'Paquete #' . $sale['id'] . ' enviado';
+		$msg = $this->load->view('mails/customer/shipped', $data, true);
+		// $this->send($sale['email'], $subject, $msg);
+		$this->send_to_admin($subject, $msg);
 
-		$msg = 'El paquete con el número de venta #' . $sale['id'] . ' ha sido enviado:<br><br>';
-		$msg .= '<table>';
-		$msg .= '<tr><td>Comprador:</td><td>' . $sale['name'] . '</td></tr>';
-		$msg .= '<tr><td>Código de Rastreo:</td><td>' . $sale['delivery']['trackCode'] . '</td></tr>';
-		$msg .= '<tr><td>Paquete:</td><td>' . implode(',', $sale['package']) . '</td></tr>';
-		$msg .= '</table>';
-
-		$this->send($subject, $msg);
+		$subject = 'Paquete #' . $sale['id'] . ' enviado';
+		$msg = $this->load->view('mails/admin/shipped', $data, true);
+		$this->send_to_admin($subject, $msg);
 	}
 
 }
