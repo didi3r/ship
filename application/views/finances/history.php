@@ -24,71 +24,77 @@
                         </div>
                     </div>
                     <spinner ng-show="isLoading"></spinner>
-                    <div class="alert alert-info" ng-show="!isLoading && sales.length == 0">
+                    <div class="alert alert-info" ng-show="!isLoading && totalRows == 0">
                         <i class="fa fa-exclamation-triangle"></i>
                         No hubo ventas durante ese periodo de tiempo.
                     </div>
 
-                    <p class="text-right" ng-cloak ng-show="!isLoading && sales.length != 0">
+                    <p class="text-right" ng-cloak ng-show="!isLoading && totalRows != 0">
                         <i class="fa fa-list-ul"></i> Total: <strong>{{totalRows}}</strong>
                     </p>
-	                <table class="table table-striped table-condensed" ng-cloak ng-show="!isLoading && sales.length != 0">
-	                	<thead>
-	                		<tr>
-	                			<th>ID</th>
-	                			<th>Fecha</th>
-	                			<th>Nombre</th>
-	                			<th>Envío</th>
-	                			<th>Total</th>
-	                			<th>Comisión</th>
-	                			<th>Mat. Prima</th>
-                                <?php if($this->authentication->is_admin()) : ?>
-                                <th>Ingreso</th>
-	                			<th>Dividendo</th>
-	                			<th>Ganancia</th>
-                                <?php endif; ?>
-	                		</tr>
-	                	</thead>
-	                	<tbody>
-	                		<tr ng-cloak ng-repeat="sale in filteredSales = (sales) ">
-	                			<td><a href="" ng-click="showSaleDetails(sale)">#{{sale.id}}</a></td>
-	                			<td>{{sale.date | date : 'dd/MMM/yyyy'}}</td>
-	                			<td>{{sale.name}}</td>
-	                			<td ng-init="controller.totalDeliveryCost = controller.totalDeliveryCost + sale.delivery.cost">{{sale.delivery.cost | currency}}</td>
-	                			<td class="green">{{sale.payment.total | currency}}</td>
-	                			<td class="red">-{{sale.payment.commission | currency}}</td>
-	                			<td class="red">-{{sale.from_inversions ? 0 : sale.payment.rawMaterial | currency}}</td>
-                                <?php if($this->authentication->is_admin()) : ?>
-                                <td class="green">
-                                    {{sale.payment.total - sale.payment.commission - sale.payment.rawMaterial | currency}}
-                                </td>
-	                			<td class="red">
-	                				-{{sale.split_earnings ? (sale.payment.total - sale.payment.commission - sale.payment.rawMaterial) * 0.30 : 0 | currency}}
-	                			</td>
-	                			<td class="green">
-	                				{{(sale.payment.total - sale.payment.commission - sale.payment.rawMaterial) * (sale.split_earnings ? 0.70 : 1) | currency}}
-	                			</td>
-                                <?php endif; ?>
-	                		</tr>
-	                	</tbody>
-                		<tfoot>
-                			<tr ng-cloak>
-                				<td></td>
-                				<td></td>
-                				<td class="text-right">Total:</td>
-                				<td>{{filteredSales | sum:'delivery.cost' | currency}}</td>
-                				<td class="green">{{filteredSales | sum:'payment.total' | currency}}</td>
-                				<td class="red">{{filteredSales | sum:'payment.commission' | currency}}</td>
-                				<td class="red">{{filteredSales | calc:'rawMaterial' | currency}}</td>
-                				<?php if($this->authentication->is_admin()) : ?>
-                                <td class="green">{{filteredSales | calc:'total' | currency}}</td>
-                                <td class="red">{{filteredSales | calc:'splittings' | currency}}</td>
-                				<td class="green">{{filteredSales | calc:'earnings' | currency}}</td>
-                			    <?php endif; ?>
-                            </tr>
-                		</tfoot>
-	                </table>
+
+                    <div class="table-responsive">
+
+    	                <table class="table table-striped table-condensed" ng-cloak ng-show="!isLoading && totalRows != 0">
+    	                	<thead>
+    	                		<tr>
+    	                			<th>ID</th>
+    	                			<th>Fecha</th>
+    	                			<th>Nombre</th>
+    	                			<th>Envío</th>
+    	                			<th>Total</th>
+    	                			<th>Comisión</th>
+    	                			<th>Mat. Prima</th>
+                                    <?php if($this->authentication->is_admin()) : ?>
+                                    <th>Ingreso</th>
+    	                			<th>Dividendo</th>
+    	                			<th>Ganancia</th>
+                                    <?php endif; ?>
+    	                		</tr>
+    	                	</thead>
+    	                	<tbody>
+    	                		<tr ng-cloak ng-repeat="sale in filteredSales = (sales) ">
+    	                			<td><a href="" ng-click="showSaleDetails(sale)">#{{sale.id}}</a></td>
+    	                			<td>{{sale.date | date : 'dd/MMM/yyyy'}}</td>
+    	                			<td>{{sale.name}}</td>
+    	                			<td ng-init="controller.totalDeliveryCost = controller.totalDeliveryCost + sale.delivery.cost">{{sale.delivery.cost | currency}}</td>
+    	                			<td class="green">{{sale.payment.total | currency}}</td>
+    	                			<td class="red">-{{sale.payment.commission | currency}}</td>
+    	                			<td class="red">-{{sale.from_inversions ? 0 : sale.payment.rawMaterial | currency}}</td>
+                                    <?php if($this->authentication->is_admin()) : ?>
+                                    <td class="green">
+                                        {{sale.payment.total - sale.payment.commission - sale.payment.rawMaterial | currency}}
+                                    </td>
+    	                			<td class="red">
+    	                				-{{sale.split_earnings ? (sale.payment.total - sale.payment.commission - sale.payment.rawMaterial) * 0.30 : 0 | currency}}
+    	                			</td>
+    	                			<td class="green">
+    	                				{{(sale.payment.total - sale.payment.commission - sale.payment.rawMaterial) * (sale.split_earnings ? 0.70 : 1) | currency}}
+    	                			</td>
+                                    <?php endif; ?>
+    	                		</tr>
+    	                	</tbody>
+                    		<tfoot>
+                    			<tr ng-cloak>
+                    				<td></td>
+                    				<td></td>
+                    				<td class="text-right">Total:</td>
+                    				<td>{{filteredSales | sum:'delivery.cost' | currency}}</td>
+                    				<td class="green">{{filteredSales | sum:'payment.total' | currency}}</td>
+                    				<td class="red">{{filteredSales | sum:'payment.commission' | currency}}</td>
+                    				<td class="red">{{filteredSales | calc:'rawMaterial' | currency}}</td>
+                    				<?php if($this->authentication->is_admin()) : ?>
+                                    <td class="green">{{filteredSales | calc:'total' | currency}}</td>
+                                    <td class="red">{{filteredSales | calc:'splittings' | currency}}</td>
+                    				<td class="green">{{filteredSales | calc:'earnings' | currency}}</td>
+                    			    <?php endif; ?>
+                                </tr>
+                    		</tfoot>
+    	                </table>
+
+                    </div>
                     <div sale-details-modal="selectedSale" show="showModal"></div>
+
                 </div>
             </div>
             <!-- /.col-lg-12 -->

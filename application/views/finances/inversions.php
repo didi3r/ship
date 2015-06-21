@@ -57,32 +57,38 @@
                     <p class="text-right" ng-cloak ng-show="!isLoading && totalRows != 0">
                         <i class="fa fa-list-ul"></i> Total: <strong>{{totalRows}}</strong>
                     </p>
-                    <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
-	                	<thead>
-	                		<tr>
-	                			<th>ID</th>
-	                			<th>Fecha</th>
-	                			<th>Descipción</th>
-	                			<th>Total</th>
-	                		</tr>
-	                	</thead>
-	                	<tbody>
-	                		<tr ng-repeat="inversion in filteredInversions = (inversions | orderBy: 'date')">
-                                <td>#{{inversion.id}}</td>
-                                <td>{{inversion.date | date : 'dd/MMM/yyyy'}}</td>
-                                <td>{{inversion.description}}</td>
-                                <td class="{{inversion.total > 0 ? 'green' : 'red'}}">{{inversion.total | currency}}</td>
-                            </tr>
-	                	</tbody>
-                		<tfoot>
-                			<tr ng-cloak>
-                				<td></td>
-                				<td></td>
-                                <td class="text-right">Total:</td>
-                				<td class="{{totalInversions > 0 ? 'green' : 'red'}}">{{filteredInversions | sum:'total' | currency}}</td>
-                            </tr>
-                		</tfoot>
-	                </table>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
+    	                	<thead>
+    	                		<tr>
+    	                			<th>ID</th>
+    	                			<th>Fecha</th>
+    	                			<th>Descipción</th>
+    	                			<th>Total</th>
+    	                		</tr>
+    	                	</thead>
+    	                	<tbody>
+    	                		<tr ng-repeat="inversion in filteredInversions = (inversions | orderBy: 'date')">
+                                    <td>#{{inversion.id}}</td>
+                                    <td>{{inversion.date | date : 'dd/MMM/yyyy'}}</td>
+                                    <td>{{inversion.description}}</td>
+                                    <td class="{{inversion.total > 0 ? 'green' : 'red'}}">{{inversion.total | currency}}</td>
+                                </tr>
+    	                	</tbody>
+                    		<tfoot>
+                    			<tr ng-cloak>
+                    				<td></td>
+                    				<td></td>
+                                    <td class="text-right">Total:</td>
+                    				<td class="{{totalInversions > 0 ? 'green' : 'red'}}">{{filteredInversions | sum:'total' | currency}}</td>
+                                </tr>
+                    		</tfoot>
+    	                </table>
+
+                    </div>
+
                 </div>
             </div>
             <!-- /.col-lg-12 -->

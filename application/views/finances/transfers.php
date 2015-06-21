@@ -77,32 +77,34 @@
                                 <strong>Por Transferir: <span class="green">{{pendingRawMaterial | currency}}</span> <br></strong>
                             </div>
 
-                            <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Fecha</th>
-                                        <th>Cuenta</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="transfer in rawTransfers = (transfers | filter: {account : 'MPrima'})">
-                                        <td>#{{transfer.id}}</td>
-                                        <td>{{transfer.date | date : 'dd/MMM/yyyy'}}</td>
-                                        <td>{{transfer.account}}</td>
-                                        <td class="green">{{transfer.total | currency}}</td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr ng-cloak>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="text-right">Total:</td>
-                                        <td class="green">{{rawTransfers | sum:'total' | currency}}</td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Fecha</th>
+                                            <th>Cuenta</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="transfer in rawTransfers = (transfers | filter: {account : 'MPrima'})">
+                                            <td>#{{transfer.id}}</td>
+                                            <td>{{transfer.date | date : 'dd/MMM/yyyy'}}</td>
+                                            <td>{{transfer.account}}</td>
+                                            <td class="green">{{transfer.total | currency}}</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr ng-cloak>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-right">Total:</td>
+                                            <td class="green">{{rawTransfers | sum:'total' | currency}}</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
 
                         <div class="col-xs-12 col-md-6" ng-cloak ng-hide="splitTransfers.length == 0">
@@ -118,32 +120,35 @@
                                 <strong>Por Transferir: <span class="green">{{pendingSplittings | currency}}</span> <br></strong>
                             </div>
 
-                            <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Fecha</th>
-                                        <th>Cuenta</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="transfer in splitTransfers = (transfers | filter: {account : 'Aztrid'})">
-                                        <td>#{{transfer.id}}</td>
-                                        <td>{{transfer.date | date : 'dd/MMM/yyyy'}}</td>
-                                        <td>{{transfer.account}}</td>
-                                        <td class="green">{{transfer.total | currency}}</td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr ng-cloak>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="text-right">Total:</td>
-                                        <td class="green">{{splitTransfers | sum:'total' | currency}}</td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Fecha</th>
+                                            <th>Cuenta</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="transfer in splitTransfers = (transfers | filter: {account : 'Aztrid'})">
+                                            <td>#{{transfer.id}}</td>
+                                            <td>{{transfer.date | date : 'dd/MMM/yyyy'}}</td>
+                                            <td>{{transfer.account}}</td>
+                                            <td class="green">{{transfer.total | currency}}</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr ng-cloak>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-right">Total:</td>
+                                            <td class="green">{{splitTransfers | sum:'total' | currency}}</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+
                         </div>
                     </div>
                     <!-- /.row -->
@@ -158,32 +163,35 @@
                                 <strong>Por Transferir: <span class="green">{{pendingExpenses | currency}}</span> <br></strong>
                             </div>
 
-                            <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Fecha</th>
-                                        <th>Cuenta</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="transfer in expensesTransfers = (transfers | filter: {account : 'Victor'})">
-                                        <td>#{{transfer.id}}</td>
-                                        <td>{{transfer.date | date : 'dd/MMM/yyyy'}}</td>
-                                        <td>{{transfer.account}}</td>
-                                        <td class="green">{{transfer.total | currency}}</td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr ng-cloak>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="text-right">Total:</td>
-                                        <td class="green">{{expensesTransfers | sum:'total' | currency}}</td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Fecha</th>
+                                            <th>Cuenta</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="transfer in expensesTransfers = (transfers | filter: {account : 'Victor'})">
+                                            <td>#{{transfer.id}}</td>
+                                            <td>{{transfer.date | date : 'dd/MMM/yyyy'}}</td>
+                                            <td>{{transfer.account}}</td>
+                                            <td class="green">{{transfer.total | currency}}</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr ng-cloak>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-right">Total:</td>
+                                            <td class="green">{{expensesTransfers | sum:'total' | currency}}</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+
                         </div>
                     </div>
                     <!-- /.row -->

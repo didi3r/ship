@@ -42,7 +42,7 @@ class Api extends CI_Controller {
     public function history($startDate, $endDate)
 	{
 		$output = $this->sales_model->get_all(0, 0, 'date', true, $startDate, $endDate, 'Finalizado,En Camino');
-		unset($output['total_rows']);
+		$output['total_rows'] = count($output['response']);
 
 		header('Content-Type: application/json');
 		echo json_encode($output);
@@ -87,6 +87,7 @@ class Api extends CI_Controller {
 			$total += $row->total;
 		}
 		$output['total_inversions'] = $total;
+		$output['total_rows'] = count($output['response']);
 
 		header('Content-Type: application/json');
 		echo json_encode($output);
