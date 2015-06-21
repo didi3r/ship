@@ -33,6 +33,22 @@ class Finances extends CI_Controller {
 		$this->load->view('finances/expenses', $data);
 	}
 
+	public function earnings()
+	{
+		if (!$this->authentication->is_admin()) {
+            redirect('welcome');
+        }
+
+        date_default_timezone_set('America/Mexico_City');
+		$data = array(
+            'today' => date('Y-m-d'),
+			'start_date' => date('Y-m-d', strtotime('last Friday')),
+			'end_date' => date('Y-m-d', strtotime('next Thursday'))
+		);
+
+		$this->load->view('finances/earnings', $data);
+	}
+
     public function inversions()
 	{
 		date_default_timezone_set('America/Mexico_City');

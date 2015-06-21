@@ -58,6 +58,14 @@ class Api extends CI_Controller {
 		echo json_encode($output);
 	}
 
+	public function earnings($startDate, $endDate)
+	{
+		$output = $this->sales_model->get_earnings_details($startDate, $endDate);
+
+		header('Content-Type: application/json');
+		echo json_encode($output);
+	}
+
 
     public function inversions()
 	{

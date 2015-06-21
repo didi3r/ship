@@ -31,6 +31,11 @@
                     <li>
                         <a href="<?php echo site_url('finances/expenses'); ?>">Gastos</a>
                     </li>
+                    <?php if($this->authentication->is_admin()) : ?>
+                    <li>
+                        <a href="<?php echo site_url('finances/earnings'); ?>">Ganancias</a>
+                    </li>
+                    <?php endif; ?>
                     <li>
                         <a href="<?php echo site_url('finances/inversions'); ?>">Inversiones</a>
                     </li>

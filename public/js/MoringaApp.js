@@ -906,6 +906,43 @@ app.controller('ExpensesCtrl', ['$scope', '$http', function ($scope, $http) {
     }, 300);
 }]);
 
+app.controller('EarningsCtrl', ['$scope', '$http', function ($scope, $http) {
+    $scope.isLoading = false;
+    $scope.isThereError = false;
+    $scope.totalRows = 0;
+
+    $scope.earnings = [];
+
+    $scope.getEarnings = function(startDate, endDate) {
+        $scope.isLoading = true;
+        $scope.isThereError = false;
+        $scope.totalRows = 0;
+
+        startDate = moment(startDate).format('YYYY-MM-DD');
+        endDate = moment(endDate).format('YYYY-MM-DD');
+
+        $http.get('index.php?/api/earnings/' + startDate + '/' + endDate)
+        .success(function(data) {
+            if(data.error) {
+                alert(data.error);
+            } else {
+                $scope.earnings = data.response;
+                $scope.earningsTotal = data.total;
+                $scope.totalRows = data.total_rows;
+            }
+        })
+        .error(function() {
+            $scope.isThereError = true;
+        }).finally(function() {
+            $scope.isLoading = false;
+        });
+    };
+
+    setTimeout(function() {
+        $scope.getEarnings($scope.sinceDate, $scope.toDate);
+    }, 300);
+}]);
+
 app.controller('AddInversionCtrl', ['$scope', '$http', 'Inversion', function ($scope, $http, Inversion) {
     $scope.isLoading = false;
     $scope.isSaved = false;
