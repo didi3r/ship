@@ -466,16 +466,15 @@ class Sales_model extends CI_Model {
         $this->db->where('date <=', $endDate);
         $query = $this->db->get('sales');
 
-        $super_total = 0;
         $sales = array();
         foreach ($query->result() as $row) {
-        	$total = $row->total - $row->commission;
+        	$subtotal = $row->total - $row->commission;
         	if(!$row->from_inversions) {
-        		$total -= $row->raw_material;
+        		$subtotal -= $row->raw_material;
         	}
 
         	if($row->split_earnings) {
-        		$total = round($total * 0.70, 2);
+        		$subtotal = round($subtotal * 0.70, 2);
         	}
 
         	$sales[] = array(
@@ -483,9 +482,8 @@ class Sales_model extends CI_Model {
 	        	'date' => $row->date,
 	        	'type' => 'Venta',
 	        	'description' => 'Compra de: ' . $row->name,
-	        	'total' => $total
+	        	'subtotal' => $subtotal
         	);
-        	$super_total += $total;
         }
 
         $this->db->where('date >=', $startDate);
@@ -494,21 +492,32 @@ class Sales_model extends CI_Model {
 
         $expenses = array();
         foreach ($query->result() as $row) {
-        	$total = $row->total * (-1);
+        	$subtotal = $row->total * (-1);
         	$expenses[] = array(
 	        	'id' => $row->id,
 	        	'date' => $row->date,
 	        	'type' => 'Gasto',
 	        	'description' => 'Gasto de: ' . $row->description,
-	        	'total' => $total
+	        	'subtotal' => $subtotal
         	);
-
-        	$super_total += $total;
         }
 
         $output['response'] = array_merge($sales, $expenses);
-        $output['total'] = (float) $super_total;
+        function sort_by_date($a, $b) {
+		    return strtotime($a["date"]) - strtotime($b["date"]);
+		}
+		usort($output['response'], "sort_by_date");
+		$output['response'] = array_reverse($output['response']);
+
+        $total = 0;
+        foreach ($output['response'] as &$row) {
+        	$total += $row['subtotal'];
+        	$row['total'] = (float) $total;
+        }
+
+        $output['total'] = (float) $total;
         $output['total_rows'] = count($output['response']);
+
 
         return $output;
     }
