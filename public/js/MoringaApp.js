@@ -386,13 +386,14 @@ app.controller('DashboardCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.historyChart = {};
     $scope.historyChart.labels = ['Viernes', 'Sábado', 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves'];
     $scope.historyChart.series = ['Semana Actual', 'Semana Pasada'];
+    $scope.historyChart.colours = ['#DFF0D8', '#D9EDF7'];
     $scope.historyChart.data = [];
 
     // Total Sales Chrat
     $scope.salesChart = {};
     $scope.salesChart.labels = ['Finalizadas', 'Canceladas'];
-    $scope.salesChart.data = [];
     $scope.salesChart.colours = ['#539F55', '#D15856'];
+    $scope.salesChart.data = [];
 
     $http.get('index.php?/api/sales_resume')
     .success(function(data) {

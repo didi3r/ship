@@ -111,6 +111,7 @@
                             data="historyChart.data"
                             labels="historyChart.labels"
                             series="historyChart.series"
+                            colours="historyChart.colours"
                             legend="true"
                             click="onClick">
                         </canvas>
