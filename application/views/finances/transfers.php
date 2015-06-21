@@ -105,6 +105,7 @@
                                     </tfoot>
                                 </table>
                             </div>
+
                         </div>
 
                         <div class="col-xs-12 col-md-6" ng-cloak ng-hide="splitTransfers.length == 0">

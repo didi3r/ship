@@ -29,13 +29,9 @@ $(function() {
     });
 
     var url = window.location;
-    console.log(url)
     var element = $('ul.nav a').filter(function() {
         return this.href == url.href;
-    })
-    console.log(element)
-
-    element.addClass('active').parent().parent().addClass('in').parent();
+    }).addClass('active').parent().parent().addClass('in').parent();
     if (element.is('li')) {
         element.addClass('active');
     }
