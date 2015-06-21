@@ -107,7 +107,7 @@
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        <canvas id="line" class="chart chart-line"
+                        <canvas id="line" class="chart chart-bar"
                             data="historyChart.data"
                             labels="historyChart.labels"
                             series="historyChart.series"
