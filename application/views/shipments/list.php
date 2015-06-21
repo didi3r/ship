@@ -14,12 +14,6 @@
                                 <label for="search">Buscar:</label>
                                 <input type="text" name="search" placeholder="Buscar" class="form-control" ng-model="filter.$">
 
-                                <label for="orderBy">Mostrar: </label>
-                                <select name="orderBy" class="form-control" ng-model="orderBy">
-                                    <option value="-date">Nuevos</option>
-                                    <option value="date">Antiguos</option>
-                                </select>
-
                                 <label for="statusFilter">Estado: </label>
                                 <select name="statusFilter" class="form-control" ng-model="filter.status">
                                     <option value="">Todos</option>
@@ -62,7 +56,7 @@
                     <spinner ng-show="isLoading"></spinner>
 
                     <!-- Shipment list -->
-                    <shipment class="shipment" ng-repeat="shipment in shipments | filter: filter | orderBy: order" ng-class="{'loading' : isSaleLoading(shipment)}"></shipment>
+                    <shipment class="shipment" ng-repeat="shipment in shipments | filter: filter" ng-class="{'loading' : isSaleLoading(shipment)}"></shipment>
                     <!-- /Shipment list -->
 
                     <div class="pagination" ng-cloak ng-show="total_pages > 1">

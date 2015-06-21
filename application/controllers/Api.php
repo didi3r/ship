@@ -223,7 +223,7 @@ class Api extends CI_Controller {
 		if($page <= 0) $page = 1;
 		$offset = ($page - 1) * $limit;
 
-		$output = $this->sales_model->get_all($limit, $offset, 'date', true, null, null, 'Enviando,En Camino');
+		$output = $this->sales_model->get_all($limit, $offset, 'status,date', true, null, null, 'Enviando,En Camino');
 
 		header('Content-Type: application/json');
 		echo json_encode($output);

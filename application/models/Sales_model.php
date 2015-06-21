@@ -24,8 +24,11 @@ class Sales_model extends CI_Model {
 			$this->db->limit($limit, $offset);
 		}
 
-        if($order) {
-            $this->db->order_by($order, $desc ? 'desc' : 'asc');
+        if(!empty($order)) {
+        	$order_array = explode(',', $order);
+        	foreach ($order_array as $order) {
+            	$this->db->order_by($order, $desc ? 'desc' : 'asc');
+        	}
             $this->db->order_by('id', 'desc');
         }
 
