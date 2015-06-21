@@ -3,7 +3,7 @@
         <br>
         <ul class="nav" id="side-menu">
             <li>
-                <a href="<?php echo site_url(); ?>"><i class="fa fa-dashboard fa-fw"></i> Escritorio</a>
+                <a href="<?php echo site_url('welcome'); ?>"><i class="fa fa-dashboard fa-fw"></i> Escritorio</a>
             </li>
             <?php if($this->authentication->is_admin()) : ?>
             <li>
