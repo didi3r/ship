@@ -43,7 +43,7 @@
 	                		</tr>
 	                	</thead>
 	                	<tbody>
-	                		<tr ng-repeat="earning in filteredEarnings = earnings">
+	                		<tr ng-repeat="earning in filteredEarnings = earnings | orderBy: '-date'">
                                 <td>#{{earning.id}}</td>
                                 <td>{{earning.date | date : 'dd/MMM/yyyy'}}</td>
                                 <td>{{earning.description}}</td>
