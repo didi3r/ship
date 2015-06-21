@@ -392,6 +392,7 @@ app.controller('DashboardCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.salesChart = {};
     $scope.salesChart.labels = ['Finalizadas', 'Canceladas'];
     $scope.salesChart.data = [];
+    $scope.salesChart.colours = ['#539F55', '#D15856'];
 
     $http.get('index.php?/api/sales_resume')
     .success(function(data) {
@@ -408,6 +409,7 @@ app.controller('DashboardCtrl', ['$scope', '$http', function ($scope, $http) {
             $scope.historyChart.data[1] = data.sales_last_week.sales;
 
             $scope.salesChart.data = [data.total_ended, data.total_cancelled];
+
         }
     });
 }]);

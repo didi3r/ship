@@ -128,9 +128,10 @@
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        <canvas id="doughnut" class="chart chart-pie"
+                        <canvas id="doughnut" class="chart chart-doughnut"
                             data="salesChart.data"
                             labels="salesChart.labels"
+                            colours="salesChart.colours"
                             legend="true">
                         </canvas>
                     </div>
