@@ -386,7 +386,6 @@ app.controller('DashboardCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.historyChart = {};
     $scope.historyChart.labels = ['Viernes', 'Sábado', 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves'];
     $scope.historyChart.series = ['Semana Actual', 'Semana Pasada'];
-    $scope.historyChart.colours = ['#DFF0D8', '#D9EDF7'];
     $scope.historyChart.data = [];
 
     // Total Sales Chrat
