@@ -51,6 +51,17 @@ class Mail_model extends CI_Model {
 		$this->send_to_admin($subject, $msg);
 	}
 
+	public function notify_ended($sale_id)
+	{
+		$this->load->model('sales_model');
+		$sale = $this->sales_model->get($sale_id);
+
+		$subject = '¡Fue un placer atenderte!';
+		$msg = $this->load->view('mails/customer/ended', '', true);
+		// $this->send($sale['email'], $subject, $msg);
+		$this->send_to_admin($subject, $msg);
+	}
+
 }
 
 /* End of file Mail_model.php */
