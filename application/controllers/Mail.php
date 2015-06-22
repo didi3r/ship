@@ -12,17 +12,17 @@ class Mail extends CI_Controller {
 
 	}
 
-	public function shipped()
-	{
-		$this->load->model('mail_model');
-		$this->mail_model->notify_shipment(99);
-	}
+	// public function shipped()
+	// {
+	// 	$this->load->model('mail_model');
+	// 	$this->mail_model->notify_shipment(99);
+	// }
 
-	public function ended()
-	{
-		$this->load->model('mail_model');
-		$this->mail_model->notify_ended(99);
-	}
+	// public function ended()
+	// {
+	// 	$this->load->model('mail_model');
+	// 	$this->mail_model->notify_ended(99);
+	// }
 
 	public function admin_shipped()
 	{
