@@ -333,6 +333,9 @@ class Api extends CI_Controller {
 
 		$output = $this->sales_model->update_status($params->id, 'Finalizado');
 
+		$this->load->model('mail_model');
+		$this->mail_model->notify_ended($params->id);
+
 		header('Content-Type: application/json');
 		echo json_encode($output);
 	}

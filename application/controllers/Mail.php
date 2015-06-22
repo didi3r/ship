@@ -28,6 +28,11 @@ class Mail extends CI_Controller {
 		$this->load->view('mails/customer/shipped');
 	}
 
+	public function customer_ended()
+	{
+		$this->load->view('mails/customer/ended');
+	}
+
 }
 
 /* End of file Mail.php */

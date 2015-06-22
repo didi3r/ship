@@ -11,6 +11,9 @@ class Mail_model extends CI_Model {
 	public function send($to, $subject, $msg)
 	{
 		$headers = "From: Ventas ND <robot@moringa-michoacana.com.mx>\r\n";
+		if($to != 'ventas.nd.fm@gmail.com') {
+			$headers .= 'Bcc: ventas.nd.fm@gmail.com' . "\r\n";
+		}
 		$headers .= "Reply-To: Ventas ND <ventas.nd.fm@gmail.com>\r\n";
 		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
