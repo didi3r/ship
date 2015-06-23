@@ -30,25 +30,25 @@ class Mail extends CI_Controller {
 	// 	$this->mail_model->notify_payment(99);
 	// }
 
-	public function admin_shipped()
-	{
-		$this->load->view('mails/admin/shipped');
-	}
+	// public function admin_shipped()
+	// {
+	// 	$this->load->view('mails/admin/shipped');
+	// }
 
-	public function customer_details()
-	{
-		$this->load->view('mails/customer/sale_details');
-	}
+	// public function customer_details()
+	// {
+	// 	$this->load->view('mails/customer/sale_details');
+	// }
 
-	public function customer_shipped()
-	{
-		$this->load->view('mails/customer/shipped');
-	}
+	// public function customer_shipped()
+	// {
+	// 	$this->load->view('mails/customer/shipped');
+	// }
 
-	public function customer_ended()
-	{
-		$this->load->view('mails/customer/ended');
-	}
+	// public function customer_ended()
+	// {
+	// 	$this->load->view('mails/customer/ended');
+	// }
 
 }
 

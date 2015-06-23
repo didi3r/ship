@@ -11,6 +11,10 @@
 
 <table style="width:100%;border-spacing:3px;border-collapse:separate;">
 	<tr>
+		<td style="width:30%;background-color:#f1f1f1;padding:2px 5px">Número de compra:</td>
+		<td style="width:50%;border:1px solid #ddd;padding:2px 5px">#<?php echo $id ?></td>
+	</tr>
+	<tr>
 		<td style="width:30%;background-color:#f1f1f1;padding:2px 5px">Nombre:</td>
 		<td style="width:50%;border:1px solid #ddd;padding:2px 5px"><?php echo $name ?></td>
 	</tr>
@@ -50,6 +54,8 @@
 		</td>
 	</tr>
 </table>
+
+<p><em>*NOTA:</em> Guarde su número de compra para cualquier aclaración y futura referencia.</p>
 
 <?php if(isset($address) && !empty($address)) : ?>
 <p><strong>Tu envío</strong></p>
