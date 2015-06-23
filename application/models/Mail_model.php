@@ -28,6 +28,29 @@ class Mail_model extends CI_Model {
 		$this->send($to, $subject, $msg);
 	}
 
+	public function notify_payment($sale_id)
+	{
+		$this->load->model('sales_model');
+		$sale = $this->sales_model->get($sale_id);
+
+		$data = array(
+			'id' => $sale['id'],
+			'name' => $sale['name'],
+			'courier' => $sale['delivery']['courier'],
+			'package' => $sale['package'],
+			'addressee' => !empty($sale['delivery']['addressee']) ? $sale['delivery']['addressee'] : $sale['name'],
+			'address' => nl2br($sale['delivery']['address']),
+			'subtotal' => $sale['payment']['total'],
+			'shipment_cost' => $sale['delivery']['cost'],
+			'total' => $sale['delivery']['cost'] + $sale['payment']['total']
+		);
+
+		$subject = 'Detalles de tu compra';
+		$msg = $this->load->view('mails/customer/sale_details', $data, true);
+		// $this->send($sale['email'], $subject, $msg);
+		$this->send_to_admin($subject, $msg);
+	}
+
 	public function notify_shipment($sale_id)
 	{
 		$this->load->model('sales_model');
@@ -58,8 +81,8 @@ class Mail_model extends CI_Model {
 
 		$subject = '¡Fue un placer atenderte!';
 		$msg = $this->load->view('mails/customer/ended', '', true);
-		// $this->send($sale['email'], $subject, $msg);
-		$this->send_to_admin($subject, $msg);
+		$this->send($sale['email'], $subject, $msg);
+		// $this->send_to_admin($subject, $msg);
 	}
 
 }

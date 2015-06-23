@@ -24,9 +24,20 @@ class Mail extends CI_Controller {
 	// 	$this->mail_model->notify_ended(99);
 	// }
 
+	public function payment()
+	{
+		$this->load->model('mail_model');
+		$this->mail_model->notify_payment(99);
+	}
+
 	public function admin_shipped()
 	{
 		$this->load->view('mails/admin/shipped');
+	}
+
+	public function customer_details()
+	{
+		$this->load->view('mails/customer/sale_details');
 	}
 
 	public function customer_shipped()
