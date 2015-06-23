@@ -240,6 +240,9 @@ class Api extends CI_Controller {
 
 		$output = $this->sales_model->update_status($params->id, 'Pagado');
 
+		$this->load->model('mail_model');
+		$this->mail_model->notify_payment($params->id);
+
 		header('Content-Type: application/json');
 		echo json_encode($output);
 	}
