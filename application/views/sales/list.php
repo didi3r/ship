@@ -7,21 +7,21 @@
                 <h1 class="page-header">Listado de Ventas</h1>
 
                 <div ng-controller="SalesListCtrl">
-                    <!-- Filters -->
+                    <!-- Search -->
                     <div class="navbar navbar-default">
                         <div class="navbar-form ">
                             <div class="form-group">
                                 <label for="search">Buscar:</label>
-                                <input type="text" name="search" placeholder="Buscar" class="form-control" ng-model="filter.$">
+                                <input type="text" name="search" placeholder="Buscar" class="form-control" ng-model="search.text">
 
                                 <label for="orderBy">Mostrar: </label>
-                                <select name="orderBy" class="form-control" ng-model="orderBy">
+                                <select name="orderBy" class="form-control" ng-model="search.order">
                                     <option value="-date">Nuevos</option>
                                     <option value="date">Antiguos</option>
                                 </select>
 
                                 <label for="statusFilter">Estado: </label>
-                                <select name="statusFilter" class="form-control" ng-model="filter.status">
+                                <select name="statusFilter" class="form-control" ng-model="search.status">
                                     <option value="">Todos</option>
                                     <option value="Pendiente">Pendientes</option>
                                     <option value="Pagado">Pagado</option>
@@ -32,11 +32,13 @@
                                 </select>
 
                                 <label for="courierFilter">Paqueteria: </label>
-                                <select name="courierFilter" class="form-control" ng-model="filter.delivery.courier">
+                                <select name="courierFilter" class="form-control" ng-model="search.courier">
                                     <option value="">Cualquiera</option>
                                     <option value="Estafeta">Estafeta</option>
                                     <option value="Correos de México">Correos de México</option>
                                 </select>
+
+                                <button class="btn btn-primary" ng-click="getSalesCollection(search)">Buscar</button>
                             </div>
                         </div>
                     </div>

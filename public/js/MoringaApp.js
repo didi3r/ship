@@ -647,17 +647,25 @@ app.controller('SalesListCtrl', ['$scope', '$http', 'Sale', function ($scope, $h
     $scope.total_pages = 1;
     $scope.total_rows = 0;
 
-    $scope.orderBy = '-date';
+    // $scope.orderBy = '-date';
 	$scope.sales = [];
 	$scope.isLoading = false;
 	$scope.isThereError = false;
 	$scope.saleLoading = null;
 
-    $scope.getSalesCollection =  function() {
+    $scope.getSalesCollection =  function(search) {
         $scope.isLoading = true;
         $scope.isThereError = false;
 
-        $http.get('index.php?/api/sales/' + $scope.current_page + '/' + $scope.result_limit)
+        var url = 'index.php?/api/sales/' + $scope.current_page + '/' + $scope.result_limit
+        if(search !== undefined) {
+            url += '/' + (search.order !== undefined ? search.order : '0');
+            url += '/' + (search.status !== undefined ? search.status: '0');
+            url += '/' + (search.courier !== undefined ? search.courier : '0');
+            url += '/' + (search.text !== undefined ? search.text : '0');
+        }
+
+        $http.get(url)
         .success(function(data) {
             $scope.sales = data.response;
             $scope.total_rows = data.total_rows;

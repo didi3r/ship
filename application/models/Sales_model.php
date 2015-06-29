@@ -54,8 +54,20 @@ class Sales_model extends CI_Model {
 			$this->db->where('courier', $courier);
 		}
 
+		if(!empty($search)) {
+			$where = 'name LIKE \'%' . $search . '%\'';
+			$where .= ' || user LIKE \'%' . $search . '%\'';
+			$where .= ' || email LIKE \'%' . $search . '%\'';
+			$where .= ' || track_code LIKE \'%' . $search . '%\'';
+			$where .= ' || address LIKE \'%' . $search . '%\'';
+			$where .= ' || package LIKE \'%' . $search . '%\'';
+			$where .= ' || shipping_comments LIKE \'%' . $search . '%\'';
+
+			$this->db->where($where);
+		}
+
 		$query = $this->db->get('sales');
-//        die($this->db->last_query());
+       	// die($this->db->last_query());
 
 		$output = array();
         $output['response'] = array();
