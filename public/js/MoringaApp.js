@@ -653,7 +653,7 @@ app.controller('SalesListCtrl', ['$scope', '$http', 'Sale', function ($scope, $h
 	$scope.isThereError = false;
 	$scope.saleLoading = null;
 
-    $scope.search = {}:
+    $scope.search = {};
     $scope.search.order = '-date';
 
     $scope.getSalesCollection =  function(search) {
