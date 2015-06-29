@@ -67,7 +67,7 @@ class Sales_model extends CI_Model {
 		}
 
 		$query = $this->db->get('sales');
-       	// die($this->db->last_query());
+       	die($this->db->last_query());
 
 		$output = array();
         $output['response'] = array();

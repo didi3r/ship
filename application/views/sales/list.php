@@ -67,7 +67,7 @@
                     </div>
 
                     <div ng-cloak ng-hide="isLoading || total_rows == 0">
-                        <sale class="sale" ng-repeat="sale in sales | filter : filter | orderBy : orderBy" ng-class="{'loading' : isSaleLoading(sale)}"></sale>
+                        <sale class="sale" ng-repeat="sale in sales" ng-class="{'loading' : isSaleLoading(sale)}"></sale>
                     </div>
 
                     <div upload-file-modal="selectedSale" show="showModal"></div>
