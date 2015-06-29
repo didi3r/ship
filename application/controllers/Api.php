@@ -32,20 +32,18 @@ class Api extends CI_Controller {
 	{
 		if($page <= 0) $page = 1;
 		$offset = ($page - 1) * $limit;
-		$desc = true;
+		// $desc = true;
 
-		if($order == '-date') {
-			$order = 'date';
-			$desc = true;
-		} else {
-			$order = 'date';
-			$desc = false;
-		}
+		// if($order == '-date') {
+		// 	$desc = true;
+		// } else {
+		// 	$desc = false;
+		// }
 		$status = $status ? urldecode($status) : '';
 		$courier = $courier ? urldecode($courier) : '';
 		$search = $search ? urldecode($search) : '';
 
-		$output = $this->sales_model->get_all($limit, $offset, $order, $desc, null, null, $status, $courier, $search);
+		$output = $this->sales_model->get_all($limit, $offset, 'date', true, null, null, $status, $courier, $search);
 
 		header('Content-Type: application/json');
 		echo json_encode($output);
