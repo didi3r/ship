@@ -64,7 +64,10 @@
                         </p>
                     </div>
 
-                    <sale class="sale" ng-repeat="sale in sales | filter : filter | orderBy : orderBy" ng-class="{'loading' : isSaleLoading(sale)}"></sale>
+                    <div ng-cloak ng-hide="isLoading || total_rows == 0">
+                        <sale class="sale" ng-repeat="sale in sales | filter : filter | orderBy : orderBy" ng-class="{'loading' : isSaleLoading(sale)}"></sale>
+                    </div>
+
                     <div upload-file-modal="selectedSale" show="showModal"></div>
 
                     <div class="pagination" ng-cloak ng-show="total_pages > 1">
