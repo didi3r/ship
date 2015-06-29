@@ -38,7 +38,7 @@ class Api extends CI_Controller {
 			$order = 'date';
 			$desc = true;
 		} else {
-			$order == 'date';
+			$order = 'date';
 			$desc = false;
 		}
 		$status = $status ? urldecode($status) : '';
