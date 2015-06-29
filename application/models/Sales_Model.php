@@ -75,30 +75,27 @@ class Sales_model extends CI_Model {
 			$output['response'][] = $this->contruct_hierarchy($row);
 		}
 
-		if(empty($status) && empty($courier) && empty($search) && !$startDate && !$endDate) {
-			$output['total_rows'] = $this->db->count_all('sales');
-		} else {
-			if(!empty($status)) {
-				foreach ($status_array as $i => $term) {
-					if($i == 0)
-						$this->db->where('status', $term);
-					else
-						$this->db->or_where('status', $term);
-				}
+		if(!empty($status)) {
+			foreach ($status_array as $i => $term) {
+				if($i == 0)
+					$this->db->where('status', $term);
+				else
+					$this->db->or_where('status', $term);
 			}
-
-			if(!empty($courier)) {
-				$this->db->where('courier', $courier);
-			}
-
-            if($startDate && $endDate) {
-                $this->db->where('date >=', $startDate);
-                $this->db->where('date <=', $endDate);
-            }
-
-			$this->db->from('sales');
-			$output['total_rows'] = $this->db->count_all_results();
 		}
+
+		if(!empty($courier)) {
+			$this->db->where('courier', $courier);
+		}
+
+        if($startDate && $endDate) {
+            $this->db->where('date >=', $startDate);
+            $this->db->where('date <=', $endDate);
+        }
+
+		$this->db->from('sales');
+		$output['total_rows'] = count($output['response']);
+
 
 
 		return $output;
