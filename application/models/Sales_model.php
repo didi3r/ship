@@ -66,36 +66,19 @@ class Sales_model extends CI_Model {
 			$this->db->where($where);
 		}
 
-		$query = $this->db->get('sales');
-       	// die($this->db->last_query());
+		$this->db->select('SQL_CALC_FOUND_ROWS *', false);
+		$this->db->from('sales');
 
+		$query = $this->db->get();
+       	// die($this->db->last_query());
 		$output = array();
+		$count = $this->db->query('SELECT FOUND_ROWS() AS `total_rows`');
+		$output['total_rows'] = $count->row()->total_rows;
+
         $output['response'] = array();
 		foreach ($query->result() as $row) {
 			$output['response'][] = $this->contruct_hierarchy($row);
 		}
-
-		if(!empty($status)) {
-			foreach ($status_array as $i => $term) {
-				if($i == 0)
-					$this->db->where('status', $term);
-				else
-					$this->db->or_where('status', $term);
-			}
-		}
-
-		if(!empty($courier)) {
-			$this->db->where('courier', $courier);
-		}
-
-        if($startDate && $endDate) {
-            $this->db->where('date >=', $startDate);
-            $this->db->where('date <=', $endDate);
-        }
-
-		$this->db->from('sales');
-		$output['total_rows'] = count($output['response']);
-
 
 
 		return $output;
