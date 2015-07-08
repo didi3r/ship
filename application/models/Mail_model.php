@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 define('DOMAIN', 'moringa-michoacana.com.mx');
-define('MAILGUN_API', 'pubkey-ef4d7ac29100c65741939f20daf28e46');
+define('MAILGUN_API', 'key-1c635ed3f984f6760a9af3057813366f');
 
 class Mail_model extends CI_Model {
 
