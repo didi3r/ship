@@ -82,8 +82,8 @@ class Mail_model extends CI_Model {
 
 		$subject = 'Detalles de tu compra';
 		$msg = $this->load->view('mails/customer/sale_details', $data, true);
-		// $this->send($sale['email'], $subject, $msg);
-		$this->send_to_admin($subject, $msg);
+		$this->send($sale['email'], $subject, $msg);
+		// $this->send_to_admin($subject, $msg);
 	}
 
 	public function notify_shipment($sale_id)
