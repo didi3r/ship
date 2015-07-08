@@ -1,5 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+define('DOMAIN', 'moringa-michoacana.com.mx');
+define('MAILGUN_API', 'pubkey-ef4d7ac29100c65741939f20daf28e46');
+
 class Mail_model extends CI_Model {
 
 	public function __construct()
@@ -8,17 +11,49 @@ class Mail_model extends CI_Model {
 
 	}
 
+	private function mailgun($to, $subject, $message) {
+
+		$ch = curl_init();
+
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		curl_setopt($ch, CURLOPT_USERPWD, 'api:'.MAILGUN_API);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+		$plain = strip_tags(preg_replace('/\<br(\s*)?\/?\>/i', PHP_EOL, $message));
+
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+		curl_setopt($ch, CURLOPT_URL, 'https://api.mailgun.net/v3/'.DOMAIN.'/messages');
+		curl_setopt($ch, CURLOPT_POSTFIELDS, array('from' => 'soporte@'.DOMAIN,
+			'to' => $to,
+			'subject' => $subject,
+			'html' => $message,
+			'text' => $plain));
+
+		$j = json_decode(curl_exec($ch));
+
+		$info = curl_getinfo($ch);
+
+		if($info['http_code'] != 200)
+			die($info['http_code'].": Error al enviar mailgun");
+
+		curl_close($ch);
+
+		echo $j;
+		return $j;
+	}
+
 	public function send($to, $subject, $msg)
 	{
-		$headers = "From: Ventas ND <robot@moringa-michoacana.com.mx>\r\n";
-		if($to != 'ventas.nd.fm@gmail.com') {
-			$headers .= 'Bcc: ventas.nd.fm@gmail.com' . "\r\n";
-		}
-		$headers .= "Reply-To: Ventas ND <ventas.nd.fm@gmail.com>\r\n";
-		$headers .= "MIME-Version: 1.0\r\n";
-		$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+		// $headers = "From: Ventas ND <robot@moringa-michoacana.com.mx>\r\n";
+		// if($to != 'ventas.nd.fm@gmail.com') {
+		// 	$headers .= 'Bcc: ventas.nd.fm@gmail.com' . "\r\n";
+		// }
+		// $headers .= "Reply-To: Ventas ND <ventas.nd.fm@gmail.com>\r\n";
+		// $headers .= "MIME-Version: 1.0\r\n";
+		// $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
-		mail($to, $subject, $msg, $headers);
+		// mail($to, $subject, $msg, $headers);
+		$this->mailgun($to, $subject, $msg);
 	}
 
 	public function send_to_admin($subject, $msg)
@@ -47,8 +82,8 @@ class Mail_model extends CI_Model {
 
 		$subject = 'Detalles de tu compra';
 		$msg = $this->load->view('mails/customer/sale_details', $data, true);
-		$this->send($sale['email'], $subject, $msg);
-		// $this->send_to_admin($subject, $msg);
+		// $this->send($sale['email'], $subject, $msg);
+		$this->send_to_admin($subject, $msg);
 	}
 
 	public function notify_shipment($sale_id)
