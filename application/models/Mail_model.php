@@ -34,7 +34,7 @@ class Mail_model extends CI_Model {
 		$info = curl_getinfo($ch);
 
 		if($info['http_code'] != 200)
-			die($info['http_code'].": Error al enviar mailgun");
+			die("HTTP ".$info['http_code'].": Error al enviar correo mediante mailgun");
 
 		curl_close($ch);
 
