@@ -34,7 +34,10 @@
                         <table class="table table-striped">
                             <tbody>
                                 <tr ng-repeat="result in results">
-                                    <td><a href="" ng-click="populateCustomerInfo(result)">{{result.name}}</a></td>
+                                    <td>
+                                        <a href="" ng-click="populateCustomerInfo(result)">{{result.name}}</a><br>
+                                        {{result.email}}
+                                    </td>
                                     <td><blockquote>{{result.address}}</blockquote></td>
                                 </tr>
                             </tbody>
