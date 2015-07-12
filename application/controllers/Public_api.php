@@ -9,16 +9,9 @@ class Public_api extends CI_Controller {
 
 	public function webhook()
 	{
-		$webhookContent = "";
+		$post = file_get_contents("php://input");
 
-		$webhook = fopen('php://input' , 'rb');
-		while (!feof($webhook)) {
-		    $webhookContent .= fread($webhook, 4096);
-		}
-		fclose($webhook);
-
-		die($webhookContent);
-		// mail('ventas.nd.fm@gmail.com', 'webhook', $webhookContent);
+		mail('ventas.nd.fm@gmail.com', 'webhook', $post);
 	}
 
 }
