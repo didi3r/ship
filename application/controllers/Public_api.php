@@ -11,7 +11,9 @@ class Public_api extends CI_Controller {
 	{
 		$post = file_get_contents("php://input");
 
-		mail('ventas.nd.fm@gmail.com', 'webhook', $post);
+		if($post) {
+			mail('ventas.nd.fm@gmail.com', 'webhook', $post);
+		}
 	}
 
 }
