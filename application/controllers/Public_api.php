@@ -62,7 +62,7 @@ class Public_api extends CI_Controller {
 
 	    	$data = json_encode($data);
 	    	echo $data;
-			mail('ventas.nd.fm@gmail.com', 'webhook', $data);
+			// mail('ventas.nd.fm@gmail.com', 'webhook', $data);
 	    	return $data;
 		}
 	}
