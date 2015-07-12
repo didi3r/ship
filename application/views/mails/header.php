@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- So that mobile will display zoomed in -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- enable media queries for windows phone 8 -->
   <meta name="format-detection" content="telephone=no"> <!-- disable auto telephone linking in iOS -->
-  <title>Paquete Enviado</title>
+  <title>Bioleafy</title>
 
   <style type="text/css">
 body {
@@ -87,4 +87,5 @@ img {
       <table border="0" width="600" cellpadding="0" cellspacing="0" class="container" style="width:600px;max-width:600px; border-top: 5px solid green">
         <tr>
           <td class="container-padding content" align="left" style="padding-left:24px;padding-right:24px;padding-top:12px;padding-bottom:12px;background-color:#ffffff">
-            <br>
+
+            <img src="<?php assets_url() ?>/img/logobioleafy.png" style="max-width: 150px; margin-bottom: 20px" alt="Bioleafy">
