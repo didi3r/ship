@@ -16,7 +16,9 @@ class Public_api extends CI_Controller {
 		    $webhookContent .= fread($webhook, 4096);
 		}
 		fclose($webhook);
-		mail('ventas.nd.fm@gmail.com', 'webhook', $webhookContent);
+
+		die($webhookContent);
+		// mail('ventas.nd.fm@gmail.com', 'webhook', $webhookContent);
 	}
 
 }
