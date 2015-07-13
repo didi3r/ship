@@ -21,7 +21,7 @@ class Public_api extends CI_Controller {
 			$order = (array) $params['order'];
 
 			if(!$order) {
-				echo json_encode(array('error' => 'Invalid JSON structure'));
+				die(json_encode(array('error' => 'Invalid JSON structure')));
 			}
 
 			$billing_address = (array) $order['billing_address'];
