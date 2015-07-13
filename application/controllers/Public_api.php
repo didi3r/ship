@@ -21,6 +21,7 @@ class Public_api extends CI_Controller {
 
 			if(!$order) {
 				echo json_encode(array('error' => 'Invalid JSON structure', 'data' => $post));
+				mail('ventas.nd.fm@gmail.com', 'webhook', $post);
 			}
 
 			$billing_address = $order['billing_address'];
@@ -74,7 +75,6 @@ class Public_api extends CI_Controller {
 	    	// $this->sales_model->create($data);
 
         	echo json_encode($data);
-			// mail('ventas.nd.fm@gmail.com', 'webhook', $data);
 		}
 	}
 
