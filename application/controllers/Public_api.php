@@ -12,10 +12,16 @@ class Public_api extends CI_Controller {
 		$post = file_get_contents("php://input");
 
 		if($post) {
+	    	header('Content-Type: application/json');
+
 			$post = html_entity_decode(preg_replace("/u([0-9A-F]{4})/i", "&#x\\1;", $post), ENT_NOQUOTES, 'UTF-8');
 			$params = (array) json_decode($post);
 
 			$order = (array) $params['order'];
+
+			if(!$order) {
+				echo json_encode(array('error' => 'Invalid JSON structure', 'data' => $post));
+			}
 
 			$billing_address = $order['billing_address'];
 			if(!is_array($billing_address)) $billing_address = (array) $billing_address;
@@ -64,13 +70,11 @@ class Public_api extends CI_Controller {
 		    $data['payment']['commission'] = 0;
 		    $data['payment']['rawMaterial'] = 0;
 
-	    	$this->load->model('sales_model');
-	    	$this->sales_model->create($data);
+	    	// $this->load->model('sales_model');
+	    	// $this->sales_model->create($data);
 
-	    	$data = json_encode($data);
-	    	echo $data;
+        	echo json_encode($data);
 			// mail('ventas.nd.fm@gmail.com', 'webhook', $data);
-	    	return $data;
 		}
 	}
 
