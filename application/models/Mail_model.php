@@ -23,9 +23,11 @@ class Mail_model extends CI_Model {
 
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
 		curl_setopt($ch, CURLOPT_URL, 'https://api.mailgun.net/v3/'.DOMAIN.'/messages');
-		curl_setopt($ch, CURLOPT_POSTFIELDS, array('from' => 'soporte@'.DOMAIN,
+		curl_setopt($ch, CURLOPT_POSTFIELDS, array(
+			'from' => 'VENTAS ND <postmaster@'.DOMAIN.'>',
+			'h:Reply-To' => 'VENTAS ND <ventas.nd.fm@gmail.com>',
 			'to' => $to,
-			'subject' => $subject,
+			'subject' => '[Bioleafy]' . $subject,
 			'html' => $message,
 			'text' => $plain));
 
