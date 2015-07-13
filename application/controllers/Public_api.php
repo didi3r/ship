@@ -10,6 +10,7 @@ class Public_api extends CI_Controller {
 	public function webhook()
 	{
 		$post = file_get_contents("php://input");
+		$post = str_replace('\\', '', $post);
 
 		if($post) {
 	    	header('Content-Type: application/json');
@@ -20,25 +21,22 @@ class Public_api extends CI_Controller {
 			$order = (array) $params['order'];
 
 			if(!$order) {
-				echo json_encode(array('error' => 'Invalid JSON structure', 'data' => $post));
-				mail('ventas.nd.fm@gmail.com', 'webhook', $post);
+				echo json_encode(array('error' => 'Invalid JSON structure'));
 			}
 
-			$billing_address = $order['billing_address'];
-			if(!is_array($billing_address)) $billing_address = (array) $billing_address;
+			$billing_address = (array) $order['billing_address'];
 
 			$order['total_shipping'] = (float) $order['total_shipping'];
 			$order['subtotal'] = (float) $order['subtotal'];
-			$order['total_discount'] = (float) $order['total_shipping'];
+			$order['total_discount'] = (float) $order['total_discount'];
 
 			$package = array();
 			foreach ($order['line_items'] as $product) {
-				if(!is_array($product)) $product = (array) $product;
+				$product = (array) $product;
 				$package[] = $product['quantity'] . ' ' . $product['name'];
 			}
 
-			$shipping_address = $order['shipping_address'];
-			if(!is_array($shipping_address)) $shipping_address = (array) $shipping_address;
+			$shipping_address = (array) $order['shipping_address'];
 			$address = $shipping_address['address_1'] . "\r\n";
 			$address .= $shipping_address['address_2'] . "\r\n";
 			$address .= $shipping_address['city'] . ', ' . $shipping_address['state'] . "\r\n";
@@ -58,8 +56,8 @@ class Public_api extends CI_Controller {
 		        'email' => $billing_address['email'],
 		        'phone' => $billing_address['phone'],
 		        'package' => $package,
-		        'split_earnings' => true,
-		        'from_inversions' => false,
+		        'split_earnings' => 1,
+		        'from_inversions' => 0,
 	    	);
 
 	    	$data['delivery']['addressee'] = $shipping_address['first_name'] . ' ' . $shipping_address['last_name'];
@@ -71,8 +69,8 @@ class Public_api extends CI_Controller {
 		    $data['payment']['commission'] = 0;
 		    $data['payment']['rawMaterial'] = 0;
 
-	    	// $this->load->model('sales_model');
-	    	// $this->sales_model->create($data);
+	    	$this->load->model('sales_model');
+	    	$this->sales_model->create($data);
 
         	echo json_encode($data);
 		}
