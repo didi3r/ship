@@ -108,15 +108,13 @@
 
                         </div>
 
+                        <?php if($this->authentication->is_admin()) : ?>
                         <div class="col-xs-12 col-md-6" ng-cloak ng-hide="splitTransfers.length == 0">
                             <h4>Dividendo</h4>
 
                             <div class="well well-sm">
-                                <?php if($this->authentication->is_admin()) : ?>
                                 Dividendo: <span class="green">{{totalSplittings | currency}}</span> <br>
                                 Gastos: <span class="red">-{{expensesSplittings | currency}}</span> <br>
-                                <?php endif; ?>
-                                <?php if(!$this->authentication->is_admin()) : ?><br><?php endif; ?>
                                 Transferido: <span class="red">-{{transferedSplittings | currency}}</span> <br>
                                 <strong>Por Transferir: <span class="green">{{pendingSplittings | currency}}</span> <br></strong>
                             </div>
@@ -151,10 +149,15 @@
                             </div>
 
                         </div>
+                        <?php endif; ?>
+
+                    <?php if($this->authentication->is_admin()) : ?>
                     </div>
                     <!-- /.row -->
 
                     <div class="row">
+                    <?php endif; ?>
+
                         <div class="col-xs-12 col-md-6" ng-cloak ng-hide="expensesTransfers.length == 0">
                             <h4>Gastos</h4>
 
@@ -193,7 +196,9 @@
                                 </table>
                             </div>
 
+
                         </div>
+
                     </div>
                     <!-- /.row -->
 
