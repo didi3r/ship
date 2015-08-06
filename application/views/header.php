@@ -63,7 +63,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li>
-                            <a href="<?php echo site_url('login/logout') ?>"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            <a href="<?php echo site_url('login/logout') ?>"><i class="fa fa-sign-out fa-fw"></i> Cerrar Sesión</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
