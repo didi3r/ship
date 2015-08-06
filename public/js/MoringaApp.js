@@ -570,7 +570,7 @@ app.controller('AddSaleCtrl', ['$scope', 'Sale', function ($scope, Sale) {
 	$scope.sale.payment.total = 0;
 	$scope.sale.payment.commission = 0;
 	$scope.sale.payment.rawMaterial = 0;
-    $scope.sale.split_earnings = true;
+    $scope.sale.split_earnings = false;
     $scope.sale.from_inversions = false;
 
     $scope.$watchGroup(
