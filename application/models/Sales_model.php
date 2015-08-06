@@ -88,7 +88,7 @@ class Sales_model extends CI_Model {
 	{
 		$this->db->select("id, date, name, raw_material AS total");
 		$this->db->where('from_inversions', true);
-		$this->db->where("(status = 'Finalizado' OR status = 'En Camino')");
+		$this->db->where("(status = 'Finalizado' OR status = 'En Camino' OR status = 'Enviando')");
 		$query = $this->db->get('sales');
 
 		return $query->result();
@@ -460,7 +460,7 @@ class Sales_model extends CI_Model {
 
     public function get_earnings_details($startDate, $endDate)
     {
-    	$this->db->where("(status = 'En Camino' || status = 'Finalizado')");
+    	$this->db->where("(status = 'Enviando' || status = 'En Camino' || status = 'Finalizado')");
     	$this->db->where('date >=', $startDate);
         $this->db->where('date <=', $endDate);
         $query = $this->db->get('sales');

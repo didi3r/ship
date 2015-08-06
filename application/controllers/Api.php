@@ -51,7 +51,7 @@ class Api extends CI_Controller {
 
     public function history($startDate, $endDate)
 	{
-		$output = $this->sales_model->get_all(0, 0, 'date', true, $startDate, $endDate, 'Finalizado,En Camino');
+		$output = $this->sales_model->get_all(0, 0, 'date', true, $startDate, $endDate, 'Finalizado,En Camino,Enviando');
 		$output['total_rows'] = count($output['response']);
 
 		header('Content-Type: application/json');
