@@ -89,5 +89,5 @@ img {
           <td class="container-padding content" align="left" style="padding-left:24px;padding-right:24px;padding-top:12px;padding-bottom:12px;background-color:#ffffff">
 
             <a href="http://moringa-michoacana.com.mx">
-              <img src="<?php assets_url() ?>/img/logobioleafy.png" style="max-width: 150px; margin-bottom: 20px" alt="Bioleafy">
+              <img src="<?php assets_url() ?>img/logo.png" style="max-width: 150px; margin-bottom: 20px" alt="Bioleafy">
             </a>
