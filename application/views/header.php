@@ -51,7 +51,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Bioleafy - Gestión de Ventas</a>
+                <a class="navbar-brand" href="index.html">
+                    <img src="<?php assets_url() ?>img/logobioleafy_small.png" style="max-width: 100px" alt="Bioleafy">
+                </a>
             </div>
             <!-- /.navbar-header -->
 
