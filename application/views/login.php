@@ -54,7 +54,7 @@
                                     </label>
                                 </div>
 -->
-                                <input type="hidden" name="url" value="<?php echo $url ?>">
+                                <input type="hidden" name="url" value="<?php echo sanitise_url($url); ?>">
                                 <!-- Change this to a button or input when using this as a form -->
                                 <button type="submit" class="btn btn-lg btn-primary btn-block">
                                     Iniciar Sesión

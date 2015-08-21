@@ -14,4 +14,11 @@ if ( ! function_exists('asset_url()'))
 	{
 		echo isset($var) ? $var : '';
 	}
+
+	function sanitise_url($url, $encode = false) {
+	    $url = filter_var(urldecode($url), FILTER_SANITIZE_SPECIAL_CHARS);
+	    if (! filter_var($url, FILTER_VALIDATE_URL))
+	        return false;
+	    return $encode ? urlencode($url) : $url;
+	}
 }
