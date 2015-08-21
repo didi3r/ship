@@ -1,3 +1,12 @@
+            <br>
+            <p style="text-align: center">
+              ¡Visita nuestra tienda en línea! <br>
+              <span style="font-size: 14px">
+                <a href="http://moringa-michoacana.com.mx">
+                  www.moringa-michoacana.com.mx
+                </a>
+              </span>
+            </p>
           </td>
         </tr>
         <?php if(isset($why) && $why) : ?>

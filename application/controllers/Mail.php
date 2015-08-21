@@ -35,10 +35,10 @@ class Mail extends CI_Controller {
 	// 	$this->load->view('mails/admin/shipped');
 	// }
 
-	// public function customer_details()
-	// {
-	// 	$this->load->view('mails/customer/sale_details');
-	// }
+	public function customer_details()
+	{
+		$this->load->view('mails/customer/sale_details');
+	}
 
 	// public function customer_shipped()
 	// {
