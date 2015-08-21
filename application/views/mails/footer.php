@@ -1,7 +1,7 @@
             <br>
-            <p style="text-align: center">
+            <p style="text-align: center; font-family:Helvetica, Arial, sans-serif;font-size:12px;line-height:16px;color:#aaaaaa;">
               ¡Visita nuestra tienda en línea! <br>
-              <span style="font-size: 14px">
+              <span style="font-size: 16px">
                 <a href="http://moringa-michoacana.com.mx">
                   www.moringa-michoacana.com.mx
                 </a>
