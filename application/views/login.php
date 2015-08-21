@@ -33,6 +33,9 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
+                        <p class="text-center">
+                            <img src="<?php assets_url() ?>img/logobioleafy_small.png" style="max-width: 150px; margin-bottom: 20px" alt="Bioleafy">
+                        </p>
                         <h3 class="panel-title text-center">Ingresar al Panel de Control</h3>
                     </div>
                     <div class="panel-body">
