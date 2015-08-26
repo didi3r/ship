@@ -5,7 +5,7 @@
 
 <div class="body-text" style="font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:20px;text-align:left;color:#333333">
 
-<p>Hola,<br>En Bioleafy seguimos creciento para brindarte un mejor servicio, por eso estamos muy contentos de anunciarte el lanzamiento de nuestra nueva tienda en línea <a href="www.moringa-michoacana.com.mx" target="_blank">www.moringa-michoacana.com.mx</a> donde podrás adquirir nuestros productos facilmente con la calidad que tu ya conoces.</p>
+<p>En Bioleafy seguimos creciento para brindarte un mejor servicio, por eso estamos muy contentos de anunciarte el lanzamiento de nuestra nueva tienda en línea <a href="www.moringa-michoacana.com.mx" target="_blank">www.moringa-michoacana.com.mx</a> donde podrás adquirir nuestros productos facilmente con la calidad que tu ya conoces.</p>
 
 <p>Además, para celebrar, te regalamos un cupón de <strong>10% de descuento</strong> sobre el total de tu orden en tu primera compra en nuestra tienda. ¡Aprovecha! utiliza el siguiente cúpon en Tu Carrito antes de Finalizar la Compra y obten tu descuento:</p>
 
