@@ -84,7 +84,7 @@ img {
       <br>
 
       <!-- 600px container (white background) -->
-      <table border="0" width="600" cellpadding="0" cellspacing="0" class="container" style="width:600px;max-width:600px; border-top: 5px solid green">
+      <table border="0" width="600" cellpadding="0" cellspacing="0" class="container" style="width:600px;max-width:600px; border-top: 5px solid #71A866">
         <tr>
           <td class="container-padding content" align="left" style="padding-left:24px;padding-right:24px;padding-top:12px;padding-bottom:12px;background-color:#ffffff">
 

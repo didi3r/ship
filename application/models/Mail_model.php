@@ -27,7 +27,7 @@ class Mail_model extends CI_Model {
 			'from' => 'VENTAS ND <postmaster@'.DOMAIN.'>',
 			'h:Reply-To' => 'VENTAS ND <ventas.nd.fm@gmail.com>',
 			'to' => $to,
-			'subject' => '[Bioleafy]' . $subject,
+			'subject' => '[Bioleafy] ' . $subject,
 			'html' => $message,
 			'text' => $plain));
 
@@ -120,6 +120,14 @@ class Mail_model extends CI_Model {
 		$msg = $this->load->view('mails/customer/ended', '', true);
 		$this->send($sale['email'], $subject, $msg);
 		// $this->send_to_admin($subject, $msg);
+	}
+
+	public function launch_mail()
+	{
+		$subject = '10% de Descuento en Moringa Michoacana';
+		$msg = $this->load->view('mails/customer/launch', '', true);
+		// $this->send('ventas.nd.fm@gmail.com', $subject, $msg);
+		$this->send_to_admin($subject, $msg);
 	}
 
 }

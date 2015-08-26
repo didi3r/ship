@@ -54,12 +54,13 @@ class Login extends CI_Controller {
         redirect('login');
     }
 
-//    public function create_users()
-//    {
-//        $this->authentication->create_user('ventas.nd.fm@gmail.com', 'dorian066');
-//        $this->authentication->create_user('ddr2002@prodigy.net.mx', 'abc123!');
-//        echo 'Usuarios creados exitosamente';
-//    }
+   public function create_users()
+   {
+       // $this->authentication->create_user('ventas.nd.fm@gmail.com', 'dorian066');
+       // $this->authentication->create_user('ddr2002@prodigy.net.mx', 'abc123!');
+       $this->authentication->create_user('test@test.com', 'test123');
+       echo 'Usuarios creados exitosamente';
+   }
 
 
 }
