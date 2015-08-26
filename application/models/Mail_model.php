@@ -126,7 +126,7 @@ class Mail_model extends CI_Model {
 	{
 		$subject = '10% de Descuento en Moringa Michoacana';
 		$msg = $this->load->view('mails/customer/launch', '', true);
-		$this->send('customers@moringa-michoacana.com.mx', $subject, $msg);
+		// $this->send('customers@moringa-michoacana.com.mx', $subject, $msg);
 		// $this->send_to_admin($subject, $msg);
 	}
 
