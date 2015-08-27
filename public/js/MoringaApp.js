@@ -405,6 +405,7 @@ app.controller('DashboardCtrl', ['$scope', '$http', function ($scope, $http) {
     // Montly Chart
     $scope.monthChart = {};
     $scope.monthChart.labels = [];
+    $scope.monthChart.series = ['Ventas']
     $scope.monthChart.data = [];
 
     // Total Sales Chrat
@@ -428,7 +429,7 @@ app.controller('DashboardCtrl', ['$scope', '$http', function ($scope, $http) {
             $scope.historyChart.data[1] = data.sales_last_week.sales;
 
             $scope.monthChart.labels = data.sales_this_month.dates;
-            $scope.monthChart.data = data.sales_this_month.sales;
+            $scope.monthChart.data[0] = data.sales_this_month.sales;
 
             $scope.salesChart.data = [data.total_ended, data.total_cancelled];
 
