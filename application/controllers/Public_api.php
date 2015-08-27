@@ -42,7 +42,14 @@ class Public_api extends CI_Controller {
 			foreach ($order['line_items'] as $product) {
 				$product = (array) $product;
 				$package[] = $product['quantity'] . ' ' . $product['name'];
-				$raw_material += 0;
+				if(isset($product['meta'])) {
+					$meta = (array) $product['meta'];
+					foreach ($meta as $item) {
+						if($item['label'] == 'raw_material_cost') {
+							$raw_material += (float) $item['value'];
+						}
+					}
+				}
 			}
 
 			$shipping_address = (array) $order['shipping_address'];
