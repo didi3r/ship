@@ -58,8 +58,9 @@ class Public_api extends CI_Controller {
 				$courier = 'Correos de México';
 			}
 
+			date_default_timezone_set('America/Mexico_City');
 			$data = array(
-		        'date' => $order['created_at'],
+		        'date' => date('Y-m-d', strtotime($order['created_at'])),
 		        'name' => $billing_address['first_name'] . ' ' . $billing_address['last_name'],
 		        'user' => null,
 		        'email' => $billing_address['email'],
@@ -84,7 +85,6 @@ class Public_api extends CI_Controller {
         	echo json_encode($data);
 		}
 	}
-
 }
 
 /* End of file Public_api.php */
