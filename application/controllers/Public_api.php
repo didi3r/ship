@@ -45,6 +45,7 @@ class Public_api extends CI_Controller {
 				if(isset($product['meta'])) {
 					$meta = (array) $product['meta'];
 					foreach ($meta as $item) {
+						$item = (array) $item;
 						if($item['label'] == 'raw_material_cost') {
 							$raw_material += (float) $item['value'];
 						}
