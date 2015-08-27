@@ -66,7 +66,7 @@ class Public_api extends CI_Controller {
 		        'email' => $billing_address['email'],
 		        'phone' => $billing_address['phone'],
 		        'package' => $package,
-		        'split_earnings' => 1,
+		        'split_earnings' => 0,
 		        'from_inversions' => 0,
 	    	);
 
