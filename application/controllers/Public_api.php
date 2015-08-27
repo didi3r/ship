@@ -24,16 +24,25 @@ class Public_api extends CI_Controller {
 				die(json_encode(array('error' => 'Invalid JSON structure')));
 			}
 
+
 			$billing_address = (array) $order['billing_address'];
 
 			$order['total_shipping'] = (float) $order['total_shipping'];
 			$order['subtotal'] = (float) $order['subtotal'];
 			$order['total_discount'] = (float) $order['total_discount'];
 
+			$payment_details = (array) $order['payment_details'];
+			$commission = 0;
+			if($payment_details['method_id'] == 'paypal') {
+				$commission = (($order['subtotal'] - $order['total_discount']) * 0.04) + 4;
+			}
+
 			$package = array();
+			$raw_material = 0;
 			foreach ($order['line_items'] as $product) {
 				$product = (array) $product;
 				$package[] = $product['quantity'] . ' ' . $product['name'];
+				$raw_material += 0;
 			}
 
 			$shipping_address = (array) $order['shipping_address'];
@@ -66,8 +75,8 @@ class Public_api extends CI_Controller {
 		    $data['delivery']['courier'] = $courier;
 		    $data['delivery']['cost'] = $order['total_shipping'];
 		    $data['payment']['total'] = $order['subtotal'] - $order['total_discount'];
-		    $data['payment']['commission'] = 0;
-		    $data['payment']['rawMaterial'] = 0;
+		    $data['payment']['commission'] = $commission;
+		    $data['payment']['rawMaterial'] = $raw_material;
 
 	    	$this->load->model('sales_model');
 	    	$this->sales_model->create($data);
