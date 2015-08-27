@@ -402,10 +402,10 @@ app.controller('DashboardCtrl', ['$scope', '$http', function ($scope, $http) {
     ];
     $scope.historyChart.data = [];
 
-    // History Chart
-    $scope.historyChart = {};
-    $scope.historyChart.labels = [];
-    $scope.historyChart.data = [];
+    // Montly Chart
+    $scope.monthChart = {};
+    $scope.monthChart.labels = [];
+    $scope.monthChart.data = [];
 
     // Total Sales Chrat
     $scope.salesChart = {};
