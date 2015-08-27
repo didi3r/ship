@@ -402,6 +402,11 @@ app.controller('DashboardCtrl', ['$scope', '$http', function ($scope, $http) {
     ];
     $scope.historyChart.data = [];
 
+    // History Chart
+    $scope.historyChart = {};
+    $scope.historyChart.labels = [];
+    $scope.historyChart.data = [];
+
     // Total Sales Chrat
     $scope.salesChart = {};
     $scope.salesChart.labels = ['Finalizadas', 'Canceladas'];
@@ -421,6 +426,9 @@ app.controller('DashboardCtrl', ['$scope', '$http', function ($scope, $http) {
 
             $scope.historyChart.data[0] = data.sales_this_week.sales;
             $scope.historyChart.data[1] = data.sales_last_week.sales;
+
+            $scope.monthChart.labels[0] = data.sales_last_month.dates;
+            $scope.monthChart.data[0] = data.sales_last_month.sales;
 
             $scope.salesChart.data = [data.total_ended, data.total_cancelled];
 

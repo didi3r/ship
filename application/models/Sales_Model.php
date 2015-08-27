@@ -420,6 +420,43 @@ class Sales_model extends CI_Model {
         return $output;
     }
 
+    public function get_sales_this_month($status = null, $per_day = false)
+    {
+    	date_default_timezone_set('America/Mexico_City');
+
+    	$start = date('Y-m-01');
+        $end = date('Y-m-t');
+
+        if($per_day) {
+            $dates = array();
+            while($start <= $end) {
+                $dates[] = $start;
+                $start = date('Y-m-d', strtotime($start . ' + 1 days'));;
+            }
+
+            $output = array();
+            foreach($dates as $day) {
+                $this->db->where('date', $day);
+                if($status) {
+                    $this->db->where('status', $status);
+                }
+                $output['dates'][] = $day;
+                $output['sales'][] = $this->db->count_all_results('sales');
+            }
+
+        } else {
+            $this->db->from('sales');
+            $this->db->where('date >=', $start);
+            $this->db->where('date <=', $end);
+            if($status) {
+                $this->db->where('status', $status);
+            }
+            $output = $this->db->count_all_results();
+        }
+
+        return $output;
+    }
+
     public function get_most_active_customers($limit = 5)
     {
         $sql = "

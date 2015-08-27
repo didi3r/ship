@@ -20,6 +20,7 @@ class Api extends CI_Controller {
         $output['sales_this_week'] = $this->sales_model->get_sales_this_week(null, true);
         $output['sales_last_week'] = $this->sales_model->get_sales_last_week(null, true);
         $output['total_sales_this_week'] = $this->sales_model->get_sales_this_week();
+        $output['sales_this_month'] = $this->sales_model->get_sales_this_moth(null, true);
         $output['total_pending_shipments'] = $this->sales_model->get_total_sales('Enviando');
 
         $output['most_active_buyers'] = $this->sales_model->get_most_active_customers();

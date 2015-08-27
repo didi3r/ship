@@ -120,6 +120,24 @@
                 </div>
                 <!-- /.panel -->
 
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-bar-chart-o fa-fw"></i> Ventas por mes
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <canvas id="line2" class="chart chart-line"
+                            data="monthChart.data"
+                            labels="monthChart.labels"
+                            legend="true"
+                            click="onClick">
+                        </canvas>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+
             </div>
             <!-- /.col-lg-8 -->
             <div class="col-lg-4">
