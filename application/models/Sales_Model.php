@@ -440,7 +440,7 @@ class Sales_model extends CI_Model {
                 if($status) {
                     $this->db->where('status', $status);
                 }
-                $output['dates'][] = $day;
+                $output['dates'][] = date('d', strtotime($day));
                 $output['sales'][] = $this->db->count_all_results('sales');
             }
 

@@ -129,7 +129,8 @@
                     <div class="panel-body">
                         <canvas id="line2" class="chart chart-line"
                             data="monthChart.data"
-                            labels="monthChart.labels">
+                            labels="monthChart.labels"
+                            legend="true">
                         </canvas>
                     </div>
                     <!-- /.panel-body -->
