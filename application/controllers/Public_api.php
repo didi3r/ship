@@ -34,7 +34,7 @@ class Public_api extends CI_Controller {
 			$payment_details = (array) $order['payment_details'];
 			$commission = 0;
 			if($payment_details['method_id'] == 'paypal') {
-				$commission = (($order['subtotal'] - $order['total_discount']) * 0.04) + 4;
+				$commission = (float) ((($order['subtotal'] - $order['total_discount']) * 0.0395) + 4) * 1.16;
 			}
 
 			$package = array();
