@@ -139,7 +139,8 @@ class Transfers_model extends CI_Model {
 
         $output['expenses'] = (float) $query->row()->total ? $query->row()->total * 0.30 : 0;
 
-        $output['pending'] = $output['total'] - $output['expenses'] - $output['transfered'];
+        $pending = $output['total'] - $output['expenses'] - $output['transfered'];
+        $output['pending'] = $pending > 0 ? $pending : 0;
 
         return $output;
     }
