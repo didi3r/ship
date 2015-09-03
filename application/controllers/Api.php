@@ -33,13 +33,7 @@ class Api extends CI_Controller {
 	{
 		if($page <= 0) $page = 1;
 		$offset = ($page - 1) * $limit;
-		// $desc = true;
 
-		// if($order == '-date') {
-		// 	$desc = true;
-		// } else {
-		// 	$desc = false;
-		// }
 		$status = $status ? urldecode($status) : '';
 		$courier = $courier ? urldecode($courier) : '';
 		$search = $search ? urldecode($search) : '';
