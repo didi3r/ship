@@ -41,8 +41,6 @@ class Public_api extends CI_Controller {
 				die(json_encode(array('error' => 'Invalid JSON structure')));
 			}
 
-			$wc_id = $order['order_number'];
-
 			$billing_address = (array) $order['billing_address'];
 
 			$order['total_shipping'] = (float) $order['total_shipping'];
@@ -86,7 +84,7 @@ class Public_api extends CI_Controller {
 
 			date_default_timezone_set('America/Mexico_City');
 			$data = array(
-				'wc_id' => $wc_id,
+				'wc_id' => $order['order_number'],
 		        'date' => date('Y-m-d', strtotime($order['created_at'])),
 		        'name' => $billing_address['first_name'] . ' ' . $billing_address['last_name'],
 		        'user' => null,

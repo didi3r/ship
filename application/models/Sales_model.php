@@ -105,7 +105,6 @@ class Sales_model extends CI_Model {
 	public function create($sale)
     {
     	$data = array(
-    		'wc_id' => $sale['wc_id'],
 	        'date' => $sale['date'],
 	        'name' => $sale['name'],
 	        'user' => $sale['user'],
@@ -123,6 +122,10 @@ class Sales_model extends CI_Model {
 	        'split_earnings' => $sale['split_earnings'],
 	        'from_inversions' => $sale['from_inversions'],
     	);
+
+    	if($sale['wc_id']) {
+    		$data['wc_id'] = $sale['wc_id'];
+    	}
 
         if($this->db->insert('sales', $data)) {
             return $this->get($this->db->insert_id());

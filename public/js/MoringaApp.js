@@ -281,7 +281,7 @@ app.directive('ngTruncate', function(){
         link: function($scope, $element, $attrs) {
             $element.empty();
 
-            if($scope.text.length > $scope.limit) {
+            if($scope.text !== null && $scope.text.length > $scope.limit) {
                 $element.append($scope.text.substr(0, $scope.limit-1) + '&hellip;');
                 $element.append(
                     '<i class="fa fa-info-circle"' +
