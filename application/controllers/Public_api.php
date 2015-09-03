@@ -7,13 +7,30 @@ class Public_api extends CI_Controller {
 		parent::__construct();
 	}
 
-	public function webhook()
+	public function webhook($action = '')
+	{
+    	header('Content-Type: application/json');
+		switch ($action) {
+			case 'order_create':
+				$this->create_order();
+				break;
+
+			case 'order_update':
+				# code...
+				break;
+
+			default:
+				die(json_encode(array('message' => 'Welcome to bioleafy\'s webhook')));
+				break;
+		}
+	}
+
+	private function create_order()
 	{
 		$post = file_get_contents("php://input");
 		$post = str_replace('\\', '', $post);
 
 		if($post) {
-	    	header('Content-Type: application/json');
 
 			$post = html_entity_decode(preg_replace("/u([0-9A-F]{4})/i", "&#x\\1;", $post), ENT_NOQUOTES, 'UTF-8');
 			$params = (array) json_decode($post);
@@ -24,6 +41,7 @@ class Public_api extends CI_Controller {
 				die(json_encode(array('error' => 'Invalid JSON structure')));
 			}
 
+			$wc_id = $order['order_number'];
 
 			$billing_address = (array) $order['billing_address'];
 
@@ -68,6 +86,7 @@ class Public_api extends CI_Controller {
 
 			date_default_timezone_set('America/Mexico_City');
 			$data = array(
+				'wc_id' => $wc_id,
 		        'date' => date('Y-m-d', strtotime($order['created_at'])),
 		        'name' => $billing_address['first_name'] . ' ' . $billing_address['last_name'],
 		        'user' => null,
@@ -91,7 +110,10 @@ class Public_api extends CI_Controller {
 	    	$this->sales_model->create($data);
 
         	echo json_encode($data);
+		} else {
+			die(json_encode(array('error' => 'No data received')));
 		}
+
 	}
 }
 

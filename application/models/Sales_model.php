@@ -105,6 +105,7 @@ class Sales_model extends CI_Model {
 	public function create($sale)
     {
     	$data = array(
+    		'wc_id' => $sale['wc_id'],
 	        'date' => $sale['date'],
 	        'name' => $sale['name'],
 	        'user' => $sale['user'],
