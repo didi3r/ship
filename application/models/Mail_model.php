@@ -122,8 +122,8 @@ class Mail_model extends CI_Model {
 
 		$subject = '¡Fue un placer atenderte!';
 		$msg = $this->load->view('mails/customer/ended', $data, true);
-		// $this->send($sale['email'], $subject, $msg);
-		$this->send_to_admin($subject, $msg);
+		$this->send($sale['email'], $subject, $msg);
+		// $this->send_to_admin($subject, $msg);
 	}
 
 	public function launch_mail()

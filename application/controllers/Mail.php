@@ -18,11 +18,11 @@ class Mail extends CI_Controller {
 	// 	$this->mail_model->notify_shipment(99);
 	// }
 
-	public function ended()
-	{
-		$this->load->model('mail_model');
-		$this->mail_model->notify_ended(202);
-	}
+	// public function ended()
+	// {
+	// 	$this->load->model('mail_model');
+	// 	$this->mail_model->notify_ended(202);
+	// }
 
 	// public function payment()
 	// {

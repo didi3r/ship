@@ -6,7 +6,7 @@
 
 <p>Esperamos que el producto que recibiste sea lo que esperabas, cada día nos esforzamos por ofrecerte un servicio y productos de calidad.</p>
 
-<p>Recuerda que si en un futuro deseas adquirir alguno de nuestros productos puedes ingresa a nuestra <a href="http://moringa-michoacana.com.mx">tienda en línea</a>, o  bien, mandandonos un correo electrónico a la dirección: <a href="mailto:ventas.nd.fm@gmail.com">ventas.nd.fm@gmail.com</a>.</p>
+<p>Recuerda que si en un futuro deseas adquirir alguno de nuestros productos puedes ingresar a nuestra <a href="http://moringa-michoacana.com.mx">tienda en línea</a>, o  bien, mandarnos un correo electrónico a la dirección: <a href="mailto:ventas.nd.fm@gmail.com">ventas.nd.fm@gmail.com</a>.</p>
 
 <?php if(isset($is_mercado_libre) && $is_mercado_libre) : ?>
 <p>Si nos compraste mediante MercadoLibre ayúdanos a seguir brindado un buen servicio y crecer, tu calificación es muy importante para nosotros, <strong>¡califícanos!</strong>.</p>
