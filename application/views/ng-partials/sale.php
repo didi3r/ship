@@ -91,6 +91,8 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     (<span ng-truncate="sale.user" ng-truncate-limit="15"></span>)
                 </div>
+                <br>
+                <i class="fa fa-phone"></i> {{sale.phone}}
                 <div ng-show="sale.email">
                     <br>
                     <i class="fa fa-envelope-o"></i> <span ng-truncate="sale.email" ng-truncate-limit="23"></span>
