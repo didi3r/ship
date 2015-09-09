@@ -70,6 +70,7 @@ class Mail_model extends CI_Model {
 		$this->load->model('sales_model');
 		$sale = $this->sales_model->get($sale_id);
 
+
 		$data = array(
 			'id' => $sale['id'],
 			'name' => $sale['name'],
@@ -84,7 +85,10 @@ class Mail_model extends CI_Model {
 
 		$subject = 'Detalles de tu envío';
 		$msg = $this->load->view('mails/customer/sale_details', $data, true);
-		$this->send($sale['email'], $subject, $msg);
+
+		if($this->sale_has_email($sale)) {
+			$this->send($sale['email'], $subject, $msg);
+		}
 		// $this->send_to_admin($subject, $msg);
 	}
 
@@ -101,10 +105,12 @@ class Mail_model extends CI_Model {
 			'package' => implode(',', $sale['package'])
 		);
 
-		$subject = '¡Tu paquete ha sido enviado!';
-		$msg = $this->load->view('mails/customer/shipped', $data, true);
-		$this->send($sale['email'], $subject, $msg);
-		// $this->send_to_admin($subject, $msg);
+		if($this->sale_has_email($sale)) {
+			$subject = '¡Tu paquete ha sido enviado!';
+			$msg = $this->load->view('mails/customer/shipped', $data, true);
+			$this->send($sale['email'], $subject, $msg);
+			// $this->send_to_admin($subject, $msg);
+		}
 
 		$subject = 'Paquete #' . $sale['id'] . ' enviado';
 		$msg = $this->load->view('mails/admin/shipped', $data, true);
@@ -122,16 +128,23 @@ class Mail_model extends CI_Model {
 
 		$subject = '¡Fue un placer atenderte!';
 		$msg = $this->load->view('mails/customer/ended', $data, true);
-		$this->send($sale['email'], $subject, $msg);
+
+		if($this->sale_has_email($sale)) {
+			$this->send($sale['email'], $subject, $msg);
+		}
 		// $this->send_to_admin($subject, $msg);
 	}
 
-	public function launch_mail()
-	{
-		$subject = '10% de Descuento en Moringa Michoacana';
-		$msg = $this->load->view('mails/customer/launch', '', true);
-		// $this->send('customers@moringa-michoacana.com.mx', $subject, $msg);
-		// $this->send_to_admin($subject, $msg);
+	// public function launch_mail()
+	// {
+	// 	$subject = '10% de Descuento en Moringa Michoacana';
+	// 	$msg = $this->load->view('mails/customer/launch', '', true);
+	// 	// $this->send('customers@moringa-michoacana.com.mx', $subject, $msg);
+	// 	// $this->send_to_admin($subject, $msg);
+	// }
+
+	private function sale_has_email($sale) {
+		return isset($sale['email']) && $sale['email'] && $sale['email'] != '';
 	}
 
 }
