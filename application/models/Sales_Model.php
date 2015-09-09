@@ -506,6 +506,11 @@ class Sales_model extends CI_Model {
         $sales = array();
         foreach ($query->result() as $row) {
         	$subtotal = $row->total - $row->commission;
+
+        	if($row->courier == 'Correos de México') {
+        		$subtotal += $row->shipping_cost;
+        	}
+
         	if(!$row->from_inversions) {
         		$subtotal -= $row->raw_material;
         	}
