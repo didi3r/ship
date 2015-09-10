@@ -136,9 +136,7 @@
                 <strong class="total">Total: {{(sale.payment.total -- sale.delivery.cost) | currency}}</strong> <br>
                 <small>Pedido: {{sale.payment.total | currency}} </small><br>
                 <small>Envío: {{sale.delivery.cost | currency}} </small><br>
-
-                <br>
-                <small><strong>Ganancia: {{(sale.payment.total - (sale.from_inversions ? 0 : sale.payment.rawMaterial) - sale.payment.commission) * (sale.split_earnings ? 0.70 : 1)  | currency}}</strong></small><br>
+                <small><strong>Ganancia: {{(sale.payment.total - (sale.from_inversions ? 0 : sale.payment.rawMaterial) - sale.payment.commission) * (sale.split_earnings ? 0.70 : 1)  | currency}}</strong></small>
 
                 <i class="fa fa-info-circle payment-breakdown"
                 data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="

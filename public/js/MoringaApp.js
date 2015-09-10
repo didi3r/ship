@@ -28,7 +28,10 @@ app.directive('shipment', function(){
 app.directive('sale', function(){
     return {
         restrict: 'E',
-        templateUrl: 'application/views/ng-partials/sale.php'
+        templateUrl: 'application/views/ng-partials/sale.php',
+        link: function($scope, $element, $attrs) {
+            $('[data-toggle="popover"]').popover();
+        }
     };
 });
 
@@ -687,7 +690,6 @@ app.controller('SalesListCtrl', ['$scope', '$http', 'Sale', function ($scope, $h
             $scope.isThereError = true;
         }).finally(function() {
             $scope.isLoading = false;
-            $('[data-toggle="popover"]').popover();
         });
     };
 
