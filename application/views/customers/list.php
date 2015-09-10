@@ -32,7 +32,7 @@
 
                     <spinner ng-show="isLoading"></spinner>
 
-                    <div class="table-responsive">
+                    <div class="table-responsive" ng-cloak ng-show="!isLoading">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -43,7 +43,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="customers in customer">
+                                <tr ng-repeat="customer in customers">
                                     <td>
                                         <strong>{{customer.name}}</strong> <br>
                                         {{customer.email}} <br>
