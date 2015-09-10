@@ -40,7 +40,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="customer in customers | | filter: search">
+                                <tr ng-repeat="customer in customers | filter: search">
                                     <td>
                                         <strong>{{customer.name}}</strong> <br>
                                         <a href="mailto:{{customer.email}}">{{customer.email}}</a> <br>
