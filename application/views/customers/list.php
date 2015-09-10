@@ -12,10 +12,7 @@
                         <div class="navbar-form ">
                             <div class="form-group">
                                 <label for="search">Buscar:</label>
-                                <input type="text" name="search" placeholder="Buscar" class="form-control" ng-model="search.text">
-
-
-                                <button class="btn btn-primary" ng-click="getSalesCollection(search)">Buscar</button>
+                                <input type="text" name="search" placeholder="Buscar" class="form-control" ng-model="search.$">
                             </div>
                         </div>
                     </div>
@@ -43,7 +40,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="customer in customers">
+                                <tr ng-repeat="customer in customers | | filter: search">
                                     <td>
                                         <strong>{{customer.name}}</strong> <br>
                                         <a href="mailto:{{customer.email}}">{{customer.email}}</a> <br>

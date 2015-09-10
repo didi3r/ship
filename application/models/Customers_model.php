@@ -18,13 +18,7 @@ class Customers_model extends CI_Model {
         ";
         $query = $this->db->query($sql);
 
-        $output = $query->result();
-        foreach ($output as &$row) {
-        	$row = (array) $row;
-        	$row['address'] = nl2br($row['address']);
-        }
-
-        return $output;
+        return $query->result();
 	}
 }
 
