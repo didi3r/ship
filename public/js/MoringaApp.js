@@ -562,7 +562,7 @@ app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http)
 }]);
 
 
-app.controller('ShipmentsTrackingCtrl', ['$scope', '$http', function ($scope, $http) {
+app.controller('TrackablesCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.result_limit = 10;
     $scope.current_page = 1;
     $scope.total_pages = 1;
