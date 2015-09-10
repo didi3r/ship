@@ -13,7 +13,7 @@ class Customers_model extends CI_Model {
 		$sql = "
             SELECT
             	*,
-            	GROUP_CONCAT(address SEPARATOR '\n\n')
+            	GROUP_CONCAT(address SEPARATOR '\n\n'),
             	COUNT(*) AS purchases,
             	SUM(total) AS total
             FROM sales
