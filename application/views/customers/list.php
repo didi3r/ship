@@ -49,7 +49,10 @@
                                         <a href="mailto:{{customer.email}}">{{customer.email}}</a> <br>
                                         {{customer.phone}}
                                     </td>
-                                    <td ng-bind-html-unsafe="customer.address"></td>
+                                    <td>
+                                        <div ng-bind-html-unsafe="customer.address">
+                                        </div>
+                                    </td>
                                     <td>{{customer.has_rx}}</td>
                                     <td>{{customer.purchases}}</td>
                                 </tr>
