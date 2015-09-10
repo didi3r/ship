@@ -50,7 +50,7 @@
                                     <td style="white-space: pre-line">{{customer.address}}</td>
                                     <td>{{customer.has_rx}}</td>
                                     <td>{{customer.purchases}}</td>
-                                    <td>{{customer.total}}</td>
+                                    <td>{{customer.total | currency}}</td>
                                 </tr>
                             </tbody>
                         </table>
