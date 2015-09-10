@@ -133,17 +133,23 @@
                 </ul>
             </div>
             <div class="col-xs-12 col-lg-3">
-                <strong class="total">Total: {{(sale.payment.total + sale.delivery.cost) | currency}}</strong> <br>
+                <strong class="total">Total: {{(sale.payment.total -- sale.delivery.cost) | currency}}</strong> <br>
                 <small>Pedido: {{sale.payment.total | currency}} </small><br>
                 <small>Envío: {{sale.delivery.cost | currency}} </small><br>
 
                 <br>
-                <small>Comisión: -{{sale.payment.commission | currency}} </small><br>
-                <small>M. Prima: -{{sale.from_inversions ? 0 : sale.payment.rawMaterial | currency}} </small><br>
-                <small>Dividendo: -{{sale.split_earnings ? (sale.payment.total - sale.payment.rawMaterial - sale.payment.commission) * 0.30 : 0 | currency}} </small><br>
                 <small><strong>Ganancia: {{(sale.payment.total - (sale.from_inversions ? 0 : sale.payment.rawMaterial) - sale.payment.commission) * (sale.split_earnings ? 0.70 : 1)  | currency}}</strong></small><br>
 
-                <br>
+                <i class="fa fa-info-circle payment-breakdown"
+                data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="
+                    <small>Pedido: {{sale.payment.total | currency}} </small><br>
+                    <small>Comisión: -{{sale.payment.commission | currency}} </small><br>
+                    <small>M. Prima: -{{sale.from_inversions ? 0 : sale.payment.rawMaterial | currency}} </small><br>
+                    <small>Dividendo: -{{sale.split_earnings ? (sale.payment.total - sale.payment.rawMaterial - sale.payment.commission) * 0.30 : 0 | currency}} </small><br>
+                    ">
+                </i>
+
+
                 <div class="payment-status">
                     <i class="fa fa-money"></i>
                     {{sale.payment.status}}
