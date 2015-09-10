@@ -49,7 +49,7 @@
                     <spinner ng-show="isLoading"></spinner>
 
                     <!-- Shipment list -->
-                    <tackable class="shipment" ng-repeat="shipment in shipments | filter: filter" ng-class="{'loading' : isSaleLoading(shipment)}"></tackable>
+                    <trackable class="shipment" ng-repeat="shipment in shipments | filter: filter" ng-class="{'loading' : isSaleLoading(shipment)}"></trackable>
                     <!-- /Shipment list -->
 
                     <div class="pagination" ng-cloak ng-show="total_pages > 1">
