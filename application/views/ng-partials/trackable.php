@@ -7,15 +7,12 @@
         {{shipment.status}}
 
         <span class="buttons">
-            <?php if($this->authentication->is_admin()) : ?>
             <button class="btn btn-xs btn-success"
-                    ng-show="shipment.status == 'En Camino'
-                    && shipment.delivery.status == 'Enviado'"
+                    ng-show="isAdmin"
                     ng-click="markAsEnded(shipment)"
                     ng-disabled="isshipmentLoading(shipment)">
                 <i class="fa fa-check"></i>
             </button>
-            <?php endif; ?>
         </span>
     </div>
     <div class="panel-body">

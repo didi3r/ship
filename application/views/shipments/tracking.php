@@ -6,7 +6,14 @@
             <div class="col-lg-12">
                 <h1 class="page-header">Rastreo de Envíos</h1>
 
-                <div ng-controller="TrackablesCtrl">
+                <div ng-controller="TrackablesCtrl"
+                    <?php if($this->authentication->is_admin()) : ?>
+                    ng-init="isAdmin=true"
+                    <?php else : ?>
+                    ng-init="isAdmin=false"
+                    <?php endif; ?>
+                >
+
                     <!-- Filters -->
                     <div class="navbar navbar-default">
                         <div class="navbar-form ">
