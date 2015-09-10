@@ -1,17 +1,9 @@
 <spinner></spinner>
-<div  class="panel panel-default"
-    ng-class="{
-        'panel-success' : shipment.delivery.status == 'Enviado'
-    }">
+<div  class="panel panel-info">
 
     <div class="panel-heading">
         <i class="fa fa-calendar-o"></i> {{shipment.date | date : 'dd/MMMM/yyyy'}} |
-        <i class="fa"
-            ng-class="{
-                'fa-clock-o' : shipment.delivery.status == 'Pendiente',
-                'fa-check-circle' : shipment.delivery.status == 'Enviado'
-            }">
-        </i>
+        <i class="fa fa-truck"></i>
         {{shipment.delivery.status}}
 
         <span class="buttons">
@@ -27,7 +19,7 @@
     <div class="panel-body">
         <div class="row">
             <!-- Envio -->
-            <div class="info col-xs-12 col-lg-3">
+            <div class="info col-xs-12 col-lg-4">
                 <h4>Detalles del Envío</h4>
                 <div ng-hide="shipment.delivery.addressee" ng-cloak>
                     <i class="fa fa-user"></i> Recibe: {{shipment.name}} <br>
@@ -55,7 +47,7 @@
             </div>
 
             <!-- Paquete -->
-            <div class="package col-xs-12 col-lg-3">
+            <div class="package col-xs-12 col-lg-4">
                 <h4>Paquete</h4>
                 <i class="fa fa-shopping-cart"></i> Contenido del Paquete:
                 <ul>
@@ -66,7 +58,7 @@
 
             </div>
 
-            <div class="package col-xs-12 col-lg-3">
+            <div class="package col-xs-12 col-lg-4">
                 <h4>Rastreo</h4>
                 <i class="fa fa-truck"></i> Paqueteria: {{shipment.delivery.courier}}
 
