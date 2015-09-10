@@ -33,25 +33,25 @@
                     <spinner ng-show="isLoading"></spinner>
 
                     <div class="table-responsive" ng-cloak ng-show="!isLoading">
-                        <table class="table table-bordered">
+                        <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
                                     <th>Dirección</th>
                                     <th>RX</th>
-                                    <th># Compras</th>
+                                    <th>Compras</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="customer in customers">
                                     <td>
                                         <strong>{{customer.name}}</strong> <br>
-                                        {{customer.email}} <br>
+                                        <a href="mailto:{{customer.email}}">{{customer.email}}</a> <br>
                                         {{customer.phone}}
                                     </td>
                                     <td>{{customer.address}}</td>
                                     <td>{{customer.has_rx}}</td>
-                                    <td>{{customer.total_purchases}}</td>
+                                    <td>{{customer.purchases}}</td>
                                 </tr>
                             </tbody>
                         </table>
