@@ -11,10 +11,14 @@ class Customers_model extends CI_Model {
 
 	public function get_customers() {
 		$sql = "
-            SELECT *, COUNT(*) AS purchases
+            SELECT
+            	*,
+            	GROUP_CONCAT(address SEPARATOR '\n\n')
+            	COUNT(*) AS purchases,
+            	SUM(total) AS total
             FROM sales
             WHERE status <> 'Cancelado'
-            GROUP BY address
+            GROUP BY name
             ORDER BY purchases DESC
         ";
         $query = $this->db->query($sql);

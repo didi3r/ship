@@ -37,6 +37,7 @@
                                     <th>Dirección</th>
                                     <th>RX</th>
                                     <th>Compras</th>
+                                    <th>Invertido</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,6 +50,7 @@
                                     <td style="white-space: pre-line">{{customer.address}}</td>
                                     <td>{{customer.has_rx}}</td>
                                     <td>{{customer.purchases}}</td>
+                                    <td>{{customer.total}}</td>
                                 </tr>
                             </tbody>
                         </table>
