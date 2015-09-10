@@ -504,6 +504,15 @@ class Api extends CI_Controller {
 		}
 	}
 
+	public function customers() {
+		$this->load->model('customers_model');
+
+		$output = $this->customers_model->get_customers();
+
+		header('Content-Type: application/json');
+		echo json_encode($output);
+	}
+
 }
 
 /* End of file API.php */

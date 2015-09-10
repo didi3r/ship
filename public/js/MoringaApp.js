@@ -1203,3 +1203,30 @@ app.controller('TransfersCtrl', ['$scope', '$http', function ($scope, $http) {
 
     $scope.getTransfers();
 }]);
+
+app.controller('CustomersListCtrl', ['$scope', '$http', function ($scope, $http) {
+
+    $scope.customers = [];
+    $scope.isLoading = false;
+    $scope.isThereError = false;
+    $scope.saleLoading = null;
+
+    $scope.getCustomers =  function(search) {
+        $scope.isLoading = true;
+        $scope.isThereError = false;
+
+        $http.get('index.php?/api/customers/')
+        .success(function(data) {
+            $scope.customers = data;
+        })
+        .error(function() {
+            $scope.isThereError = true;
+        }).finally(function() {
+            $scope.isLoading = false;
+        });
+    };
+
+
+    // Initial List Population
+    $scope.getCustomers();
+}]);

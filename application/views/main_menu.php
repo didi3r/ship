@@ -5,6 +5,9 @@
             <li>
                 <a href="<?php echo site_url('welcome'); ?>"><i class="fa fa-dashboard fa-fw"></i> Escritorio</a>
             </li>
+            <li>
+                <a href="<?php echo site_url('customers'); ?>"><i class="fa fa-user fa-fw"></i> Clientes</a>
+            </li>
             <?php if($this->authentication->is_admin()) : ?>
             <li>
                 <a href="#"><i class="fa fa-shopping-cart fa-fw"></i> Ventas<span class="fa arrow"></span></a>
