@@ -19,10 +19,17 @@ app.config(['$provide', function($provide) {
 }]);
 
 app.directive('shipment', function(){
-	return {
-		restrict: 'E',
-		templateUrl: 'application/views/ng-partials/shipment.php'
-	};
+    return {
+        restrict: 'E',
+        templateUrl: 'application/views/ng-partials/shipment.php'
+    };
+});
+
+app.directive('trackable', function(){
+    return {
+        restrict: 'E',
+        templateUrl: 'application/views/ng-partials/trackable.php'
+    };
 });
 
 app.directive('sale', function(){
@@ -548,6 +555,80 @@ app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http)
         finally(function () {
             $scope.saleLoading = null;
         });
+    };
+
+    // Initial List Population
+    $scope.getSalesCollection();
+}]);
+
+
+app.controller('ShipmentsTrackingCtrl', ['$scope', '$http', function ($scope, $http) {
+    $scope.result_limit = 10;
+    $scope.current_page = 1;
+    $scope.total_pages = 1;
+    $scope.total_rows = 0;
+
+    $scope.orderBy = '-date';
+    $scope.shipments = [];
+    $scope.isLoading = false;
+    $scope.isThereError = false;
+    $scope.saleLoading = null;
+
+    $scope.getSalesCollection =  function() {
+        $scope.shipments = [];
+        $scope.isLoading = true;
+        $scope.isThereError = false;
+
+        $http.get('index.php?/api/trackables/' + $scope.current_page + '/' + $scope.result_limit)
+        .success(function(data) {
+            $scope.shipments = data.response;
+            $scope.total_rows = data.total_rows;
+            $scope.total_pages = Math.ceil(data.total_rows / $scope.result_limit);
+        })
+        .error(function() {
+            $scope.isThereError = true;
+        }).finally(function() {
+            $scope.isLoading = false;
+        });
+    };
+
+    $scope.getPagesNumber = function() {
+        return new Array($scope.total_pages);
+    }
+
+    $scope.nextPage = function() {
+        $scope.current_page = $scope.current_page >= $scope.total_pages ? $scope.total_pages : $scope.current_page += 1;
+        $scope.getSalesCollection();
+    };
+
+    $scope.prevPage = function() {
+        $scope.current_page = $scope.current_page <= 1 ? 1 : $scope.current_page -= 1;
+        $scope.getSalesCollection();
+    };
+
+    $scope.goToPage = function(number) {
+        if(number <= $scope.total_pages && number >= 1) {
+            $scope.current_page = number;
+        }
+        $scope.getSalesCollection();
+    };
+
+    $scope.isSaleLoading = function(sale) {
+        return $scope.saleLoading === sale;
+    };
+
+    $scope.checkDeliveryStatus = function(sale) {
+        if(sale.status == 'En Camino' && sale.delivery.trackCode) {
+            var url;
+            if(sale.delivery.courier == 'Estafeta') {
+                url ='index.php?/api/estafeta_status/' + sale.delivery.trackCode
+            } else {
+                url = 'index.php?/api/sepomex_status/' + sale.delivery.trackCode
+            }
+            $http.get(url).success(function(data) {
+                sale.deliveryStatus = data;
+            });
+        }
     };
 
     // Initial List Population

@@ -14,6 +14,11 @@ class Shipments extends CI_Controller {
 	{
 		$this->load->view('shipments/list');
 	}
+
+	public function tracking()
+	{
+		$this->load->view('shipments/tracking');
+	}
 }
 
 /* End of file Shipmentsphp */

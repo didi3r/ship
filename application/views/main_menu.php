@@ -20,7 +20,16 @@
             </li>
             <?php endif; ?>
             <li>
-                <a href="<?php echo site_url('shipments'); ?>"><i class="fa fa-truck fa-fw"></i> Envíos</a>
+                <a href="#"><i class="fa fa-truck fa-fw"></i> Envíos<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="<?php echo site_url('shipments'); ?>">Lista de Envíos</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo site_url('shipments/tracking'); ?>">Rastreo de Envíos</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
             </li>
             <li>
                 <a href="#"><i class="fa fa-line-chart fa-fw"></i> Finanzas<span class="fa arrow"></span></a>

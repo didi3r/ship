@@ -234,6 +234,17 @@ class Api extends CI_Controller {
 		echo json_encode($output);
 	}
 
+	public function trackables($page, $limit)
+	{
+		if($page <= 0) $page = 1;
+		$offset = ($page - 1) * $limit;
+
+		$output = $this->sales_model->get_all($limit, $offset, 'status,date', true, null, null, 'En Camino');
+
+		header('Content-Type: application/json');
+		echo json_encode($output);
+	}
+
 	public function mark_as_paid()
 	{
 		$post = file_get_contents("php://input");
