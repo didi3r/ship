@@ -13,6 +13,7 @@ class Customers_model extends CI_Model {
 		$sql = "
             SELECT *, COUNT(*) AS purchases
             FROM sales
+            WHERE status <> 'Cancelado'
             GROUP BY address
             ORDER BY purchases DESC
         ";
