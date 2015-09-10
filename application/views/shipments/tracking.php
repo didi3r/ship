@@ -16,9 +16,9 @@
 
 
                                 <label for="courierFilter">Paquetería: </label>
-                                <select name="courierFilter" class="form-control" ng-model="filter.courier">
+                                <select name="courierFilter" class="form-control" ng-model="filter.delivery.courier">
                                     <option value="">Cualquiera</option>
-                                    <option value="Estfeta">Estfeta</option>
+                                    <option value="Estfeta">Estafeta</option>
                                     <option value="Correos de México">Correos de México</option>
                                 </select>
                             </div>

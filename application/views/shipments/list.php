@@ -15,17 +15,16 @@
                                 <input type="text" name="search" placeholder="Buscar" class="form-control" ng-model="filter.$">
 
                                 <label for="statusFilter">Estado: </label>
-                                <select name="statusFilter" class="form-control" ng-model="filter.status">
+                                <select name="statusFilter" class="form-control" ng-model="filter.delivery.status">
                                     <option value="">Todos</option>
                                     <option value="Pendiente">Pendientes</option>
                                     <option value="Enviado">Enviados</option>
-                                    <option value="Cancelado">Cancelados</option>
                                 </select>
 
                                 <label for="courierFilter">Paquetería: </label>
-                                <select name="courierFilter" class="form-control" ng-model="filter.courier">
+                                <select name="courierFilter" class="form-control" ng-model="filter.delivery.courier">
                                     <option value="">Cualquiera</option>
-                                    <option value="Estfeta">Estfeta</option>
+                                    <option value="Estafeta">Estafeta</option>
                                     <option value="Correos de México">Correos de México</option>
                                 </select>
                             </div>

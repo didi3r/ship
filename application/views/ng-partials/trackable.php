@@ -4,7 +4,7 @@
     <div class="panel-heading">
         <i class="fa fa-calendar-o"></i> {{shipment.date | date : 'dd/MMMM/yyyy'}} |
         <i class="fa fa-truck"></i>
-        {{shipment.delivery.status}}
+        {{shipment.status}}
 
         <span class="buttons">
             <button class="btn btn-xs btn-success"
