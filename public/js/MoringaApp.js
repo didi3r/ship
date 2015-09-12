@@ -623,14 +623,25 @@ app.controller('TrackablesCtrl', ['$scope', '$http', function ($scope, $http) {
             if(sale.delivery.courier == 'Estafeta') {
                 url ='http://tweetweb.com.mx/?action=tracking&code=' + sale.delivery.trackCode
             } else {
-                url = 'index.php?/api/sepomex_status/' + sale.delivery.trackCode
+                url = 'http://www.17track.net/r/handlertrack.ashx?num=' + sale.delivery.trackCode
             }
             $http.get(url).success(function(data) {
                 if(sale.delivery.courier == 'Estafeta') {
                     sale.deliveryStatus = data.estatus;
                 } else {
-                    sale.deliveryStatus = data;
+                    if(data.dat.e == 40) {
+                        sale.deliveryStatus = 'Entregado';
+                    }
+
+                    if(data.dat.e == 10) {
+                        sale.deliveryStatus = 'Pendiente en Tránsito';
+                    }
+
+                    if(data.dat.e == 0) {
+                        sale.deliveryStatus = 'No hay información disponible';
+                    }
                 }
+                console.log(data);
             });
         }
     };
