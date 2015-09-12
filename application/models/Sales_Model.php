@@ -568,7 +568,6 @@ class Sales_model extends CI_Model {
     	$this->db->where('wc_id', $wc_id);
     	$query = $this->db->get('sales');
 
-    	echo $wc_id;
     	return count($query->results()) > 0;
     }
 
