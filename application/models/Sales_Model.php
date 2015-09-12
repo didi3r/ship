@@ -564,6 +564,13 @@ class Sales_model extends CI_Model {
         return $output;
     }
 
+    public function check_wc_exists($wc_id) {
+    	$this->db->from('sales');
+    	$this->db->where('wc_id', $wc_id);
+    	die($this->db->count_all_results());
+    	return $this->db->count_all_results() > 0;
+    }
+
 }
 
 /* End of file SalesModel.php */

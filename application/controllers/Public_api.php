@@ -105,7 +105,12 @@ class Public_api extends CI_Controller {
 		    $data['payment']['rawMaterial'] = $raw_material;
 
 	    	$this->load->model('sales_model');
-	    	$this->sales_model->create($data);
+
+	    	if(!$this->sales_model->check_wc_exists($order['order_number'])){
+		    	$this->sales_model->create($data);
+	    	} else {
+	    		$this->sales_model->update($data);
+	    	}
 
         	echo json_encode($data);
 		} else {
