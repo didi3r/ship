@@ -58,6 +58,8 @@ class Mail_model extends CI_Model {
 	            'type' => 'sms',
 	        );
 	    $response = $p->send_message($params);
+
+	    die(print_r($response));
 	}
 
 	public function send($to, $subject, $msg)
