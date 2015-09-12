@@ -5,6 +5,8 @@ class Public_api extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->load->model('sales_model');
 	}
 
 	public function webhook($action = '')
@@ -16,7 +18,7 @@ class Public_api extends CI_Controller {
 				break;
 
 			case 'order_update':
-				# code...
+				$this->update_order();
 				break;
 
 			default:
@@ -104,8 +106,6 @@ class Public_api extends CI_Controller {
 		    $data['payment']['commission'] = $commission;
 		    $data['payment']['rawMaterial'] = $raw_material;
 
-	    	$this->load->model('sales_model');
-
 	    	$sale_id = $this->sales_model->check_wc_exists($order['order_number']);
 	    	if(!$sale_id){
 		    	$this->sales_model->create($data);
@@ -119,6 +119,38 @@ class Public_api extends CI_Controller {
 			die(json_encode(array('error' => 'No data received')));
 		}
 
+	}
+
+	private function create_order()
+	{
+		$post = file_get_contents("php://input");
+		$post = str_replace('\\', '', $post);
+
+		if($post) {
+
+			$post = html_entity_decode(preg_replace("/u([0-9A-F]{4})/i", "&#x\\1;", $post), ENT_NOQUOTES, 'UTF-8');
+			$params = (array) json_decode($post);
+
+			$order = (array) $params['order'];
+
+			if(!$order) {
+				die(json_encode(array('error' => 'Invalid JSON structure')));
+			}
+
+			$sale_id = $this->sales_model->check_wc_exists($order['order_number']);
+
+			if($order['status'] == 'cancelled') {
+				$this->sales_model->update_status($sale_id, 'Cancelado');
+			}
+
+			$payment_details = (array) $order['payment_details'];
+			if($payment_details['paid']) {
+				$this->sales_model->update_status($sale_id, 'Pagado');
+
+				$this->load->model('mail_model');
+				$this->mail_model->notify_payment($sale_id);
+			}
+		}
 	}
 }
 
