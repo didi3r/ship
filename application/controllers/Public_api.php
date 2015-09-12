@@ -110,7 +110,7 @@ class Public_api extends CI_Controller {
 	    	if(!$sale_id){
 		    	$this->sales_model->create($data);
 	    	} else {
-	    		$data['sale_id'] = $sale_id;
+	    		$data['id'] = $sale_id;
 	    		$this->sales_model->update($data);
 	    	}
 
