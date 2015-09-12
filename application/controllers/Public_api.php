@@ -148,7 +148,7 @@ class Public_api extends CI_Controller {
 				$this->sales_model->update_status($sale_id, 'Pagado');
 
 				$this->load->model('mail_model');
-				// $this->mail_model->notify_payment($sale_id);
+				$this->mail_model->notify_payment($sale_id);
 			}
 		}
 

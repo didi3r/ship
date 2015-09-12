@@ -51,6 +51,12 @@ class Mail extends CI_Controller {
 	// 	$this->load->view('mails/customer/ended');
 	// }
 
+
+	public function sms() {
+		$this->load->model('mail_model');
+		$this->mail_model->sms();
+	}
+
 }
 
 /* End of file Mail.php */

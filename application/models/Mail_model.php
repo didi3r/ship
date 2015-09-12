@@ -44,6 +44,22 @@ class Mail_model extends CI_Model {
 		return $j;
 	}
 
+	private function plivo($to, $msg) {
+		require_once APPPATH.'third_party/plivo.php';
+
+		$auth_id = "MAZGQ2M2FHMJYYZMM4MW";
+	    $auth_token = "YzFmNDc2NDUxMGViOTRmNWU0NmViMWJkOWIzNTU3";
+	    $p = new RestAPI($auth_id, $auth_token);
+	    // Send a message
+	    $params = array(
+	            'src' => '4433365183',
+	            'dst' => $to,
+	            'text' => $msg,
+	            'type' => 'sms',
+	        );
+	    $response = $p->send_message($params);
+	}
+
 	public function send($to, $subject, $msg)
 	{
 		// $headers = "From: Ventas ND <robot@moringa-michoacana.com.mx>\r\n";
@@ -145,6 +161,10 @@ class Mail_model extends CI_Model {
 
 	private function sale_has_email($sale) {
 		return isset($sale['email']) && $sale['email'] && $sale['email'] != '';
+	}
+
+	public function sms() {
+		$this->plivo('5214431454951', 'Esta semana aprovecha 10% de Descuento en Moringa Michoacana');
 	}
 
 }

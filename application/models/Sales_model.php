@@ -575,6 +575,17 @@ class Sales_model extends CI_Model {
 		return null;
     }
 
+    public function get_wc_id($id) {
+    	$this->db->where('id', $id);
+    	$query = $this->db->get('sales');
+
+    	if ($query->num_rows() > 0) {
+		   return $query->row()->wc_id;
+		}
+
+		return null;
+    }
+
 }
 
 /* End of file SalesModel.php */

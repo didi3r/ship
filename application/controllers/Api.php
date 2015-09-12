@@ -259,6 +259,11 @@ class Api extends CI_Controller {
 		$this->load->model('mail_model');
 		$this->mail_model->notify_payment($params->id);
 
+		// $wc_id = $this->sales_model->get_wc_id($params->id);
+		// if($wc_id) {
+		// 	$this->woocommerce_model->mark_as_paid($wc_id);
+		// }
+
 		header('Content-Type: application/json');
 		echo json_encode($output);
 	}
@@ -322,6 +327,13 @@ class Api extends CI_Controller {
 		$this->load->model('mail_model');
 		$this->mail_model->notify_shipment($params->id);
 
+		// Update order in woocommerce
+		$this->load->model('woocommerce_model');
+		$wc_id = $this->sales_model->get_wc_id($params->id);
+		if($wc_id) {
+			$this->woocommerce_model->mark_as_finished($wc_id);
+		}
+
 		header('Content-Type: application/json');
 		echo json_encode($output);
 	}
@@ -354,6 +366,7 @@ class Api extends CI_Controller {
 
 		$this->load->model('mail_model');
 		$this->mail_model->notify_ended($params->id);
+
 
 		header('Content-Type: application/json');
 		echo json_encode($output);
@@ -511,6 +524,15 @@ class Api extends CI_Controller {
 
 		header('Content-Type: application/json');
 		echo json_encode($output);
+	}
+
+	public function woocommerce($sale_id) {
+		$this->load->model('woocommerce_model');
+
+		$wc_id = $this->sales_model->get_wc_id($sale_id);
+		if($wc_id) {
+			$this->woocommerce_model->mark_as_finished($wc_id);
+		}
 	}
 
 }
