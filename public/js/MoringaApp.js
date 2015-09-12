@@ -621,12 +621,16 @@ app.controller('TrackablesCtrl', ['$scope', '$http', function ($scope, $http) {
         if(sale.status == 'En Camino' && sale.delivery.trackCode) {
             var url;
             if(sale.delivery.courier == 'Estafeta') {
-                url ='index.php?/api/estafeta_status/' + sale.delivery.trackCode
+                url ='http://tweetweb.com.mx/?action=tracking&code=' + sale.delivery.trackCode
             } else {
                 url = 'index.php?/api/sepomex_status/' + sale.delivery.trackCode
             }
             $http.get(url).success(function(data) {
-                sale.deliveryStatus = data;
+                if(sale.delivery.courier == 'Estafeta') {
+                    sale.deliveryStatus = data.estatus;
+                } else {
+                    sale.deliveryStatus = data;
+                }
             });
         }
     };
