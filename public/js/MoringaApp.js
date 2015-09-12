@@ -621,29 +621,40 @@ app.controller('TrackablesCtrl', ['$scope', '$http', function ($scope, $http) {
         if(sale.status == 'En Camino' && sale.delivery.trackCode) {
             var url;
             if(sale.delivery.courier == 'Estafeta') {
-                url ='http://tweetweb.com.mx/?action=tracking&code=' + sale.delivery.trackCode
+                url ='http://tweetweb.com.mx/estafeta.php?action=tracking&code=' + sale.delivery.trackCode
             } else {
-                url = 'http://www.17track.net/r/handlertrack.ashx?num=' + sale.delivery.trackCode
+                url = 'http://tweetweb.com.mx/sepomex.php?action=tracking&code=' + sale.delivery.trackCode
             }
             $http.get(url).success(function(data) {
                 if(sale.delivery.courier == 'Estafeta') {
                     sale.deliveryStatus = data.estatus;
                 } else {
-                    if(data.dat.e == 40) {
-                        sale.deliveryStatus = 'Entregado';
-                    }
-
-                    if(data.dat.e == 10) {
-                        sale.deliveryStatus = 'Pendiente en Tránsito';
-                    }
-
-                    if(data.dat.e == 0) {
-                        sale.deliveryStatus = 'No hay información disponible';
-                    }
+                    sale.deliveryStatus = data.response;
                 }
                 console.log(data);
             });
         }
+    };
+
+    $scope.markAsEnded = function(sale) {
+        $scope.saleLoading = sale;
+
+        $http.post('index.php?/api/mark_as_finished', {id: sale.id})
+        .success(function(data) {
+            if(data.error) {
+                alert(data.error);
+            } else {
+                sale.payment.status = data.payment.status;
+                sale.delivery.status = data.delivery.status;
+                sale.status = data.status;
+            }
+        })
+        .error(function() {
+            alert('Error al tratar de realizar la acción solicitada')
+        }).
+        finally(function () {
+            $scope.saleLoading = null;
+        });
     };
 
     // Initial List Population
