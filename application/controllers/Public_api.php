@@ -121,7 +121,7 @@ class Public_api extends CI_Controller {
 
 	}
 
-	private function create_order()
+	private function update_order()
 	{
 		$post = file_get_contents("php://input");
 		$post = str_replace('\\', '', $post);
@@ -151,6 +151,8 @@ class Public_api extends CI_Controller {
 				$this->mail_model->notify_payment($sale_id);
 			}
 		}
+
+		die(json_encode(array('message' => 'Sale #' . $sale_id . ' updated successfully')));
 	}
 }
 
