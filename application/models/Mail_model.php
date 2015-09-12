@@ -166,7 +166,7 @@ class Mail_model extends CI_Model {
 	}
 
 	public function sms() {
-		$this->plivo('5214431454951', 'Moringa Michoacana. Tu paquete ha sido enviado, tu codigo es: MN531977262MX');
+		// $this->plivo('5214431454951', 'Moringa Michoacana. Tu paquete ha sido enviado, tu codigo es: MN531977262MX');
 		$this->plivo('5214433365183', 'Moringa Michoacana. Tu paquete ha sido enviado, tu codigo es: MN531977262MX');
 	}
 
