@@ -1,19 +1,19 @@
 <?php $this->load->view('mails/header'); ?>
 
-<div class="title" style="font-family:Helvetica, Arial, sans-serif;font-size:18px;font-weight:600;color:#374550">Detalles de tu compra</div>
+<div class="title" style="font-family:Helvetica, Arial, sans-serif;font-size:18px;font-weight:600;color:#374550">Confirmación de Pago</div>
 
 <div class="body-text" style="font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:20px;text-align:left;color:#333333">
 
-<p>Gracias por confiar en nosotros, tu pago ha sido confirmado, empezaremos a procesar y empacar tu pedido. Una vez que tu paquete sea enviado recibirás un segundo correo con tu código de rastreo y las instrucciones para que puedas rastrear tu paquete en línea.<p>
+<p>Gracias por confiar en nosotros, tu pago ha sido confirmado. Empezaremos a procesar tu pedido, una vez que tu paquete sea enviado recibirás un segundo correo con tu código de rastreo y las instrucciones para que puedas rastrear tu paquete en línea.<p>
 
 <p><strong>Tu compra</strong></p>
 </p>A continuación te presentamos un resumen de los detalles de tu compra:</p>
 
 <table style="width:100%;border-spacing:3px;border-collapse:separate;">
-	<tr>
+	<!-- <tr>
 		<td style="width:30%;background-color:#f1f1f1;padding:2px 5px">Número de compra:</td>
 		<td style="width:50%;border:1px solid #ddd;padding:2px 5px">#<?php echo $id ?></td>
-	</tr>
+	</tr> -->
 	<tr>
 		<td style="width:30%;background-color:#f1f1f1;padding:2px 5px">Nombre:</td>
 		<td style="width:50%;border:1px solid #ddd;padding:2px 5px"><?php echo $name ?></td>
@@ -55,12 +55,12 @@
 	</tr>
 </table>
 
-<p><em>*NOTA:</em> Guarde su número de compra para cualquier aclaración y futura referencia.</p>
+<!-- <p><em>*NOTA:</em> Guarde su número de compra para cualquier aclaración y futura referencia.</p> -->
 
 <?php if(isset($address) && !empty($address)) : ?>
 <p><strong>Tu envío</strong></p>
 
-<p>Una vez procesado tu paquete será enviado a:</p>
+<p>Una vez procesado, tu pedido será enviado a:</p>
 
 <table style="width:100%;border-spacing:3px;border-collapse:separate;">
 	<tr>

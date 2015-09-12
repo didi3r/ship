@@ -101,7 +101,7 @@ class Mail_model extends CI_Model {
 			'total' => $sale['delivery']['cost'] + $sale['payment']['total']
 		);
 
-		$subject = 'Detalles de tu envío';
+		$subject = 'Confirmación de Pago';
 		$msg = $this->load->view('mails/customer/sale_details', $data, true);
 
 		if($this->sale_has_email($sale)) {
