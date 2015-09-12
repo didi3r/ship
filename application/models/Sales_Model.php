@@ -567,7 +567,7 @@ class Sales_model extends CI_Model {
     public function check_wc_exists($wc_id) {
     	$this->db->from('sales');
     	$this->db->where('wc_id', $wc_id);
-    	die($this->db->count_all_results());
+    	die($wc_id);
     	return $this->db->count_all_results() > 0;
     }
 
