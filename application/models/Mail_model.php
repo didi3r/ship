@@ -52,7 +52,7 @@ class Mail_model extends CI_Model {
 	    $p = new RestAPI($auth_id, $auth_token);
 	    // Send a message
 	    $params = array(
-	            'src' => '4433365183',
+	            'src' => '5214431454951',
 	            'dst' => $to,
 	            'text' => $msg,
 	            'type' => 'sms',
@@ -164,7 +164,8 @@ class Mail_model extends CI_Model {
 	}
 
 	public function sms() {
-		$this->plivo('5214431454951', 'Esta semana aprovecha 10% de Descuento en Moringa Michoacana');
+		$this->plivo('5214431454951', 'Moringa Michoacana. Tu paquete ha sido enviado, tu codigo es: MN531977262MX');
+		$this->plivo('5214433365183', 'Moringa Michoacana. Tu paquete ha sido enviado, tu codigo es: MN531977262MX');
 	}
 
 }
