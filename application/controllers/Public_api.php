@@ -106,12 +106,11 @@ class Public_api extends CI_Controller {
 
 	    	$this->load->model('sales_model');
 
-	    	if(!$this->sales_model->check_wc_exists($order['order_number'])){
+	    	$sale_id = $this->sales_model->check_wc_exists($order['order_number']);
+	    	if(!$sale_id){
 		    	$this->sales_model->create($data);
-		    	echo 'create';
 	    	} else {
 	    		$this->sales_model->update($data);
-	    		echo 'update';
 	    	}
 
         	echo json_encode($data);
