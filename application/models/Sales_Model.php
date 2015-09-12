@@ -29,7 +29,7 @@ class Sales_model extends CI_Model {
         	foreach ($order_array as $order) {
             	$this->db->order_by($order, $desc ? 'desc' : 'asc');
         	}
-            // $this->db->order_by('id', 'desc');
+            $this->db->order_by('id', 'desc');
         }
 
         if($startDate && $endDate) {
