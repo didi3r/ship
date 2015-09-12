@@ -71,8 +71,8 @@
                     </div>
                     <div ng-show="shipment.deliveryStatus">
                         <i class="fa" ng-class="{
-                            'fa-exclamation-triangle red' : shipment.deliveryStatus == 'No hay información disponible',
-                            'fa-clock-o' : shipment.deliveryStatus == 'Pendiente en Tránsito',
+                            'fa-exclamation-triangle red' : shipment.deliveryStatus == 'No hay información disponible.',
+                            'fa-clock-o' : shipment.deliveryStatus == 'Pendiente en transito',
                             'fa-check green' : shipment.deliveryStatus == 'Entregado'}">
                         </i>
                         {{shipment.deliveryStatus}}
