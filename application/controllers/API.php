@@ -254,7 +254,7 @@ class Api extends CI_Controller {
 			die(json_encode(array('error' => 'Undefined variable: id')));
 		}
 
-		$output = $this->sales_model->update_status($params->id, 'Pagado');
+		$output = $this->sales_model->update_status($params->id, 'Pagado', array('date' => date('Y-m-d')));
 
 		$this->load->model('mail_model');
 		$this->mail_model->notify_payment($params->id);

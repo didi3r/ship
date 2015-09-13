@@ -186,6 +186,7 @@ class Sales_model extends CI_Model {
 					$this->db->update(
 						'sales',
 						array(
+							'payment_date' => $args['date'],
 							'payment_status' => 'Pagado',
 							'status' => 'Pagado'
 						),

@@ -102,6 +102,7 @@ class Public_api extends CI_Controller {
 		    $data['delivery']['address'] = $address;
 		    $data['delivery']['courier'] = $courier;
 		    $data['delivery']['cost'] = $order['total_shipping'];
+		    $data['delivery']['comments'] = $order['note'] ? $order['note'] : null;
 		    $data['payment']['total'] = $order['subtotal'] - $order['total_discount'];
 		    $data['payment']['commission'] = $commission;
 		    $data['payment']['rawMaterial'] = $raw_material;
