@@ -360,6 +360,7 @@ class Sales_model extends CI_Model {
             $output = array();
             foreach($dates as $day) {
                 $this->db->where('date', $day);
+                echo $status;
                 if($status) {
                     $status_array = explode(',', $status);
 					$where = "(";
