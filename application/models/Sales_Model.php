@@ -360,7 +360,6 @@ class Sales_model extends CI_Model {
             $output = array();
             foreach($dates as $day) {
                 $this->db->where('date', $day);
-                echo $status;
                 if($status) {
                     $status_array = explode(',', $status);
 					$where = "(";
@@ -376,8 +375,6 @@ class Sales_model extends CI_Model {
                 $output['dates'][] = $day;
                 $output['sales'][] = $this->db->count_all_results('sales');
             }
-            echo $this->db->last_query();
-
         } else {
             $this->db->from('sales');
             $this->db->where('date >=', $start);
