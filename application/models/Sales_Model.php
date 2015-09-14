@@ -512,11 +512,11 @@ class Sales_model extends CI_Model {
         return $output;
     }
 
-    public function get_sales_this_year($status = null, $per_day = false)
+    public function get_sales_this_year($status = null, $per_month = false)
     {
     	date_default_timezone_set('America/Mexico_City');
 
-        if($per_day) {
+        if($per_month) {
             $output = array();
             for($i = 1; $i <= 12; $i++) {
                 $this->db->where('MONTH(date)', $i);
@@ -533,7 +533,7 @@ class Sales_model extends CI_Model {
 					$where .= ")";
 					$this->db->where($where);
                 }
-                $output['months'][] = date('F', strtotime($i . '/01'));
+                $output['months'][] = $i;
                 $output['sales'][] = $this->db->count_all_results('sales');
             }
 
