@@ -519,8 +519,6 @@ class Sales_model extends CI_Model {
         if($per_month) {
             $output = array();
             for($i = 1; $i <= 12; $i++) {
-                $this->db->where('MONTH(date)', $i);
-                $this->db->where('YEAR(date)', date('Y'));
                 if($status) {
                     $status_array = explode(',', $status);
 					$where = "(";
@@ -531,8 +529,15 @@ class Sales_model extends CI_Model {
 							$where .= " || status = '" . $term . "'";
 					}
 					$where .= ")";
-					$this->db->where($where);
                 }
+
+                $sql = "
+                	SELECT COUNT(*) AS total
+                	FROM sales
+                	WHERE YEAR(date) = '" . date('Y') . "'
+                	AND MONTH(date) = $i
+                ";
+
                 $output['months'][] = date('F', strtotime($i . '/01'));
                 $output['sales'][] = $this->db->count_all_results('sales');
             }
