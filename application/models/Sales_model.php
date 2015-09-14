@@ -518,8 +518,9 @@ class Sales_model extends CI_Model {
 
         if($per_day) {
             $output = array();
-            for($i = 1; i <= 12; $i++) {
+            for($i = 1; $i <= 12; $i++) {
                 $this->db->where('MONTH(date)', $i);
+                $this->db->where('YEAR(date)', date('Y'));
                 if($status) {
                     $status_array = explode(',', $status);
 					$where = "(";
@@ -538,8 +539,7 @@ class Sales_model extends CI_Model {
 
         } else {
             $this->db->from('sales');
-            $this->db->where('date >=', date('Y-m-d', strtotime('01/01')));
-            $this->db->where('date <=', date('Y-m-d', strtotime('12/31')));
+            $this->db->where('YEAR(date)', date('Y');
             if($status) {
                 $status_array = explode(',', $status);
 				$where = "(";
