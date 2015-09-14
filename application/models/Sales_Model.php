@@ -512,6 +512,52 @@ class Sales_model extends CI_Model {
         return $output;
     }
 
+    public function get_sales_this_year($status = null, $per_day = false)
+    {
+    	date_default_timezone_set('America/Mexico_City');
+
+        if($per_day) {
+            $output = array();
+            for($i = 1; i <= 12; $i++) {
+                $this->db->where('MONTH(date)', $i);
+                if($status) {
+                    $status_array = explode(',', $status);
+					$where = "(";
+					foreach ($status_array as $i => $term) {
+						if($i == 0)
+							$where .= "status = '" . $term . "'";
+						else
+							$where .= " || status = '" . $term . "'";
+					}
+					$where .= ")";
+					$this->db->where($where);
+                }
+                $output['months'][] = date('F', strtotime(date('Y') . '-' . $i . '-01'));;
+                $output['sales'][] = $this->db->count_all_results('sales');
+            }
+
+        } else {
+            $this->db->from('sales');
+            $this->db->where('date >=', date('Y-m-d', strtotime('01/01')));
+            $this->db->where('date <=', date('Y-m-d', strtotime('12/31')));
+            if($status) {
+                $status_array = explode(',', $status);
+				$where = "(";
+				foreach ($status_array as $i => $term) {
+					if($i == 0)
+						$where .= "status = '" . $term . "'";
+					else
+						$where .= " || status = '" . $term . "'";
+				}
+				$where .= ")";
+				$this->db->where($where);
+            }
+            $output = $this->db->count_all_results();
+        }
+
+        return $output;
+    }
+
     public function get_most_active_customers($limit = 5)
     {
         $sql = "
