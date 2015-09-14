@@ -361,7 +361,16 @@ class Sales_model extends CI_Model {
             foreach($dates as $day) {
                 $this->db->where('date', $day);
                 if($status) {
-                    $this->db->where('status', $status);
+                    $status_array = explode(',', $status);
+					$where = "(";
+					foreach ($status_array as $i => $term) {
+						if($i == 0)
+							$where .= "status = '" . $term . "'";
+						else
+							$where .= " || status = '" . $term . "'";
+					}
+					$where .= ")";
+					$this->db->where($where);
                 }
                 $output['dates'][] = $day;
                 $output['sales'][] = $this->db->count_all_results('sales');
@@ -372,7 +381,16 @@ class Sales_model extends CI_Model {
             $this->db->where('date >=', $start);
             $this->db->where('date <=', $end);
             if($status) {
-                $this->db->where('status', $status);
+                $status_array = explode(',', $status);
+				$where = "(";
+				foreach ($status_array as $i => $term) {
+					if($i == 0)
+						$where .= "status = '" . $term . "'";
+					else
+						$where .= " || status = '" . $term . "'";
+				}
+				$where .= ")";
+				$this->db->where($where);
             }
             $output = $this->db->count_all_results();
         }
@@ -404,7 +422,16 @@ class Sales_model extends CI_Model {
             foreach($dates as $day) {
                 $this->db->where('date', $day);
                 if($status) {
-                    $this->db->where('status', $status);
+                    $status_array = explode(',', $status);
+					$where = "(";
+					foreach ($status_array as $i => $term) {
+						if($i == 0)
+							$where .= "status = '" . $term . "'";
+						else
+							$where .= " || status = '" . $term . "'";
+					}
+					$where .= ")";
+					$this->db->where($where);
                 }
                 $output['dates'][] = $day;
                 $output['sales'][] = (int) $this->db->count_all_results('sales');
@@ -414,7 +441,16 @@ class Sales_model extends CI_Model {
             $this->db->where('date <=', $start);
             $this->db->where('date >=', $end);
             if($status) {
-                $this->db->where('status', $status);
+                $status_array = explode(',', $status);
+				$where = "(";
+				foreach ($status_array as $i => $term) {
+					if($i == 0)
+						$where .= "status = '" . $term . "'";
+					else
+						$where .= " || status = '" . $term . "'";
+				}
+				$where .= ")";
+				$this->db->where($where);
             }
             $output = (int) $this->db->count_all_results('sales');
         }
@@ -440,7 +476,16 @@ class Sales_model extends CI_Model {
             foreach($dates as $day) {
                 $this->db->where('date', $day);
                 if($status) {
-                    $this->db->where('status', $status);
+                    $status_array = explode(',', $status);
+					$where = "(";
+					foreach ($status_array as $i => $term) {
+						if($i == 0)
+							$where .= "status = '" . $term . "'";
+						else
+							$where .= " || status = '" . $term . "'";
+					}
+					$where .= ")";
+					$this->db->where($where);
                 }
                 $output['dates'][] = date('l d', strtotime($day));
                 $output['sales'][] = $this->db->count_all_results('sales');
@@ -451,7 +496,16 @@ class Sales_model extends CI_Model {
             $this->db->where('date >=', $start);
             $this->db->where('date <=', $end);
             if($status) {
-                $this->db->where('status', $status);
+                $status_array = explode(',', $status);
+				$where = "(";
+				foreach ($status_array as $i => $term) {
+					if($i == 0)
+						$where .= "status = '" . $term . "'";
+					else
+						$where .= " || status = '" . $term . "'";
+				}
+				$where .= ")";
+				$this->db->where($where);
             }
             $output = $this->db->count_all_results();
         }
@@ -464,6 +518,7 @@ class Sales_model extends CI_Model {
         $sql = "
             SELECT name, COUNT(*) AS purchases
             FROM sales
+            WHERE status = 'Finalizado'
             GROUP BY name
             ORDER BY purchases DESC
             LIMIT 0, " . $limit . "
