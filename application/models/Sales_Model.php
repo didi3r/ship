@@ -532,7 +532,7 @@ class Sales_model extends CI_Model {
 					$where .= ")";
 					$this->db->where($where);
                 }
-                $output['months'][] = date('F', strtotime(date('Y') . '-' . $i . '-01'));;
+                $output['months'][] = date('F', strtotime($i . '/01'));
                 $output['sales'][] = $this->db->count_all_results('sales');
             }
 
