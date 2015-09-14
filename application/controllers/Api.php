@@ -15,10 +15,10 @@ class Api extends CI_Controller {
     public function sales_resume()
     {
         $output = array();
+        $output['sales_this_week'] = $this->sales_model->get_sales_this_week($status, true);
         $staus = 'Pagado,Enviando,En Camino, Finalizado';
         $output['total_ended'] = $this->sales_model->get_total_sales('Finalizado');
         $output['total_cancelled'] = $this->sales_model->get_total_sales('Cancelado');
-        $output['sales_this_week'] = $this->sales_model->get_sales_this_week($status, true);
         $output['sales_last_week'] = $this->sales_model->get_sales_last_week($status, true);
         $output['total_sales_this_week'] = $this->sales_model->get_sales_this_week($status);
         $output['sales_this_month'] = $this->sales_model->get_sales_this_month($status, true);

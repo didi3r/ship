@@ -375,6 +375,7 @@ class Sales_model extends CI_Model {
                 $output['dates'][] = $day;
                 $output['sales'][] = $this->db->count_all_results('sales');
             }
+            echo $this->db->last_query();
 
         } else {
             $this->db->from('sales');
