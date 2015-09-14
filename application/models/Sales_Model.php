@@ -538,8 +538,10 @@ class Sales_model extends CI_Model {
                 	AND MONTH(date) = $i
                 ";
 
+                $query = $this->db->query($sql);
+
                 $output['months'][] = date('F', strtotime($i . '/01'));
-                $output['sales'][] = $this->db->count_all_results('sales');
+                $output['sales'][] = $query->row()->total;
             }
 
         } else {
