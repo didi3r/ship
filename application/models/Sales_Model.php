@@ -533,13 +533,13 @@ class Sales_model extends CI_Model {
 					$where .= ")";
 					$this->db->where($where);
                 }
-                $output['months'][] = $i;
+                $output['months'][] = date('F', strtotime($i . '/01'));
                 $output['sales'][] = $this->db->count_all_results('sales');
             }
 
         } else {
             $this->db->from('sales');
-            $this->db->where('YEAR(date)', date('Y');
+            $this->db->where('YEAR(date)', date('Y'));
             if($status) {
                 $status_array = explode(',', $status);
 				$where = "(";
