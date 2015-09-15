@@ -1,5 +1,6 @@
 <spinner></spinner>
-<div  class="panel panel-info">
+<div class="panel panel-info"
+    ng-class="{'panel-success' : shipment.status == 'Finalizado'}">
 
     <div class="panel-heading">
         <i class="fa fa-calendar-o"></i> {{shipment.date | date : 'dd/MMMM/yyyy'}} |
