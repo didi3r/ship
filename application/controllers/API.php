@@ -15,7 +15,7 @@ class Api extends CI_Controller {
     public function sales_resume()
     {
         $output = array();
-        $status = 'Pagado,Enviando,En Camino, Finalizado';
+        $status = 'Pagado,Enviando,En Camino,Finalizado';
         $output['total_ended'] = $this->sales_model->get_total_sales('Finalizado');
         $output['total_cancelled'] = $this->sales_model->get_total_sales('Cancelado');
         $output['sales_this_week'] = $this->sales_model->get_sales_this_week($status, true);
@@ -25,7 +25,7 @@ class Api extends CI_Controller {
         $output['sales_this_year'] = $this->sales_model->get_sales_this_year($status, true);
         $output['total_pending_shipments'] = $this->sales_model->get_total_sales('Enviando');
 
-        $output['most_active_buyers'] = $this->sales_model->get_most_active_customers();
+        $output['most_active_buyers'] = $this->sales_model->get_most_active_customers(10);
 
         header('Content-Type: application/json');
         echo json_encode($output);

@@ -465,6 +465,9 @@ class Sales_model extends CI_Model {
         $end = date('Y-m-t');
 
         if($per_day) {
+        	$en_strings =array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday');
+        	$es_strings =array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes');
+
             $dates = array();
             while($start <= $end) {
                 $dates[] = $start;
@@ -486,7 +489,10 @@ class Sales_model extends CI_Model {
 					$where .= ")";
 					$this->db->where($where);
                 }
-                $output['dates'][] = date('l d', strtotime($day));
+
+                $date_string = date('l d', strtotime($day));
+
+                $output['dates'][] = str_ireplace($en_strings, $es_strings, $date_string);
                 $output['sales'][] = $this->db->count_all_results('sales');
             }
 
@@ -517,13 +523,16 @@ class Sales_model extends CI_Model {
     	date_default_timezone_set('America/Mexico_City');
 
         if($per_month) {
+            $en_strings = array('January', 'February' , 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+            $es_strings = array('Enero', 'Febrero' , 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
+
             $output = array();
             for($i = 1; $i <= 12; $i++) {
                 if($status) {
                     $status_array = explode(',', $status);
 					$where = "(";
-					foreach ($status_array as $i => $term) {
-						if($i == 0)
+					foreach ($status_array as $j => $term) {
+						if($j == 0)
 							$where .= "status = '" . $term . "'";
 						else
 							$where .= " || status = '" . $term . "'";
@@ -537,11 +546,14 @@ class Sales_model extends CI_Model {
                 	WHERE YEAR(date) = '" . date('Y') . "'
                 	AND MONTH(date) = $i
                 ";
+                $sql = $status ? $sql . ' AND ' . $where : $sql;
 
                 $query = $this->db->query($sql);
 
-                $output['months'][] = date('F', strtotime($i . '/01'));
-                $output['sales'][] = $query->row()->total;
+                $month_string = date('F', strtotime(date('Y') . '-' . $i . '-01'));
+
+                $output['months'][] = str_ireplace($en_strings, $es_strings, $month_string);
+                $output['sales'][] = (int) $query->row()->total;
             }
 
         } else {

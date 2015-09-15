@@ -103,7 +103,7 @@
             <div class="col-lg-8">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <i class="fa fa-bar-chart-o fa-fw"></i> Ventas por semana
+                        <i class="fa fa-bar-chart-o fa-fw"></i> Ventas esta semana
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
@@ -123,13 +123,28 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <i class="fa fa-bar-chart-o fa-fw"></i> Ventas por mes
+                        <i class="fa fa-bar-chart-o fa-fw"></i> Ventas este mes
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <canvas id="line2" class="chart chart-line"
                             data="monthChart.data"
                             labels="monthChart.labels">
+                        </canvas>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-bar-chart-o fa-fw"></i> Ventas este año
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <canvas id="line3" class="chart chart-line"
+                            data="yearChart.data"
+                            labels="yearChart.labels">
                         </canvas>
                     </div>
                     <!-- /.panel-body -->

@@ -418,6 +418,12 @@ app.controller('DashboardCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.monthChart.series = ['Ventas']
     $scope.monthChart.data = [];
 
+    // Yearly Chart
+    $scope.yearChart = {};
+    $scope.yearChart.labels = [];
+    $scope.yearChart.series = ['Ventas']
+    $scope.yearChart.data = [];
+
     // Total Sales Chrat
     $scope.salesChart = {};
     $scope.salesChart.labels = ['Finalizadas', 'Canceladas'];
@@ -440,6 +446,9 @@ app.controller('DashboardCtrl', ['$scope', '$http', function ($scope, $http) {
 
             $scope.monthChart.labels = data.sales_this_month.dates;
             $scope.monthChart.data[0] = data.sales_this_month.sales;
+
+            $scope.yearChart.labels = data.sales_this_year.months;
+            $scope.yearChart.data[0] = data.sales_this_year.sales
 
             $scope.salesChart.data = [data.total_ended, data.total_cancelled];
 
