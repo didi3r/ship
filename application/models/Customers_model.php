@@ -18,7 +18,7 @@ class Customers_model extends CI_Model {
             	SUM(total) AS total
             FROM sales
             WHERE status <> 'Cancelado'
-            GROUP BY name
+            GROUP BY UPPER(name)
             ORDER BY purchases DESC
         ";
         $query = $this->db->query($sql);

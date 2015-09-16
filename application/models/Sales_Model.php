@@ -77,7 +77,7 @@ class Sales_model extends CI_Model {
 
         $output['response'] = array();
 		foreach ($query->result() as $row) {
-			$output['response'][] = $this->contruct_hierarchy($row);
+			$output['response'][] = $this->construct_hierarchy($row);
 		}
 
 
@@ -99,7 +99,7 @@ class Sales_model extends CI_Model {
 		$this->db->where('id', $id);
 		$query = $this->db->get('sales');
 
-		return $this->contruct_hierarchy($query->row());
+		return $this->construct_hierarchy($query->row());
 	}
 
 	public function create($sale)
@@ -282,17 +282,20 @@ class Sales_model extends CI_Model {
 		}
 	}
 
-	private function contruct_hierarchy($obj)
+	private function construct_hierarchy($obj)
 	{
 		$array = (array) $obj;
 
+		$array['name'] = ucwords(strtolower($array['name']));
+		$array['address'] = trim(ucwords(strtolower($array['address'])));
+		$array['address'] = preg_replace('/C(\.)?P(\.)?(:)?/i', 'C.P.', $array['address']);
 		$array['package'] = preg_split('/\s*,\s*/', trim($array['package'] ));
         $array['split_earnings'] = (boolean) $array['split_earnings'];
         $array['from_inversions'] = (boolean) $array['from_inversions'];
 
 		$array['delivery'] = array(
-			'addressee' => $array['addressee'],
-			'address' => trim($array['address']),
+			'addressee' => ucwords(strtolower($array['addressee'])),
+			'address' => $array['address'],
 			'phone' => $array['addressee_phone'],
 			'courier' => $array['courier'],
 			'cost' => $array['shipping_cost'],
@@ -583,7 +586,7 @@ class Sales_model extends CI_Model {
             SELECT name, COUNT(*) AS purchases
             FROM sales
             WHERE status = 'Finalizado'
-            GROUP BY name
+            GROUP BY UPPER(name)
             ORDER BY purchases DESC
             LIMIT 0, " . $limit . "
         ";
@@ -604,7 +607,7 @@ class Sales_model extends CI_Model {
         } else {
         	$this->db->limit(5);
         }
-        $this->db->group_by('address');
+        $this->db->group_by('UPPER(address)');
         $this->db->order_by('count(*)', 'desc');
         $query = $this->db->get('sales');
 
