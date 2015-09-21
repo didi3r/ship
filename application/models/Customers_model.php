@@ -22,8 +22,16 @@ class Customers_model extends CI_Model {
             ORDER BY purchases DESC
         ";
         $query = $this->db->query($sql);
+        $output = $query->result();
 
-        return $query->result();
+        foreach ($output as &$row) {
+            $row->name = ucwords(strtolower($row->name));
+            $row->addressee = ucwords(strtolower($row->addressee));
+            $row->address = trim(ucwords(strtolower($row->address)));
+            $row->address = preg_replace('/C(\.)?P(\.)?(:)?/i', 'C.P.', $row->address);
+        }
+
+        return $output;
 	}
 }
 

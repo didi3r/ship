@@ -46,6 +46,14 @@
                                         <strong>{{customer.name}}</strong> <br>
                                         <a href="mailto:{{customer.email}}">{{customer.email}}</a> <br>
                                         {{customer.phone}}
+                                        <div ng-if="customer.addressee">
+                                            <br>
+                                            <small>
+                                                Recibe: <br>
+                                                <strong>{{customer.addressee}}</strong><br>
+                                                {{customer.addressee_phone}}
+                                            </small>
+                                        </div>
                                     </td>
                                     <td style="white-space: pre-line">{{customer.address}}</td>
                                     <td>{{customer.has_rx}}</td>

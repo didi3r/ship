@@ -287,6 +287,7 @@ class Sales_model extends CI_Model {
 		$array = (array) $obj;
 
 		$array['name'] = ucwords(strtolower($array['name']));
+		$array['addressee'] = ucwords(strtolower($array['addressee']));
 		$array['address'] = trim(ucwords(strtolower($array['address'])));
 		$array['address'] = preg_replace('/C(\.)?P(\.)?(:)?/i', 'C.P.', $array['address']);
 		$array['package'] = preg_split('/\s*,\s*/', trim($array['package'] ));

@@ -1,6 +1,9 @@
 <spinner></spinner>
-<div class="panel panel-info"
-    ng-class="{'panel-success' : shipment.status == 'Finalizado'}">
+<div class="panel"
+    ng-class="{
+        'panel-info' : shipment.status == 'En Camino',
+        'panel-success' : shipment.status == 'Finalizado'
+    }">
 
     <div class="panel-heading">
         <i class="fa fa-calendar-o"></i> {{shipment.date | date : 'dd/MMMM/yyyy'}} |
@@ -9,7 +12,7 @@
 
         <span class="buttons">
             <button class="btn btn-xs btn-success"
-                    ng-show="isAdmin"
+                    ng-show="isAdmin && shipment.status != 'Finalizado'"
                     ng-click="markAsEnded(shipment)"
                     ng-disabled="isshipmentLoading(shipment)">
                 <i class="fa fa-check"></i>
