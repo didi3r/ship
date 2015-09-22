@@ -120,19 +120,19 @@ class Notifications_model extends CI_Model {
 		if($this->sale_has_email($sale)) {
 			$subject = '¡Tu paquete ha sido enviado!';
 			$msg = $this->load->view('mails/customer/shipped', $data, true);
-			// $this->mailgun($sale['email'], $subject, $msg);
+			$this->mailgun($sale['email'], $subject, $msg);
 			// $this->send_to_admin($subject, $msg);
 		}
 
 		if($this->sale_sms_notifications($sale)) {
 			$msg = 'Moringa-Michoacana.com.mx: ¡Tu paquete ya esta en camino!. Tu codigo de rastreo es: ?. Cel 4432678843.';
 			$msg = str_replace('?', $data['track_code'], $msg);
-			// $this->plivo($sale['phone'], $msg);
+			$this->plivo($sale['phone'], $msg);
 		}
 
 		$subject = 'Paquete #' . $sale['id'] . ' enviado';
 		$msg = $this->load->view('mails/admin/shipped', $data, true);
-		// $this->send_to_admin($subject, $msg);
+		$this->send_to_admin($subject, $msg);
 	}
 
 	public function notify_ended($sale_id)
