@@ -95,6 +95,7 @@ class Public_api extends CI_Controller {
 		        'package' => $package,
 		        'split_earnings' => 0,
 		        'from_inversions' => 0,
+		        'sms_notifications' => (int) $order['sms_notifications'];
 	    	);
 
 	    	$data['delivery']['addressee'] = $shipping_address['first_name'] . ' ' . $shipping_address['last_name'];
