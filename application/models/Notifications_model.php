@@ -49,7 +49,7 @@ class Notifications_model extends CI_Model {
 
 	private function plivo($to, $msg) {
 		$to = preg_replace('/\D/', '', $to);
-		die($to);
+
 		if(strlen($to) == 10) {
 			require_once APPPATH.'third_party/plivo.php';
 
