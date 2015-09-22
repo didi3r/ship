@@ -98,7 +98,7 @@ class Notifications_model extends CI_Model {
 		}
 
 		if($this->sale_sms_notifications($sale)) {
-			$msg = 'Moringa-Michoacana.com.mx: Tu pago ha sido confirmado. Cuando tu paquete este en camino te enviaremos tu codigo de rastreo. Cel 4432678843.';
+			$msg = 'Moringa-Michoacana.com.mx: Tu pago ha sido confirmado. Cuando tu paquete este en camino te enviaremos tu codigo de rastreo. ¿Dudas? 4432678843';
 			$this->plivo($sale['phone'], $msg);
 		}
 		// $this->send_to_admin($subject, $msg);
@@ -125,8 +125,8 @@ class Notifications_model extends CI_Model {
 		}
 
 		if($this->sale_sms_notifications($sale)) {
-			$msg = 'Moringa-Michoacana.com.mx: ¡Tu paquete ya esta en camino!. Tu codigo de rastreo es: ?. Cel 4432678843.';
-			$msg = str_replace('?', $data['track_code'], $msg);
+			$msg = 'Moringa-Michoacana.com.mx: ¡Tu paquete ya esta en camino!. Tu codigo de rastreo es: *. ¿Dudas? 4432678843';
+			$msg = str_replace('*', $data['track_code'], $msg);
 			$this->plivo($sale['phone'], $msg);
 		}
 
