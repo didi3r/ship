@@ -104,6 +104,16 @@ class Notifications_model extends CI_Model {
 		// $this->send_to_admin($subject, $msg);
 	}
 
+	public function notify_created($sale_id) {
+		$this->load->model('sales_model');
+		$sale = $this->sales_model->get($sale_id);
+
+		if($this->sale_sms_notifications($sale)) {
+			$msg = 'Moringa-Michoacana.com.mx: Tu pedido ha sido registrado. Revisa tu correo para mayor informacion (Revisa el correo no deseado o spam). ¿Dudas? 4432678843';
+			$this->plivo($sale['phone'], $msg);
+		}
+	}
+
 	public function notify_shipment($sale_id)
 	{
 		$this->load->model('sales_model');
