@@ -95,7 +95,7 @@ class Public_api extends CI_Controller {
 		        'package' => $package,
 		        'split_earnings' => 0,
 		        'from_inversions' => 0,
-		        'sms_notifications' => (int) $order['sms_notifications'];
+		        'sms_notifications' => (int) $order['sms_notifications']
 	    	);
 
 	    	$data['delivery']['addressee'] = $shipping_address['first_name'] . ' ' . $shipping_address['last_name'];
@@ -149,8 +149,8 @@ class Public_api extends CI_Controller {
 			if($payment_details['paid']) {
 				$this->sales_model->update_status($sale_id, 'Pagado');
 
-				$this->load->model('mail_model');
-				$this->mail_model->notify_payment($sale_id);
+				$this->load->model('notifications_model');
+				$this->notifications_model->notify_payment($sale_id);
 			}
 		}
 

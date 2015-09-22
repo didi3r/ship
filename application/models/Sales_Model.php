@@ -111,6 +111,7 @@ class Sales_model extends CI_Model {
 	        'user' => $sale['user'],
 	        'email' => $sale['email'],
 	        'phone' => $sale['phone'],
+	        'sms_notifications' => $sale['sms_notifications'],
 	        'package' => implode(',', $sale['package']),
 	        'addressee' => $sale['delivery']['addressee'],
 	        'addressee_phone' => $sale['delivery']['phone'],
@@ -293,6 +294,7 @@ class Sales_model extends CI_Model {
 		$array['package'] = preg_split('/\s*,\s*/', trim($array['package'] ));
         $array['split_earnings'] = (boolean) $array['split_earnings'];
         $array['from_inversions'] = (boolean) $array['from_inversions'];
+        $array['sms_notifications'] = (boolean) $array['sms_notifications'];
 
 		$array['delivery'] = array(
 			'addressee' => ucwords(strtolower($array['addressee'])),
@@ -301,7 +303,7 @@ class Sales_model extends CI_Model {
 			'courier' => $array['courier'],
 			'cost' => $array['shipping_cost'],
 			'date' => $array['shipping_date'],
-			'trackCode' => $array['track_code'],
+			'trackCode' => strtoupper($array['track_code']),
 			'status' => $array['shipping_status'],
 			'comments' => $array['shipping_comments']
 		);

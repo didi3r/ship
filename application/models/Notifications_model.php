@@ -1,9 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-define('DOMAIN', 'moringa-michoacana.com.mx');
+define('MAILGUN_DOMAIN', 'moringa-michoacana.com.mx');
 define('MAILGUN_API', 'key-1c635ed3f984f6760a9af3057813366f');
 
-class Mail_model extends CI_Model {
+define('PLIVO_ID', 'MAZGQ2M2FHMJYYZMM4MW');
+define('PLIVO_TOKEN', 'YzFmNDc2NDUxMGViOTRmNWU0NmViMWJkOWIzNTU3');
+
+class Notifications_model extends CI_Model {
 
 	public function __construct()
 	{
@@ -22,9 +25,9 @@ class Mail_model extends CI_Model {
 		$plain = strip_tags(preg_replace('/\<br(\s*)?\/?\>/i', PHP_EOL, $message));
 
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-		curl_setopt($ch, CURLOPT_URL, 'https://api.mailgun.net/v3/'.DOMAIN.'/messages');
+		curl_setopt($ch, CURLOPT_URL, 'https://api.mailgun.net/v3/'.MAILGUN_DOMAIN.'/messages');
 		curl_setopt($ch, CURLOPT_POSTFIELDS, array(
-			'from' => 'VENTAS ND <postmaster@'.DOMAIN.'>',
+			'from' => 'VENTAS ND <postmaster@'.MAILGUN_DOMAIN.'>',
 			'h:Reply-To' => 'VENTAS ND <ventas.nd.fm@gmail.com>',
 			'to' => $to,
 			'subject' => '[Bioleafy] ' . $subject,
@@ -45,42 +48,28 @@ class Mail_model extends CI_Model {
 	}
 
 	private function plivo($to, $msg) {
-		require_once APPPATH.'third_party/plivo.php';
+		$to = preg_replace('/\D/', '', $to);
 
-		$auth_id = "MAZGQ2M2FHMJYYZMM4MW";
-	    $auth_token = "YzFmNDc2NDUxMGViOTRmNWU0NmViMWJkOWIzNTU3";
-	    $p = new RestAPI($auth_id, $auth_token);
-	    // Send a message
-	    $params = array(
-	            'src' => '5214431454951',
-	            'dst' => $to,
+		if(strlen($to) == 10) {
+			require_once APPPATH.'third_party/plivo.php';
+
+		    $p = new RestAPI(PLIVO_ID, PLIVO_TOKEN);
+		    // Send a message
+		    $params = array(
+	            'src' => '5214432678843',
+	            'dst' => '521' . $to,
 	            'text' => $msg,
 	            'type' => 'sms',
 	        );
-	    $response = $p->send_message($params);
 
-	    die(print_r($response));
-	}
-
-	public function send($to, $subject, $msg)
-	{
-		// $headers = "From: Ventas ND <robot@moringa-michoacana.com.mx>\r\n";
-		// if($to != 'ventas.nd.fm@gmail.com') {
-		// 	$headers .= 'Bcc: ventas.nd.fm@gmail.com' . "\r\n";
-		// }
-		// $headers .= "Reply-To: Ventas ND <ventas.nd.fm@gmail.com>\r\n";
-		// $headers .= "MIME-Version: 1.0\r\n";
-		// $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-
-		// mail($to, $subject, $msg, $headers);
-		$this->mailgun($to, $subject, $msg);
+	    	return $p->send_message($params);
+		}
 	}
 
 	public function send_to_admin($subject, $msg)
 	{
 		$to = 'ventas.nd.fm@gmail.com';
-
-		$this->send($to, $subject, $msg);
+		$this->mailgun($to, $subject, $msg);
 	}
 
 	public function notify_payment($sale_id)
@@ -105,7 +94,12 @@ class Mail_model extends CI_Model {
 		$msg = $this->load->view('mails/customer/sale_details', $data, true);
 
 		if($this->sale_has_email($sale)) {
-			$this->send($sale['email'], $subject, $msg);
+			$this->mailgun($sale['email'], $subject, $msg);
+		}
+
+		if($this->sale_sms_notifications($sale)) {
+			$msg = 'Moringa-Michoacana.com.mx: Tu pago ha sido confirmado. Cuando tu paquete este en camino te enviaremos tu codigo de rastreo. Cel 4432678843.';
+			$this->plivo($sale['phone'], $msg);
 		}
 		// $this->send_to_admin($subject, $msg);
 	}
@@ -126,8 +120,14 @@ class Mail_model extends CI_Model {
 		if($this->sale_has_email($sale)) {
 			$subject = '¡Tu paquete ha sido enviado!';
 			$msg = $this->load->view('mails/customer/shipped', $data, true);
-			$this->send($sale['email'], $subject, $msg);
+			$this->mailgun($sale['email'], $subject, $msg);
 			// $this->send_to_admin($subject, $msg);
+		}
+
+		if($this->sale_sms_notifications($sale)) {
+			$msg = 'Moringa-Michoacana.com.mx: ¡Tu paquete ya esta en camino!. Tu codigo de rastreo es: ?. Cel 4432678843.';
+			$msg = str_replace('?', $data['track_code'], $msg);
+			$this->plivo($sale['phone'], $msg);
 		}
 
 		$subject = 'Paquete #' . $sale['id'] . ' enviado';
@@ -148,21 +148,17 @@ class Mail_model extends CI_Model {
 		$msg = $this->load->view('mails/customer/ended', $data, true);
 
 		if($this->sale_has_email($sale)) {
-			$this->send($sale['email'], $subject, $msg);
+			$this->mailgun($sale['email'], $subject, $msg);
 		}
 		// $this->send_to_admin($subject, $msg);
 	}
 
-	// public function launch_mail()
-	// {
-	// 	$subject = '10% de Descuento en Moringa Michoacana';
-	// 	$msg = $this->load->view('mails/customer/launch', '', true);
-	// 	// $this->send('customers@moringa-michoacana.com.mx', $subject, $msg);
-	// 	// $this->send_to_admin($subject, $msg);
-	// }
-
 	private function sale_has_email($sale) {
 		return isset($sale['email']) && $sale['email'] && $sale['email'] != '';
+	}
+
+	private function sale_sms_notifications($sale) {
+		return $sale['sms_notifications'] && isset($sale['phone']);
 	}
 
 	public function sms() {

@@ -258,8 +258,8 @@ class Api extends CI_Controller {
 
 		$output = $this->sales_model->update_status($params->id, 'Pagado', array('date' => date('Y-m-d')));
 
-		$this->load->model('mail_model');
-		$this->mail_model->notify_payment($params->id);
+		$this->load->model('notifications_model');
+		$this->notifications_model->notify_payment($params->id);
 
 		// $wc_id = $this->sales_model->get_wc_id($params->id);
 		// if($wc_id) {
@@ -326,8 +326,8 @@ class Api extends CI_Controller {
 
 		$output = $this->sales_model->update_status($params->id, 'En Camino', array('delivery_code' => $params->code, 'date' => $params->date));
 
-		$this->load->model('mail_model');
-		$this->mail_model->notify_shipment($params->id);
+		$this->load->model('notifications_model');
+		$this->notifications_model->notify_shipment($params->id);
 
 		// Update order in woocommerce
 		$this->load->model('woocommerce_model');
@@ -366,8 +366,8 @@ class Api extends CI_Controller {
 
 		$output = $this->sales_model->update_status($params->id, 'Finalizado');
 
-		$this->load->model('mail_model');
-		$this->mail_model->notify_ended($params->id);
+		$this->load->model('notifications_model');
+		$this->notifications_model->notify_ended($params->id);
 
 
 		header('Content-Type: application/json');
