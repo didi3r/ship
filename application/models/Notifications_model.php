@@ -49,7 +49,7 @@ class Notifications_model extends CI_Model {
 
 	private function plivo($to, $msg) {
 		$to = preg_replace('/\D/', '', $to);
-
+		die($to);
 		if(strlen($to) == 10) {
 			require_once APPPATH.'third_party/plivo.php';
 
@@ -93,9 +93,9 @@ class Notifications_model extends CI_Model {
 		$subject = 'Confirmación de Pago';
 		$msg = $this->load->view('mails/customer/sale_details', $data, true);
 
-		if($this->sale_has_email($sale)) {
-			$this->mailgun($sale['email'], $subject, $msg);
-		}
+		// if($this->sale_has_email($sale)) {
+		// 	$this->mailgun($sale['email'], $subject, $msg);
+		// }
 
 		if($this->sale_sms_notifications($sale)) {
 			$msg = 'Moringa-Michoacana.com.mx: Tu pago ha sido confirmado. Cuando tu paquete este en camino te enviaremos tu codigo de rastreo. Cel 4432678843.';
