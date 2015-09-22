@@ -327,14 +327,14 @@ class Api extends CI_Controller {
 		$output = $this->sales_model->update_status($params->id, 'En Camino', array('delivery_code' => $params->code, 'date' => $params->date));
 
 		$this->load->model('notifications_model');
-		$this->notifications_model->notify_shipment($params->id);
+		// $this->notifications_model->notify_shipment($params->id);
 
 		// Update order in woocommerce
-		$this->load->model('woocommerce_model');
-		$wc_id = $this->sales_model->get_wc_id($params->id);
-		if($wc_id) {
-			$this->woocommerce_model->mark_as_finished($wc_id);
-		}
+		// $this->load->model('woocommerce_model');
+		// $wc_id = $this->sales_model->get_wc_id($params->id);
+		// if($wc_id) {
+		// 	$this->woocommerce_model->mark_as_finished($wc_id);
+		// }
 
 		header('Content-Type: application/json');
 		echo json_encode($output);
