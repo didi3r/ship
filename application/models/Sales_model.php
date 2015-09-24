@@ -104,6 +104,10 @@ class Sales_model extends CI_Model {
 
 	public function create($sale)
     {
+    	if(!$sale['sms_notifications']) {
+    		$sale['sms_notifications'] = 0;
+    	}
+
     	$data = array(
     		'wc_id' => $sale['wc_id'],
 	        'date' => $sale['date'],
