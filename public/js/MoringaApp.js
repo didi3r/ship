@@ -691,15 +691,18 @@ app.controller('AddSaleCtrl', ['$scope', 'Sale', function ($scope, Sale) {
 	$scope.sale.delivery.addressee = '';
     $scope.sale.delivery.phone = '';
 	$scope.sale.delivery.address = '';
-	$scope.sale.delivery.courier = 'Estafeta';
+    $scope.sale.delivery.courier = 'Estafeta';
+	$scope.sale.delivery.method = 'Terrestre';
 	$scope.sale.delivery.cost = 100;
 
     $scope.sale.payment = {};
+    $scope.sale.payment.method = 'Deposito';
 	$scope.sale.payment.total = 0;
 	$scope.sale.payment.commission = 0;
 	$scope.sale.payment.rawMaterial = 0;
     $scope.sale.split_earnings = false;
     $scope.sale.from_inversions = false;
+    $scope.sale.smsNotifications = false;
 
     $scope.$watchGroup(
         ['sale.payment.total', 'sale.payment.rawMaterial', 'sale.payment.commission', 'sale.split_earnings'],
@@ -711,6 +714,15 @@ app.controller('AddSaleCtrl', ['$scope', 'Sale', function ($scope, Sale) {
                 $scope.discount = 0;
             }
             $scope.earnings = $scope.sale.payment.total - $scope.sale.payment.rawMaterial - $scope.sale.payment.commission - $scope.discount;
+        }
+    );
+
+    $scope.$watch('sale.delivery.courier', function() {
+            if($scope.sale.delivery.courier == 'Estafeta') {
+                $scope.sale.delivery.method = 'Terrestre';
+            } else {
+                $scope.sale.delivery.method = null;
+            }
         }
     );
 

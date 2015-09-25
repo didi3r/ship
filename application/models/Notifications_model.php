@@ -6,6 +6,10 @@ define('MAILGUN_API', 'key-1c635ed3f984f6760a9af3057813366f');
 define('PLIVO_ID', 'MAZGQ2M2FHMJYYZMM4MW');
 define('PLIVO_TOKEN', 'YzFmNDc2NDUxMGViOTRmNWU0NmViMWJkOWIzNTU3');
 
+define('SMS_NEWORDER_TEXT', 'Moringa-Michoacana.com.mx: Tu pedido ha sido registrado. Revisa tu correo para mayor informacion (Revisa el correo no deseado o spam). ¿Dudas? 4432678843');
+define('SMS_PAYMENT_TEXT', 'Moringa-Michoacana.com.mx: Tu pago ha sido confirmado. Cuando tu paquete este en camino te enviaremos tu codigo de rastreo. ¿Dudas? 4432678843');
+define('SMS_SHIPPED_TEXT', 'Moringa-Michoacana.com.mx: ¡Tu paquete ya esta en camino!. Tu codigo de rastreo es: *. ¿Dudas? 4432678843');
+
 class Notifications_model extends CI_Model {
 
 	public function __construct()
@@ -98,8 +102,7 @@ class Notifications_model extends CI_Model {
 		}
 
 		if($this->sale_sms_notifications($sale)) {
-			$msg = 'Moringa-Michoacana.com.mx: Tu pago ha sido confirmado. Cuando tu paquete este en camino te enviaremos tu codigo de rastreo. ¿Dudas? 4432678843';
-			$this->plivo($sale['phone'], $msg);
+			$this->plivo($sale['phone'], SMS_PAYMENT_TEXT);
 		}
 		// $this->send_to_admin($subject, $msg);
 	}
@@ -109,8 +112,7 @@ class Notifications_model extends CI_Model {
 		$sale = $this->sales_model->get($sale_id);
 
 		if($this->sale_sms_notifications($sale)) {
-			$msg = 'Moringa-Michoacana.com.mx: Tu pedido ha sido registrado. Revisa tu correo para mayor informacion (Revisa el correo no deseado o spam). ¿Dudas? 4432678843';
-			$this->plivo($sale['phone'], $msg);
+			$this->plivo($sale['phone'], SMS_NEWORDER_TEXT);
 		}
 	}
 
@@ -135,7 +137,7 @@ class Notifications_model extends CI_Model {
 		}
 
 		if($this->sale_sms_notifications($sale)) {
-			$msg = 'Moringa-Michoacana.com.mx: ¡Tu paquete ya esta en camino!. Tu codigo de rastreo es: *. ¿Dudas? 4432678843';
+			$msg = SMS_SHIPPED_TEXT;
 			$msg = str_replace('*', $data['track_code'], $msg);
 			$this->plivo($sale['phone'], $msg);
 		}
@@ -151,7 +153,8 @@ class Notifications_model extends CI_Model {
 		$sale = $this->sales_model->get($sale_id);
 
 		$data = array(
-			'is_mercado_libre' => $sale['wc_id'] ? false : true
+			//'is_mercado_libre' => $sale['wc_id'] ? false : true
+			'is_mercado_libre' => false
 		);
 
 		$subject = '¡Fue un placer atenderte!';
@@ -171,9 +174,8 @@ class Notifications_model extends CI_Model {
 		return $sale['sms_notifications'] && isset($sale['phone']);
 	}
 
-	public function sms() {
-		// $this->plivo('5214431454951', 'Moringa Michoacana. Tu paquete ha sido enviado, tu codigo es: MN531977262MX');
-		$this->plivo('5214433365183', 'Moringa Michoacana. Tu paquete ha sido enviado, tu codigo es: MN531977262MX');
+	public function sms($number, $msg) {
+		$this->plivo('521' + $number, $msg);
 	}
 
 }

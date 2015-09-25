@@ -49,12 +49,6 @@ class Notifications extends CI_Controller {
 	// {
 	// 	$this->load->view('mails/customer/ended');
 	// }
-
-
-	public function sms() {
-		$this->notifications_model->sms();
-	}
-
 }
 
 /* End of file Mail.php */

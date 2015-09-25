@@ -68,6 +68,10 @@
                                 <label for="customerAddress">Dirección de Envío</label>
                                 <textarea class="form-control" id="customerAddress" rows="5" placeholder="Dirección separada por salros de línea" ng-model="sale.delivery.address"></textarea>
                             </div>
+                            <div class="form-group form-inline col-xs-12">
+                                <input type="checkbox" id="hasRX" ng-model="sale.delivery.hasRX">
+                                <label for="hasRX"> ¿Esta dirección tiene reexpedición?</label>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -76,6 +80,12 @@
                                 <select class="form-control" id="courier" ng-model="sale.delivery.courier">
                                     <option value="Estafeta">Estafeta</option>
                                     <option value="Correos de México">Correos de México</option>
+                                </select>
+                                <label for="courier">Servcio: </label>
+                                <select class="form-control" id="shippingMethod" ng-model="sale.delivery.method"
+                                    ng-disabled="sale.delivery.courier != 'Estafeta'">
+                                    <option value="Terrestre">Terrestre</option>
+                                    <option value="Dia Siguiente">Día Siguiente</option>
                                 </select>
                             </div>
                         </div>
@@ -100,6 +110,17 @@
                             <div class="form-group col-xs-12">
                                 <label for="cart">Productos Vendidos</label>
                                 <textarea class="form-control" id="cart" rows="5" placeholder="Lista de productos separados por saltos de línea" ng-model="sale.package" required array-to-list></textarea>
+                            </div>
+                        </div>
+
+                        <h4>Costos</h4>
+                        <div class="row">
+                            <div class="form-group form-inline col-xs-12">
+                                <label for="courier">Método de Pago: </label>
+                                <select class="form-control" id="paymentMethod" ng-model="sale.payment.method">
+                                    <option value="Deposito">Depósito o Transferencia</option>
+                                    <option value="Tarjeta">Tarjeta de Credito/Debito</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row">
@@ -143,6 +164,15 @@
                                 <input type="text" class="form-control" readonly ng-model="earnings" ng-currency>
                             </div>
                         </div>
+
+                        <h4>Información Adicional</h4>
+                        <div class="row">
+                            <div class="form-group form-inline col-xs-12">
+                                <input type="checkbox" id="smsNotifications" ng-model="sale.smsNotifications">
+                                <label for="smsNotifications"> Mandar notificaciones SMS</label>
+                            </div>
+                        </div>
+
 
                         <div class="row">
                             <br><br>

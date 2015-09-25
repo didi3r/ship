@@ -7,7 +7,9 @@
         'panel-danger' : sale.status == 'Cancelado'
     }">
     <div class="panel-heading">
-        ID #{{sale.id}}, Vendida el {{sale.date | date : 'dd/MMMM/yyyy'}} |
+        <i class="fa fa-shopping-cart"></i> #{{sale.id}} |
+        <span ng-if="sale.wc_id"><i class="fa fa-wordpress"></i> #{{sale.wc_id}} | </span>
+        <i class="fa fa-calendar"></i> {{sale.date | date : 'dd/MMMM/yyyy'}} |
 
         <i class="fa"
             ng-class="{
@@ -93,15 +95,21 @@
                 </div>
                 <br>
                 <i class="fa fa-phone"></i> {{sale.phone}}
+                <i class="fa {{sale.smsNotifications ? 'fa-bell-o' : 'fa-bell-slash-o'}}"></i>
                 <div ng-show="sale.email">
                     <br>
                     <i class="fa fa-envelope-o"></i> <span ng-truncate="sale.email" ng-truncate-limit="23"></span>
                 </div>
             </div>
             <div class="col-xs-12 col-lg-3">
-                <i class="fa fa-truck"></i>
+                <i class="fa fa-truck" ng-if="sale.delivery.method != 'Dia Siguiente'"></i>
+                <i class="fa fa-plane" ng-if="sale.delivery.method == 'Dia Siguiente'"></i>
                 {{sale.delivery.courier}}
+                <span ng-if="sale.delivery.method"> ({{sale.delivery.method}})</span>
                 <blockquote>{{sale.delivery.address}}</blockquote>
+                <span ng-if="sale.delivery.hasRX">
+                    <i class="fa fa-exclamation"></i> Esta dirección tiene RX
+                </span>
                 <div ng-show="sale.delivery.status == 'Enviado'">
                     <span ng-if="sale.delivery.date">
                         <i class="fa fa-calendar-o"></i>
@@ -136,7 +144,11 @@
 
 
                 <div class="payment-status">
-                    <i class="fa fa-money"></i>
+                    <i class="fa fa-money" ng-if="sale.payment.status == 'Pendiente'"></i>
+                    <span ng-if="sale.payment.status != 'Pendiente'">
+                        <i class="fa fa-bank" ng-if="sale.payment.method == 'Deposito'"></i>
+                        <i class="fa fa-credit-card" ng-if="sale.payment.method == 'Tarjeta'"></i>
+                    </span>
                     {{sale.payment.status}}
                 </div>
             </div>

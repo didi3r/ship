@@ -5,7 +5,8 @@
     }">
 
     <div class="panel-heading">
-        <i class="fa fa-calendar-o"></i> {{shipment.date | date : 'dd/MMMM/yyyy'}} |
+        <i class="fa fa-shopping-cart"></i> #{{shipment.id}} |
+        <i class="fa fa-calendar"></i> {{shipment.date | date : 'dd/MMMM/yyyy'}} |
         <i class="fa"
             ng-class="{
                 'fa-clock-o' : shipment.delivery.status == 'Pendiente',
@@ -62,16 +63,29 @@
             <!-- Paquete -->
             <div class="package col-xs-12 col-sm-6 col-md-4">
                 <h4>Paquete</h4>
+                <i class="fa fa-truck" ng-if="shipment.delivery.method != 'Dia Siguiente'"></i>
+                <i class="fa fa-plane" ng-if="shipment.delivery.method == 'Dia Siguiente'"></i>
+                Paquetería: {{shipment.delivery.courier}}
+                <span ng-if="shipment.delivery.method"> ({{shipment.delivery.method}})</span>
+
+                <br>
                 <i class="fa fa-shopping-cart"></i> Contenido del Paquete:
                 <ul>
                     <li ng-repeat="item in shipment.package track by $index">
                         {{item}}
                     </li>
                 </ul>
-                <i class="fa fa-truck"></i> Paqueteria: {{shipment.delivery.courier}}
 
+                <span ng-if="shipment.delivery.hasRX">
+                    <i class="fa fa-exclamation"></i> Esta dirección tiene RX
+                </span>
                 <div ng-show="shipment.delivery.status == 'Enviado'">
-                    <i class="fa fa-barcode"></i> Código: <strong>{{shipment.delivery.trackCode}}</strong>
+                    <span ng-if="shipment.delivery.date">
+                        <i class="fa fa-calendar"></i>
+                        Enviado: {{shipment.delivery.date | date : 'dd/MMMM/yyyy'}}
+                    </span><br>
+                    <i class="fa fa-barcode"></i> Código:
+                    <strong>{{shipment.delivery.trackCode}}</strong>
                 </div>
             </div>
 

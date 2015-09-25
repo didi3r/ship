@@ -104,8 +104,12 @@ class Sales_model extends CI_Model {
 
 	public function create($sale)
     {
-    	if(!$sale['sms_notifications']) {
-    		$sale['sms_notifications'] = 0;
+    	if(!$sale['smsNotifications']) {
+    		$sale['smsNotifications'] = 0;
+    	}
+
+    	if(!$sale['delivery']['hasRX']) {
+    		$sale['delivery']['hasRX'] = 0;
     	}
 
     	$data = array(
@@ -115,13 +119,16 @@ class Sales_model extends CI_Model {
 	        'user' => $sale['user'],
 	        'email' => $sale['email'],
 	        'phone' => $sale['phone'],
-	        'sms_notifications' => $sale['sms_notifications'],
+	        'sms_notifications' => $sale['smsNotifications'],
 	        'package' => implode(',', $sale['package']),
 	        'addressee' => $sale['delivery']['addressee'],
 	        'addressee_phone' => $sale['delivery']['phone'],
 	        'address' => $sale['delivery']['address'],
+	        'has_rx' => $sale['delivery']['hasRX'],
 	        'courier' => $sale['delivery']['courier'],
 	        'shipping_cost' => $sale['delivery']['cost'],
+	        'shipping_method' => $sale['delivery']['method'],
+	        'payment_method' => $sale['payment']['method'],
 	        'total' => $sale['payment']['total'],
 	        'commission' => $sale['payment']['commission'],
 	        'raw_material' => $sale['payment']['rawMaterial'],
@@ -145,14 +152,18 @@ class Sales_model extends CI_Model {
         $this->db->set('addressee', $sale['delivery']['addressee']);
         $this->db->set('addressee_phone', $sale['delivery']['phone']);
         $this->db->set('address', $sale['delivery']['address']);
+        $this->db->set('has_rx', $sale['delivery']['hasRX']);
         $this->db->set('courier', $sale['delivery']['courier']);
         $this->db->set('shipping_cost', $sale['delivery']['cost']);
+        $this->db->set('shipping_method', $sale['delivery']['method']);
         $this->db->set('shipping_comments', $sale['delivery']['comments']);
+        $this->db->set('payment_method', $sale['payment']['method']);
         $this->db->set('total', $sale['payment']['total']);
         $this->db->set('commission', $sale['payment']['commission']);
         $this->db->set('raw_material', $sale['payment']['rawMaterial']);
         $this->db->set('split_earnings', $sale['split_earnings']);
         $this->db->set('from_inversions', $sale['from_inversions']);
+        $this->db->set('sms_notifications', $sale['smsNotifications']);
         $this->db->where('id', $sale['id']);
 
         if($this->db->update('sales')) {
@@ -298,7 +309,7 @@ class Sales_model extends CI_Model {
 		$array['package'] = preg_split('/\s*,\s*/', trim($array['package'] ));
         $array['split_earnings'] = (boolean) $array['split_earnings'];
         $array['from_inversions'] = (boolean) $array['from_inversions'];
-        $array['sms_notifications'] = (boolean) $array['sms_notifications'];
+        $array['smsNotifications'] = (boolean) $array['sms_notifications'];
 
 		$array['delivery'] = array(
 			'addressee' => ucwords(strtolower($array['addressee'])),
@@ -306,10 +317,12 @@ class Sales_model extends CI_Model {
 			'phone' => $array['addressee_phone'],
 			'courier' => $array['courier'],
 			'cost' => $array['shipping_cost'],
+			'method' => $array['shipping_method'],
 			'date' => $array['shipping_date'],
 			'trackCode' => strtoupper($array['track_code']),
 			'status' => $array['shipping_status'],
-			'comments' => $array['shipping_comments']
+			'comments' => $array['shipping_comments'],
+			'hasRX' => (boolean) $array['has_rx']
 		);
 
 		unset($array['addressee']);
@@ -317,15 +330,18 @@ class Sales_model extends CI_Model {
 		unset($array['addressee_phone']);
 		unset($array['courier']);
 		unset($array['shipping_cost']);
+		unset($array['shipping_method']);
 		unset($array['shipping_date']);
 		unset($array['track_code']);
 		unset($array['shipping_status']);
 		unset($array['shipping_comments']);
+		unset($array['has_rx']);
 
 		$array['payment'] = array(
 			'commission' => $array['commission'],
 			'rawMaterial' => $array['raw_material'],
 			'total' => $array['total'],
+			'method' => $array['payment_method'],
 			'date' => $array['payment_date'],
 			'status' => $array['payment_status']
 		);
@@ -333,6 +349,7 @@ class Sales_model extends CI_Model {
 		unset($array['commission']);
 		unset($array['raw_material']);
 		unset($array['total']);
+		unset($array['payment_method']);
 		unset($array['payment_date']);
 		unset($array['payment_status']);
 
