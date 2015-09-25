@@ -84,6 +84,11 @@ class Public_api extends CI_Controller {
 				$courier = 'Correos de México';
 			}
 
+			$shipping_method = null;
+			if($courier == 'Estafeta') {
+				$shipping_method = $order['total_shipping'] == 120 ? 'Dia Siguiente' : 'Terrestre';
+			}
+
 			date_default_timezone_set('America/Mexico_City');
 			$data = array(
 				'wc_id' => $order['order_number'],
@@ -102,6 +107,7 @@ class Public_api extends CI_Controller {
 		    $data['delivery']['phone'] = $billing_address['phone'];
 		    $data['delivery']['address'] = $address;
 		    $data['delivery']['courier'] = $courier;
+		    $data['delivery']['method'] = $shipping_method;
 		    $data['delivery']['cost'] = $order['total_shipping'];
 		    $data['delivery']['comments'] = $order['note'] ? $order['note'] : null;
 		    $data['payment']['total'] = $order['subtotal'] - $order['total_discount'];
