@@ -133,14 +133,14 @@
                 <strong class="total">Total: {{(sale.payment.total -- sale.delivery.cost) | currency}}</strong> <br>
                 <small>Pedido: {{sale.payment.total | currency}} </small><br>
                 <small>Envío: {{sale.delivery.cost | currency}} </small><br>
-                <small><strong>Ganancia: {{(sale.payment.total - (sale.from_inversions ? 0 : sale.payment.rawMaterial) - sale.payment.commission) * (sale.split_earnings ? 0.70 : 1)  | currency}}</strong></small>
+                <small><strong>Ganancia: {{(sale.payment.total - (sale.fromInversions ? 0 : sale.payment.rawMaterial) - sale.payment.commission) * (sale.splitEarnings ? 0.70 : 1)  | currency}}</strong></small>
 
                 <i class="fa fa-info-circle payment-breakdown"
                 data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="
                     <small>Pedido: {{sale.payment.total | currency}} </small><br>
                     <small>Comisión: -{{sale.payment.commission | currency}} </small><br>
-                    <small>M. Prima: -{{sale.from_inversions ? 0 : sale.payment.rawMaterial | currency}} </small><br>
-                    <small>Dividendo: -{{sale.split_earnings ? (sale.payment.total - sale.payment.rawMaterial - sale.payment.commission) * 0.30 : 0 | currency}} </small><br>
+                    <small>M. Prima: -{{sale.fromInversions ? 0 : sale.payment.rawMaterial | currency}} </small><br>
+                    <small>Dividendo: -{{sale.splitEarnings ? (sale.payment.total - sale.payment.rawMaterial - sale.payment.commission) * 0.30 : 0 | currency}} </small><br>
                     ">
                 </i>
 

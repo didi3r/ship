@@ -132,8 +132,8 @@ class Sales_model extends CI_Model {
 	        'total' => $sale['payment']['total'],
 	        'commission' => $sale['payment']['commission'],
 	        'raw_material' => $sale['payment']['rawMaterial'],
-	        'split_earnings' => $sale['split_earnings'],
-	        'from_inversions' => $sale['from_inversions'],
+	        'split_earnings' => $sale['splitEarnings'],
+	        'from_inversions' => $sale['fromInversions'],
     	);
 
         if($this->db->insert('sales', $data)) {
@@ -161,8 +161,8 @@ class Sales_model extends CI_Model {
         $this->db->set('total', $sale['payment']['total']);
         $this->db->set('commission', $sale['payment']['commission']);
         $this->db->set('raw_material', $sale['payment']['rawMaterial']);
-        $this->db->set('split_earnings', $sale['split_earnings']);
-        $this->db->set('from_inversions', $sale['from_inversions']);
+        $this->db->set('split_earnings', $sale['splitEarnings']);
+        $this->db->set('from_inversions', $sale['fromInversions']);
         $this->db->set('sms_notifications', $sale['smsNotifications']);
         $this->db->where('id', $sale['id']);
 

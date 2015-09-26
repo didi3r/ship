@@ -332,20 +332,20 @@ app.filter('calc', function () {
         if(type === undefined) type = 'total';
         var total = 0;
         for (var i = 0; i < data.length; i++) {
-            var rawMaterial = parseFloat(data[i].from_inversions ? 0 : data[i].payment.rawMaterial);
+            var rawMaterial = parseFloat(data[i].fromInversions ? 0 : data[i].payment.rawMaterial);
             var subtotal = parseFloat(data[i].payment.total - data[i].payment.commission - rawMaterial);
             switch(type) {
                 case 'total':
                     total += subtotal;
                     break;
                 case 'splittings':
-                    total += data[i].split_earnings ? (subtotal * 0.30) : 0;
+                    total += data[i].splitEarnings ? (subtotal * 0.30) : 0;
                     break;
                 case 'rawMaterial':
                     total += rawMaterial;
                     break;
                 case 'earnings':
-                    total += data[i].split_earnings ? (subtotal * 0.70) : subtotal;
+                    total += data[i].splitEarnings ? (subtotal * 0.70) : subtotal;
                     break;
             }
         };
@@ -700,14 +700,14 @@ app.controller('AddSaleCtrl', ['$scope', 'Sale', function ($scope, Sale) {
 	$scope.sale.payment.total = 0;
 	$scope.sale.payment.commission = 0;
 	$scope.sale.payment.rawMaterial = 0;
-    $scope.sale.split_earnings = false;
-    $scope.sale.from_inversions = false;
+    $scope.sale.splitEarnings = false;
+    $scope.sale.fromInversions = false;
     $scope.sale.smsNotifications = false;
 
     $scope.$watchGroup(
-        ['sale.payment.total', 'sale.payment.rawMaterial', 'sale.payment.commission', 'sale.split_earnings'],
+        ['sale.payment.total', 'sale.payment.rawMaterial', 'sale.payment.commission', 'sale.splitEarnings'],
         function() {
-            if($scope.sale.split_earnings) {
+            if($scope.sale.splitEarnings) {
                 $scope.discount = ($scope.sale.payment.total - $scope.sale.payment.rawMaterial - $scope.sale.payment.commission) * 0.30;
                 $scope.discount = Math.round($scope.discount * 100) / 100;
             } else {
@@ -759,9 +759,9 @@ app.controller('UpdateSaleCtrl', ['$scope', 'Sale', function ($scope, Sale) {
             $scope.isLoading = false;
             $scope.hasAddressee = $scope.sale.delivery.addressee ? true : false;
             $scope.$watchGroup(
-                ['sale.payment.total', 'sale.payment.rawMaterial', 'sale.payment.commission', 'sale.split_earnings'],
+                ['sale.payment.total', 'sale.payment.rawMaterial', 'sale.payment.commission', 'sale.splitEarnings'],
                 function() {
-                    if($scope.sale.split_earnings) {
+                    if($scope.sale.splitEarnings) {
                         $scope.discount = ($scope.sale.payment.total - $scope.sale.payment.rawMaterial - $scope.sale.payment.commission) * 0.30;
                         $scope.discount = Math.round($scope.discount * 100) / 100;
                     } else {

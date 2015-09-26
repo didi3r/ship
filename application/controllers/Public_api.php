@@ -98,9 +98,9 @@ class Public_api extends CI_Controller {
 		        'email' => $billing_address['email'],
 		        'phone' => $billing_address['phone'],
 		        'package' => $package,
-		        'split_earnings' => 0,
-		        'from_inversions' => 0,
-		        'sms_notifications' => (int) $order['sms_notifications']
+		        'splitEarnings' => 0,
+		        'fromInversions' => 0,
+		        'smsNotifications' => (int) $order['sms_notifications']
 	    	);
 
   			// $data['delivery']['addressee'] = $shipping_address['first_name'] . ' ' . $shipping_address['last_name'];
