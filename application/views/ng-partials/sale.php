@@ -94,8 +94,10 @@
                     (<span ng-truncate="sale.user" ng-truncate-limit="15"></span>)
                 </div>
                 <br>
-                <i class="fa fa-phone"></i> {{sale.phone}}
-                <i class="fa {{sale.smsNotifications ? 'fa-bell-o' : 'fa-bell-slash-o'}}"></i>
+                <span ng-if="sale.phone">
+                    <i class="fa fa-phone"></i> {{sale.phone}}
+                    <i class="fa {{sale.smsNotifications ? 'fa-bell-o' : 'fa-bell-slash-o'}}"></i>
+                </span>
                 <div ng-show="sale.email">
                     <br>
                     <i class="fa fa-envelope-o"></i> <span ng-truncate="sale.email" ng-truncate-limit="23"></span>

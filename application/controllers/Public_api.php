@@ -103,13 +103,19 @@ class Public_api extends CI_Controller {
 		        'sms_notifications' => (int) $order['sms_notifications']
 	    	);
 
-	    	$data['delivery']['addressee'] = $shipping_address['first_name'] . ' ' . $shipping_address['last_name'];
-		    $data['delivery']['phone'] = $billing_address['phone'];
+  			// $data['delivery']['addressee'] = $shipping_address['first_name'] . ' ' . $shipping_address['last_name'];
+	 		// $data['delivery']['phone'] = $billing_address['phone'];
 		    $data['delivery']['address'] = $address;
 		    $data['delivery']['courier'] = $courier;
 		    $data['delivery']['method'] = $shipping_method;
 		    $data['delivery']['cost'] = $order['total_shipping'];
 		    $data['delivery']['comments'] = $order['note'] ? $order['note'] : null;
+
+		    $payment_details = (array) $order['payment_details'];
+		    $data['payment']['method'] = 'Tarjeta';
+		    if($payment_details['id'] == 'bacs') {
+		    	$data['payment']['method'] = 'Deposito';
+		    }
 		    $data['payment']['total'] = $order['subtotal'] - $order['total_discount'];
 		    $data['payment']['commission'] = $commission;
 		    $data['payment']['rawMaterial'] = $raw_material;
