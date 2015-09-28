@@ -46,6 +46,10 @@ class Woocommerce_model extends CI_Model {
 		$this->update_status($wc_id, 'completed');
 	}
 
+	public function mark_as_cancelledd($wc_id) {
+		$this->update_status($wc_id, 'cancelled');
+	}
+
 }
 
 /* End of file Woocommerce_model.php */

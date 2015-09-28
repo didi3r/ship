@@ -330,9 +330,9 @@ class Api extends CI_Controller {
 		$this->notifications_model->notify_shipment($params->id);
 
 		// Update order in woocommerce
-		$this->load->model('woocommerce_model');
 		$wc_id = $this->sales_model->get_wc_id($params->id);
 		if($wc_id) {
+			$this->load->model('woocommerce_model');
 			$this->woocommerce_model->mark_as_finished($wc_id);
 		}
 
@@ -384,6 +384,13 @@ class Api extends CI_Controller {
 		}
 
 		$output = $this->sales_model->update_status($params->id, 'Cancelado');
+
+		// Update order in woocommerce
+		$wc_id = $this->sales_model->get_wc_id($params->id);
+		if($wc_id) {
+			$this->load->model('woocommerce_model');
+			$this->woocommerce_model->mark_as_cancelledd($wc_id);
+		}
 
 		header('Content-Type: application/json');
 		echo json_encode($output);
