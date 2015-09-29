@@ -113,7 +113,7 @@ class Public_api extends CI_Controller {
 
 		    $payment_details = (array) $order['payment_details'];
 		    $data['payment']['method'] = 'Tarjeta';
-		    if($payment_details['id'] == 'bacs') {
+		    if($payment_details['method_id'] == 'bacs') {
 		    	$data['payment']['method'] = 'Deposito';
 		    }
 		    $data['payment']['total'] = $order['subtotal'] - $order['total_discount'];
