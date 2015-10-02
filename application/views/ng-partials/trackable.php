@@ -66,7 +66,11 @@
                 <i class="fa fa-truck"></i> Paqueteria: {{shipment.delivery.courier}}
 
                 <div ng-show="shipment.delivery.status == 'Enviado'">
-                    <i class="fa fa-barcode"></i> Código: <strong>{{shipment.delivery.trackCode}}</strong>
+                    <i class="fa fa-barcode"></i> Código: <strong>{{shipment.delivery.trackCode}}</strong><br>
+                    <span ng-if="shipment.delivery.date">
+                        <i class="fa fa-calendar"></i>
+                        Enviado: {{shipment.delivery.date | date : 'dd/MMMM/yyyy'}}
+                    </span>
                 </div>
 
                 <span ng-init="checkDeliveryStatus(shipment)">
@@ -93,35 +97,3 @@
         <!-- /.row -->
     </div>
 </div>
-
-<!-- Modal -->
-<div class="modal fade" id="trackCodeModal-{{shipment.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Ingresa el Códido de Rastreo</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-inline text-center">
-                    <div class="form-group">
-                        <label for="trackCodetrackCode-{{shipment.id}}">Código de Rastreo: </label>
-                        <input id="trackCode-{{shipment.id}}" type="text" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">
-                    Cerrar
-                </button>
-                <button type="button" class="btn btn-primary"
-                    ng-click="markAsShipped(shipment)">
-                    Guardar
-                </button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->

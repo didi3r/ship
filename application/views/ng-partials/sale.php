@@ -113,12 +113,12 @@
                     <i class="fa fa-exclamation"></i> Esta dirección tiene RX
                 </span>
                 <div ng-show="sale.delivery.status == 'Enviado'">
-                    <span ng-if="sale.delivery.date">
-                        <i class="fa fa-calendar-o"></i>
-                        {{sale.delivery.date | date : 'dd/MMMM/yyyy'}}
-                    </span><br>
                     <i class="fa fa-barcode"></i>
-                    <strong>{{sale.delivery.trackCode}}</strong>
+                    <strong>{{sale.delivery.trackCode}}</strong><br>
+                    <span ng-if="sale.delivery.date">
+                        <i class="fa fa-calendar"></i>
+                        {{sale.delivery.date | date : 'dd/MMMM/yyyy'}}
+                    </span>
                 </div>
             </div>
             <div class="col-xs-12 col-lg-3">
@@ -147,11 +147,15 @@
 
                 <div class="payment-status">
                     <i class="fa fa-money" ng-if="sale.payment.status == 'Pendiente'"></i>
-                    <span ng-if="sale.payment.status != 'Pendiente'">
+                    <span ng-if="sale.payment.status == 'Pagado'">
                         <i class="fa fa-bank" ng-if="sale.payment.method == 'Deposito'"></i>
                         <i class="fa fa-credit-card" ng-if="sale.payment.method == 'Tarjeta'"></i>
                     </span>
-                    {{sale.payment.status}}
+                    {{sale.payment.status}}<br>
+                    <span ng-show="sale.payment.status == 'Pagado' && sale.payment.date">
+                        <i class="fa fa-calendar"></i>
+                        {{sale.payment.date | date : 'dd/MMMM/yyyy'}}
+                    </span>
                 </div>
             </div>
         </div>

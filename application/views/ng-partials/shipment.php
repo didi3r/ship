@@ -80,12 +80,12 @@
                     <i class="fa fa-exclamation"></i> Esta dirección tiene RX
                 </span>
                 <div ng-show="shipment.delivery.status == 'Enviado'">
+                    <i class="fa fa-barcode"></i> Código:
+                    <strong>{{shipment.delivery.trackCode}}</strong><br>
                     <span ng-if="shipment.delivery.date">
                         <i class="fa fa-calendar"></i>
                         Enviado: {{shipment.delivery.date | date : 'dd/MMMM/yyyy'}}
-                    </span><br>
-                    <i class="fa fa-barcode"></i> Código:
-                    <strong>{{shipment.delivery.trackCode}}</strong>
+                    </span>
                 </div>
             </div>
 
