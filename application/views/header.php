@@ -12,6 +12,8 @@
 
     <title>Bioleafy :: Gestión de Ventas</title>
 
+    <link rel="shortcut icon" type="image/png" href="<?php assets_url() ?>img/favicon.png">
+
     <!-- Bootstrap Core CSS -->
     <link href="<?php assets_url() ?>bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
