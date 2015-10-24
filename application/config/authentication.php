@@ -30,6 +30,14 @@ $config['authentication']['username_field'] = 'email';
  */
 $config['authentication']['password_field'] = 'password';
 
+/**
+ * Role field
+ */
+$config['authentication']['role_field'] = 'role';
+
+$config['authentication']['roles']['admin'] = 99;
+$config['authentication']['roles']['user'] = 1;
+
 
 /* End of file authentication.php */
 /* Location: ./application/config/authentication.php */

@@ -242,6 +242,10 @@ blockquote {
   margin-bottom: 0;
 }
 
+.nav-pills li a {
+  padding: 5px 10px;
+}
+
 @media screen and (max-width: 768px) {
 	.shipment h4 {
 		display: block;

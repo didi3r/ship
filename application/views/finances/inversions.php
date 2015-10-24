@@ -23,7 +23,7 @@
                     <form name="AddInversionForm" id="AddInversionForm">
                         <div class="col-xs-12 col-sm-3 col-lg-2 form-group">
                             <label>Fecha</label>
-                            <input type="text" class="form-control" datepicker="<?php echo $today ?>" ng-model="inversion.date" required>
+                            <input type="text" readonly="true" class="form-control" datepicker="<?php echo $today ?>" ng-model="inversion.date" required>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-lg-6 form-group">
                             <label>Descripción</label>
@@ -60,7 +60,7 @@
 
                     <div class="table-responsive">
 
-                        <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
+                        <table class="table table-bordered table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
     	                	<thead>
     	                		<tr>
     	                			<th>ID</th>

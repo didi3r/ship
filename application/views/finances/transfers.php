@@ -23,7 +23,7 @@
                     <form name="AddTransferForm" id="AddTransferForm">
                         <div class="col-xs-12 col-sm-3 form-group">
                             <label>Fecha</label>
-                            <input type="text" class="form-control" datepicker="<?php echo $today ?>" ng-model="transfer.date" required>
+                            <input type="text" readonly="true" class="form-control" datepicker="<?php echo $today ?>" ng-model="transfer.date" required>
                         </div>
                         <div class="col-xs-12 col-sm-3 form-group">
                             <label>Cuenta</label>
@@ -51,7 +51,13 @@
                 <?php endif; ?>
 
                 <h3>Listado de Transferencias</h3>
-                <div ng-controller="TransfersCtrl">
+                <div ng-controller="TransfersCtrl"
+                    <?php if($this->authentication->is_admin()) : ?>
+                    ng-init="isAdmin=true"
+                    <?php else : ?>
+                    ng-init="isAdmin=false"
+                    <?php endif; ?>
+                >
 
                     <spinner ng-show="isLoading"></spinner>
                     <div class="alert alert-info" ng-cloak ng-show="!isLoading && totalRows == 0">
@@ -78,13 +84,14 @@
                             </div>
 
                             <div class="table-responsive">
-                                <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
+                                <table class="table table-bordered table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
                                             <th>Fecha</th>
                                             <th>Cuenta</th>
-                                            <th>Total</th>
+                                            <th class="text-right">Total</th>
+                                            <th ng-if="isAdmin"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -92,7 +99,13 @@
                                             <td>#{{transfer.id}}</td>
                                             <td>{{transfer.date | date : 'dd/MMM/yyyy'}}</td>
                                             <td>{{transfer.account}}</td>
-                                            <td class="green">{{transfer.total | currency}}</td>
+                                            <td class="green text-right">{{transfer.total | currency}}</td>
+                                            <th ng-if="isAdmin" class="text-center">
+                                                <button class="btn btn-xs btn-danger"
+                                                    ng-click="deleteTransfer(transfer)">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </th>
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -100,7 +113,8 @@
                                             <td></td>
                                             <td></td>
                                             <td class="text-right">Total:</td>
-                                            <td class="green">{{rawTransfers | sum:'total' | currency}}</td>
+                                            <td class="green text-right">{{rawTransfers | sum:'total' | currency}}</td>
+                                            <td ng-if="isAdmin"></td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -120,13 +134,14 @@
                             </div>
 
                             <div class="table-responsive">
-                                <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
+                                <table class="table table-bordered table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
                                             <th>Fecha</th>
                                             <th>Cuenta</th>
-                                            <th>Total</th>
+                                            <th class="text-right">Total</th>
+                                            <th ng-if="isAdmin"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -134,7 +149,13 @@
                                             <td>#{{transfer.id}}</td>
                                             <td>{{transfer.date | date : 'dd/MMM/yyyy'}}</td>
                                             <td>{{transfer.account}}</td>
-                                            <td class="green">{{transfer.total | currency}}</td>
+                                            <td class="green text-right">{{transfer.total | currency}}</td>
+                                            <th ng-if="isAdmin" class="text-center">
+                                                <button class="btn btn-xs btn-danger"
+                                                    ng-click="deleteTransfer(transfer)">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </th>
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -142,7 +163,8 @@
                                             <td></td>
                                             <td></td>
                                             <td class="text-right">Total:</td>
-                                            <td class="green">{{splitTransfers | sum:'total' | currency}}</td>
+                                            <td class="green text-right">{{splitTransfers | sum:'total' | currency}}</td>
+                                            <th ng-if="isAdmin"></th>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -168,13 +190,14 @@
                             </div>
 
                             <div class="table-responsive">
-                                <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
+                                <table class="table table-bordered table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
                                             <th>Fecha</th>
                                             <th>Cuenta</th>
-                                            <th>Total</th>
+                                            <th class="text-right">Total</th>
+                                            <th ng-if="isAdmin"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -182,7 +205,13 @@
                                             <td>#{{transfer.id}}</td>
                                             <td>{{transfer.date | date : 'dd/MMM/yyyy'}}</td>
                                             <td>{{transfer.account}}</td>
-                                            <td class="green">{{transfer.total | currency}}</td>
+                                            <td class="green text-right">{{transfer.total | currency}}</td>
+                                            <th ng-if="isAdmin" class="text-center">
+                                                <button class="btn btn-xs btn-danger"
+                                                    ng-click="deleteTransfer(transfer)">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </th>
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -190,7 +219,8 @@
                                             <td></td>
                                             <td></td>
                                             <td class="text-right">Total:</td>
-                                            <td class="green">{{expensesTransfers | sum:'total' | currency}}</td>
+                                            <td class="green text-right">{{expensesTransfers | sum:'total' | currency}}</td>
+                                            <th ng-if="isAdmin"></th>
                                         </tr>
                                     </tfoot>
                                 </table>

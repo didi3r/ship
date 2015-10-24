@@ -22,7 +22,7 @@
         </i>
         {{sale.status}}
 
-        <div class="buttons">
+        <div class="buttons" ng-show="isAdmin" ng-cloak>
             <button class="btn btn-xs btn-default"
                     ng-show="sale.status == 'Pendiente'
                     && sale.payment.status == 'Pendiente'"
@@ -68,7 +68,7 @@
                     ng-disabled="isSaleLoading(sale)">
                 <i class="fa fa-pencil"></i>
             </button>
-            <button class="btn btn-xs btn-danger"
+            <button class="btn btn-xs btn-warning"
                     ng-show="sale.status != 'En Camino'
                     && sale.status != 'Cancelado'
                     && sale.status != 'Finalizado'"
@@ -82,6 +82,11 @@
                     ng-click="markAsEnded(sale)"
                     ng-disabled="isSaleLoading(sale)">
                 <i class="fa fa-check"></i>
+            </button>
+            <button class="btn btn-xs btn-danger"
+                    ng-click="deleteSale(sale)"
+                    ng-disabled="isSaleLoading(sale)">
+                <i class="fa fa-trash"></i>
             </button>
         </div>
     </div>
@@ -120,6 +125,20 @@
                         {{sale.delivery.date | date : 'dd/MMMM/yyyy'}}
                     </span>
                 </div>
+
+                <span ng-init="checkDeliveryStatus(sale)">
+                    <div ng-show="sale.status == 'En Camino' && sale.delivery.trackCode && !sale.deliveryStatus">
+                        <i class="fa fa-refresh fa-spin"></i> Cargando Estatus del envío
+                    </div>
+                    <div ng-show="sale.deliveryStatus">
+                        <i class="fa" ng-class="{
+                            'fa-exclamation-triangle red' : sale.deliveryStatus == 'No hay información disponible.',
+                            'fa-clock-o' : sale.deliveryStatus == 'Pendiente en transito',
+                            'fa-check green' : sale.deliveryStatus == 'Entregado'}">
+                        </i>
+                        {{sale.deliveryStatus}}
+                    </div>
+                </span>
             </div>
             <div class="col-xs-12 col-lg-3">
                 <i class="fa fa-shopping-cart"></i> Paquete:
@@ -132,17 +151,19 @@
             <div class="col-xs-12 col-lg-3">
                 <strong class="total">Total: {{(sale.payment.total -- sale.delivery.cost) | currency}}</strong> <br>
                 <small>Pedido: {{sale.payment.total | currency}} </small><br>
-                <small>Envío: {{sale.delivery.cost | currency}} </small><br>
-                <small><strong>Ganancia: {{(sale.payment.total - (sale.fromInversions ? 0 : sale.payment.rawMaterial) - sale.payment.commission) * (sale.splitEarnings ? 0.70 : 1)  | currency}}</strong></small>
+                <small>Envío: {{sale.delivery.cost | currency}} </small>
+                <div ng-cloak ng-if="isAdmin">
+                    <small><strong>Ganancia: {{(sale.payment.total - (sale.fromInversions ? 0 : sale.payment.rawMaterial) - sale.payment.commission) * (sale.splitEarnings ? 0.70 : 1)  | currency}}</strong></small>
 
-                <i class="fa fa-info-circle payment-breakdown"
-                data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="
-                    <small>Pedido: {{sale.payment.total | currency}} </small><br>
-                    <small>Comisión: -{{sale.payment.commission | currency}} </small><br>
-                    <small>M. Prima: -{{sale.fromInversions ? 0 : sale.payment.rawMaterial | currency}} </small><br>
-                    <small>Dividendo: -{{sale.splitEarnings ? (sale.payment.total - sale.payment.rawMaterial - sale.payment.commission) * 0.30 : 0 | currency}} </small><br>
-                    ">
-                </i>
+                    <i class="fa fa-info-circle payment-breakdown"
+                    data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="
+                        <small>Pedido: {{sale.payment.total | currency}} </small><br>
+                        <small>Comisión: -{{sale.payment.commission | currency}} </small><br>
+                        <small>M. Prima: -{{sale.fromInversions ? 0 : sale.payment.rawMaterial | currency}} </small><br>
+                        <small>Dividendo: -{{sale.splitEarnings ? (sale.payment.total - sale.payment.rawMaterial - sale.payment.commission) * 0.30 : 0 | currency}} </small><br>
+                        ">
+                    </i>
+                </div>
 
 
                 <div class="payment-status">

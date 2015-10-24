@@ -26,6 +26,9 @@
     <!-- Custom Fonts -->
     <link href="<?php assets_url() ?>bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <!-- jQuery -->
+    <script src="<?php assets_url() ?>bower_components/jquery/dist/jquery.min.js"></script>
+
     <!-- Angular Directives for Chart.js -->
     <link href="<?php assets_url() ?>bower_components/angular-chart.js/dist/angular-chart.css" rel="stylesheet" type="text/css">
 
@@ -64,6 +67,9 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
+                        <li>
+                            <a href="<?php echo site_url('settings') ?>"><i class="fa fa-cogs fa-fw"></i> Configuración</a>
+                        </li>
                         <li>
                             <a href="<?php echo site_url('login/logout') ?>"><i class="fa fa-sign-out fa-fw"></i> Cerrar Sesión</a>
                         </li>

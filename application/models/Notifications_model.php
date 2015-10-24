@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 define('MAILGUN_DOMAIN', 'moringa-michoacana.com.mx');
+define('MAILGUN_SANDBOX_DOMAIN', 'sandboxb1dca6b16b5b44ffbbf5b78bdbecb697.mailgun.org');
 define('MAILGUN_API', 'key-1c635ed3f984f6760a9af3057813366f');
 
 define('PLIVO_ID', 'MAZGQ2M2FHMJYYZMM4MW');
@@ -19,6 +20,12 @@ class Notifications_model extends CI_Model {
 	}
 
 	private function mailgun($to, $subject, $message) {
+		if(ENVIRONMENT == 'development') {
+			$domain = MAILGUN_SANDBOX_DOMAIN;
+			$to = 'ventas.nd.fm@gmail.com';
+		} else {
+			$domain = MAILGUN_DOMAIN;
+		}
 
 		$ch = curl_init();
 
@@ -29,10 +36,10 @@ class Notifications_model extends CI_Model {
 		$plain = strip_tags(preg_replace('/\<br(\s*)?\/?\>/i', PHP_EOL, $message));
 
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-		curl_setopt($ch, CURLOPT_URL, 'https://api.mailgun.net/v3/'.MAILGUN_DOMAIN.'/messages');
+		curl_setopt($ch, CURLOPT_URL, 'https://api.mailgun.net/v3/'. $domain .'/messages');
 		curl_setopt($ch, CURLOPT_POSTFIELDS, array(
-			'from' => 'VENTAS ND <postmaster@'.MAILGUN_DOMAIN.'>',
-			'h:Reply-To' => 'VENTAS ND <ventas.nd.fm@gmail.com>',
+			'from' => 'Bioleafy <postmaster@'.MAILGUN_DOMAIN.'>',
+			'h:Reply-To' => 'Bioleafy <ventas.nd.fm@gmail.com>',
 			'to' => $to,
 			'subject' => '[Bioleafy] ' . $subject,
 			'html' => $message,
@@ -52,6 +59,8 @@ class Notifications_model extends CI_Model {
 	}
 
 	private function plivo($to, $msg) {
+		if(ENVIRONMENT == 'development') return false;
+
 		$to = preg_replace('/\D/', '', $to);
 
 		if(strlen($to) == 10) {

@@ -1,9 +1,18 @@
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <p class="text-right">
+                    Powered by Bioleafy <?php echo '('.ENVIRONMENT.')' ?>.
+                </p>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+
 </div>
     <!-- /#wrapper -->
-
-    <!-- jQuery -->
-    <script src="<?php assets_url() ?>bower_components/jquery/dist/jquery.min.js"></script>
-
     <!-- Bootstrap Core JavaScript -->
     <script src="<?php assets_url() ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 

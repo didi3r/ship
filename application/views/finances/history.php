@@ -11,10 +11,10 @@
                         <div class="navbar-form ">
                             <div class="form-group">
                                 <label for="since">Desde: </label>
-                                <input type="text" id="since" class="form-control" datepicker="<?php echo $start_date ?>" ng-model="sinceDate" value="{{sinceDate}}">
+                                <input type="text" readonly="true" id="since" class="form-control" datepicker="<?php echo $start_date ?>" ng-model="sinceDate" value="{{sinceDate}}">
 
                                 <label for="to">Hasta: </label>
-                                <input type="text" id="to" class="form-control" datepicker="<?php echo $end_date ?>" ng-model="toDate" value="{{toDate}}">
+                                <input type="text" readonly="true" id="to" class="form-control" datepicker="<?php echo $end_date ?>" ng-model="toDate" value="{{toDate}}">
 
                             	<button class="btn btn-primary"
                                     ng-click="getHistory(sinceDate, toDate)">
@@ -35,7 +35,7 @@
 
                     <div class="table-responsive">
 
-    	                <table class="table table-striped table-condensed" ng-cloak ng-show="!isLoading && totalRows != 0">
+    	                <table class="table table-bordered table-striped table-condensed" ng-cloak ng-show="!isLoading && totalRows != 0">
     	                	<thead>
     	                		<tr>
     	                			<th>ID</th>

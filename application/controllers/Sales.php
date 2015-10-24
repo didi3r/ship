@@ -10,10 +10,6 @@ class Sales extends CI_Controller {
             redirect('login/?url=' . "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
         }
 
-        if(!$this->authentication->is_admin()) {
-        	redirect('welcome');
-        }
-
         $this->load->model('sales_model');
 	}
 
@@ -24,11 +20,19 @@ class Sales extends CI_Controller {
 
 	public function add()
 	{
+        if(!$this->authentication->is_admin()) {
+        	redirect('sales');
+        }
+
         $this->load->view('sales/add',array('edit' => false));
 	}
 
     public function update($id)
 	{
+        if(!$this->authentication->is_admin()) {
+        	redirect('sales');
+        }
+
         $this->load->view('sales/add',array('edit' => true));
 	}
 }

@@ -55,15 +55,21 @@ class Sales_model extends CI_Model {
 		}
 
 		if(!empty($search)) {
-			$where = 'name LIKE \'%' . $search . '%\'';
-			$where .= ' || user LIKE \'%' . $search . '%\'';
-			$where .= ' || email LIKE \'%' . $search . '%\'';
-			$where .= ' || track_code LIKE \'%' . $search . '%\'';
-			$where .= ' || address LIKE \'%' . $search . '%\'';
-			$where .= ' || package LIKE \'%' . $search . '%\'';
-			$where .= ' || shipping_comments LIKE \'%' . $search . '%\'';
+			$search = trim($search);
+			if(mb_substr($search, 0, 1, 'utf-8') == '#') {
+				$where = 'id = ' . mb_substr($search, 1, strlen($search), 'utf-8');
+				$where .= ' || wc_id = ' . mb_substr($search, 1, strlen($search), 'utf-8');
+			} else {
+				$where = 'name LIKE \'%' . $search . '%\'';
+				$where .= ' || user LIKE \'%' . $search . '%\'';
+				$where .= ' || email LIKE \'%' . $search . '%\'';
+				$where .= ' || track_code LIKE \'%' . $search . '%\'';
+				$where .= ' || address LIKE \'%' . $search . '%\'';
+				$where .= ' || package LIKE \'%' . $search . '%\'';
+				$where .= ' || shipping_comments LIKE \'%' . $search . '%\'';
+			}
 
-			$this->db->where($where);
+			$this->db->where($where, null, false);
 		}
 
 		$this->db->select('SQL_CALC_FOUND_ROWS *', false);
@@ -169,6 +175,11 @@ class Sales_model extends CI_Model {
         if($this->db->update('sales')) {
             return $this->get($sale['id']);
         }
+    }
+
+    public function delete($id) {
+    	$this->db->where('id', $id);
+		$this->db->delete('sales');
     }
 
 	public function update_status($id, $status, $args = array())

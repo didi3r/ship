@@ -31,7 +31,7 @@
                                 <label for="date">
                                     <i class="fa fa-calendar"></i> Fecha de Venta:
                                 </label>
-                                <input id="date" type="text" class="form-control" datepicker ng-model="sale.date" required>
+                                <input id="date" type="text" readonly="true" class="form-control" datepicker ng-model="sale.date" required>
                             </div>
                         </div>
 

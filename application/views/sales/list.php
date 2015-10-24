@@ -1,4 +1,14 @@
 <?php $this->load->view('header') ?>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#search').keypress(function (e) {
+        if (e.which == 13) {
+            $('#submit').click();
+            return false;    //<---- Add this line
+        }
+    });
+});
+</script>
 <!-- Page Content -->
 <div id="page-wrapper">
     <div class="container-fluid">
@@ -6,13 +16,19 @@
             <div class="col-lg-12">
                 <h1 class="page-header">Listado de Ventas</h1>
 
-                <div ng-controller="SalesListCtrl">
+                <div ng-controller="SalesListCtrl"
+                    <?php if($this->authentication->is_admin()) : ?>
+                    ng-init="isAdmin=true"
+                    <?php else : ?>
+                    ng-init="isAdmin=false"
+                    <?php endif; ?>
+                >
                     <!-- Search -->
                     <div class="navbar navbar-default">
                         <div class="navbar-form ">
                             <div class="form-group">
                                 <label for="search">Buscar:</label>
-                                <input type="text" name="search" placeholder="Buscar" class="form-control" ng-model="search.text">
+                                <input type="text" name="search" placeholder="Buscar" id="search" class="form-control" ng-model="search.text">
 
                                 <label for="orderBy">Mostrar: </label>
                                 <select name="orderBy" class="form-control" ng-model="search.order">
@@ -38,7 +54,7 @@
                                     <option value="Correos de México">Correos de México</option>
                                 </select>
 
-                                <button class="btn btn-primary" ng-click="getSalesCollection(search)">Buscar</button>
+                                <button class="btn btn-primary" id="submit" ng-click="getSalesCollection(search)">Buscar</button>
                             </div>
                         </div>
                     </div>

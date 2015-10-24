@@ -51,6 +51,7 @@ class Authentication {
 		$this->identifier_field = $authentication_config['identifier_field'];
 		$this->username_field = $authentication_config['username_field'];
 		$this->password_field = $authentication_config['password_field'];
+		$this->role_field = $authentication_config['role_field'];
 
 		// Load database
 		$this->ci->load->database();
@@ -182,7 +183,7 @@ class Authentication {
 
 		// Select user details
 		$user = $this->ci->db
-			->select($this->identifier_field.' as identifier, '.$this->username_field.' as username, '.$this->password_field.' as password')
+			->select($this->identifier_field.' as identifier, '.$this->username_field.' as username, '.$this->role_field.' as role, '.$this->password_field.' as password')
 			->where($this->username_field, $username)
 			->get($this->user_table);
 
@@ -206,6 +207,7 @@ class Authentication {
 			$this->ci->session->set_userdata(array(
 				'identifier' => $user_details->identifier,
 				'username' => $user_details->username,
+				'role' => $user_details->role,
 				'logged_in' => $_SERVER['REQUEST_TIME']
 			));
 
@@ -265,6 +267,17 @@ class Authentication {
 
 				// Return username
 				return (string) $this->ci->session->userdata('username');
+
+				break;
+
+			}
+			case 'role': {
+
+				// If the user is not logged in return false
+				if ( ! $this->is_loggedin()) return false;
+
+				// Return username
+				return (string) $this->ci->session->userdata('role');
 
 				break;
 
@@ -394,7 +407,10 @@ class Authentication {
 
 	public function is_admin()
 	{
-		return $this->read('username') == 'ventas.nd.fm@gmail.com';
+		$this->ci->config->load('authentication');
+		$authentication_config = $this->ci->config->item('authentication');
+
+		return $this->read('role') == $authentication_config['roles']['admin'];
 	}
 
 

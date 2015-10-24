@@ -87,6 +87,20 @@
                         Enviado: {{shipment.delivery.date | date : 'dd/MMMM/yyyy'}}
                     </span>
                 </div>
+
+                <span ng-init="checkDeliveryStatus(shipment)">
+                    <div ng-show="shipment.status == 'En Camino' && shipment.delivery.trackCode && !shipment.deliveryStatus">
+                        <i class="fa fa-refresh fa-spin"></i> Cargando Estatus del envío
+                    </div>
+                    <div ng-show="shipment.deliveryStatus">
+                        <i class="fa" ng-class="{
+                            'fa-exclamation-triangle red' : shipment.deliveryStatus == 'No hay información disponible.',
+                            'fa-clock-o' : shipment.deliveryStatus == 'Pendiente en transito',
+                            'fa-check green' : shipment.deliveryStatus == 'Entregado'}">
+                        </i>
+                        {{shipment.deliveryStatus}}
+                    </div>
+                </span>
             </div>
 
             <div class="notes col-xs-12" ng-show="shipment.delivery.comments">

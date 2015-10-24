@@ -566,6 +566,25 @@ app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http)
         });
     };
 
+    $scope.checkDeliveryStatus = function(sale) {
+        if(sale.status == 'En Camino' && sale.delivery.trackCode) {
+            var url;
+            if(sale.delivery.courier == 'Estafeta') {
+                url ='http://tweetweb.com.mx/estafeta.php?action=tracking&code=' + sale.delivery.trackCode
+            } else {
+                url = 'http://tweetweb.com.mx/sepomex.php?action=tracking&code=' + sale.delivery.trackCode
+            }
+            $http.get(url).success(function(data) {
+                if(sale.delivery.courier == 'Estafeta') {
+                    sale.deliveryStatus = data.estatus;
+                } else {
+                    sale.deliveryStatus = data.response;
+                }
+                console.log(data);
+            });
+        }
+    };
+
     // Initial List Population
     $scope.getSalesCollection();
 }]);
@@ -805,7 +824,7 @@ app.controller('SalesListCtrl', ['$scope', '$http', 'Sale', function ($scope, $h
             url += '/' + (search.order !== undefined ? search.order : '0');
             url += '/' + (search.status !== undefined ? search.status: '0');
             url += '/' + (search.courier !== undefined ? search.courier : '0');
-            url += '/' + (search.text !== undefined ? search.text : '0');
+            url += '/' + (search.text !== undefined ? encodeURIComponent(search.text) : '0');
         }
 
         $http.get(url)
@@ -843,8 +862,32 @@ app.controller('SalesListCtrl', ['$scope', '$http', 'Sale', function ($scope, $h
     };
 
     $scope.cancelSale = function(sale) {
-        if(confirm('¿Estás seguro de cancelar la venta?')) {
+        if(confirm('¿Estás seguro de CANCELAR la venta?')) {
             $scope.update_status('mark_as_cancelled', sale);
+        }
+    };
+
+    $scope.deleteSale = function(sale) {
+        console.log('in')
+        var word = prompt('Escribe la palabra "borrar" para continuar');
+        if(word == 'borrar') {
+            $scope.saleLoading = sale;
+
+            $http.post('index.php?/api/delete_sale', {sale_id: sale.id })
+            .success(function(data) {
+                var index = $scope.sales.indexOf(sale);
+                if(index > -1) {
+                    $scope.sales.splice(index, 1);
+                }
+            })
+            .error(function() {
+                alert('Error al tratar de realizar la acción solicitada')
+            }).
+            finally(function () {
+                $scope.saleLoading = null;
+            });
+        } else {
+            console.log('bad word')
         }
     };
 
@@ -938,6 +981,26 @@ app.controller('SalesListCtrl', ['$scope', '$http', 'Sale', function ($scope, $h
         $scope.selectedSale = sale;
         $scope.showModal = true;
     };
+
+    $scope.checkDeliveryStatus = function(sale) {
+        if(sale.status == 'En Camino' && sale.delivery.trackCode) {
+            var url;
+            if(sale.delivery.courier == 'Estafeta') {
+                url ='http://tweetweb.com.mx/estafeta.php?action=tracking&code=' + sale.delivery.trackCode
+            } else {
+                url = 'http://tweetweb.com.mx/sepomex.php?action=tracking&code=' + sale.delivery.trackCode
+            }
+            $http.get(url).success(function(data) {
+                if(sale.delivery.courier == 'Estafeta') {
+                    sale.deliveryStatus = data.estatus;
+                } else {
+                    sale.deliveryStatus = data.response;
+                }
+                console.log(data);
+            });
+        }
+    };
+
 
     // Initial List Population
     $scope.getSalesCollection();
@@ -1049,6 +1112,21 @@ app.controller('ExpensesCtrl', ['$scope', '$http', function ($scope, $http) {
         }).finally(function() {
             $scope.isLoading = false;
         });
+    };
+
+    $scope.deleteExpense = function(expense) {
+        if(confirm('¿Estás seguro de BORRAR este gasto?')) {
+            $http.post('index.php?/api/delete_expense', {expense_id: expense.id })
+            .success(function(data) {
+                var index = $scope.expenses.indexOf(expense);
+                if(index > -1) {
+                    $scope.expenses.splice(index, 1);
+                }
+            })
+            .error(function() {
+                alert('Error al tratar de realizar la acción solicitada')
+            })
+        }
     };
 
     setTimeout(function() {
@@ -1248,6 +1326,21 @@ app.controller('TransfersCtrl', ['$scope', '$http', function ($scope, $http) {
         });
     };
 
+    $scope.deleteTransfer = function(transfer) {
+        if(confirm('¿Estás seguro de BORRAR esta transferencia?')) {
+            $http.post('index.php?/api/delete_transfer', {transfer_id: transfer.id })
+            .success(function(data) {
+                var index = $scope.transfers.indexOf(transfer);
+                if(index > -1) {
+                    $scope.transfers.splice(index, 1);
+                }
+            })
+            .error(function() {
+                alert('Error al tratar de realizar la acción solicitada')
+            })
+        }
+    };
+
     $scope.getTransfers();
 }]);
 
@@ -1276,4 +1369,28 @@ app.controller('CustomersListCtrl', ['$scope', '$http', function ($scope, $http)
 
     // Initial List Population
     $scope.getCustomers();
+}]);
+
+
+app.controller('SettingsCtrl', ['$scope', '$http', function ($scope, $http) {
+
+    $scope.users = [];
+    $scope.isLoading = false;
+    $scope.isThereError = false;
+
+    $scope.getUsers =  function(search) {
+        $scope.isLoading = true;
+        $scope.isThereError = false;
+
+        $http.get('index.php?/settings/get_users')
+        .success(function(data) {
+            $scope.users = data;
+            console.log(data)
+        })
+        .error(function() {
+            $scope.isThereError = true;
+        }).finally(function() {
+            $scope.isLoading = false;
+        });
+    };
 }]);

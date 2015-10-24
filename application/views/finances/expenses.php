@@ -22,7 +22,7 @@
                     <form name="AddExpenseForm" id="AddExpenseForm">
                         <div class="col-xs-12 col-sm-3 col-lg-2 form-group">
                             <label>Fecha</label>
-                            <input type="text" class="form-control" datepicker="<?php echo $today ?>" ng-model="expense.date" required>
+                            <input type="text" readonly="true" class="form-control" datepicker="<?php echo $today ?>" ng-model="expense.date" required>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-lg-6 form-group">
                             <label>Descripción</label>
@@ -44,16 +44,22 @@
                 </div>
 
                 <h3>Listado de Gastos</h3>
-                <div ng-controller="ExpensesCtrl">
+                <div ng-controller="ExpensesCtrl"
+                    <?php if($this->authentication->is_admin()) : ?>
+                    ng-init="isAdmin=true"
+                    <?php else : ?>
+                    ng-init="isAdmin=false"
+                    <?php endif; ?>
+                >
                 	<!-- Filters -->
                     <div class="navbar navbar-default">
                         <div class="navbar-form ">
                             <div class="form-group">
                                 <label for="since">Desde: </label>
-                                <input type="text" id="since" class="form-control" datepicker="<?php echo $start_date ?>" ng-model="sinceDate" value="{{sinceDate}}">
+                                <input type="text" readonly="true" id="since" class="form-control" datepicker="<?php echo $start_date ?>" ng-model="sinceDate" value="{{sinceDate}}">
 
                                 <label for="to">Hasta: </label>
-                                <input type="text" id="to" class="form-control" datepicker="<?php echo $end_date ?>" ng-model="toDate" value="{{toDate}}">
+                                <input type="text" readonly="true" id="to" class="form-control" datepicker="<?php echo $end_date ?>" ng-model="toDate" value="{{toDate}}">
 
                             	<button class="btn btn-primary"
                                     ng-click="getExpenses(sinceDate, toDate)">
@@ -74,14 +80,15 @@
 
                     <div class="table-responsive">
 
-                        <table class="table table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
+                        <table class="table table-bordered table-striped table-condensed" ng-cloak ng-hide="isLoading || totalRows == 0">
     	                	<thead>
     	                		<tr>
-    	                			<th>ID</th>
-    	                			<th>Fecha</th>
+                                    <th>ID</th>
+                                    <th>Fecha</th>
                                     <th>Usuario</th>
-    	                			<th>Descripción</th>
-    	                			<th>Total</th>
+                                    <th>Descripción</th>
+                                    <th>Total</th>
+    	                			<th></th>
     	                		</tr>
     	                	</thead>
     	                	<tbody>
@@ -91,15 +98,23 @@
                                     <td>{{expense.user}}</td>
                                     <td>{{expense.description}}</td>
                                     <td class="red">-{{expense.total | currency}}</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-xs btn-danger"
+                                            ng-if="expense.user == '<?php echo $this->authentication->read('username') ?>' || isAdmin"
+                                            ng-click="deleteExpense(expense)">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
                                 </tr>
     	                	</tbody>
                     		<tfoot>
                     			<tr ng-cloak>
-                    				<td></td>
                                     <td></td>
                     				<td></td>
+                                    <td></td>
                                     <td class="text-right">Total:</td>
-                    				<td class="red">-{{filteredExpenses | sum:'total' | currency}}</td>
+                                    <td class="red">-{{filteredExpenses | sum:'total' | currency}}</td>
+                    				<td></td>
                                 </tr>
                     		</tfoot>
     	                </table>

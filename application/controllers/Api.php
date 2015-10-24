@@ -65,6 +65,22 @@ class Api extends CI_Controller {
 		echo json_encode($output);
 	}
 
+	public function delete_expense()
+	{
+		$post = file_get_contents("php://input");
+		$params = json_decode($post);
+
+		if($params && isset($params->expense_id)) {
+			$this->load->model('expenses_model');
+			$expense = $this->expenses_model->get($params->expense_id);
+
+			if($expense->user == $this->authentication->read('username') ||
+				$this->authentication->is_admin()) {
+				$this->expenses_model->delete($params->expense_id);
+			}
+		}
+	}
+
 	public function earnings($startDate, $endDate)
 	{
 		$output = $this->sales_model->get_earnings_details($startDate, $endDate);
@@ -125,6 +141,21 @@ class Api extends CI_Controller {
 
         header('Content-Type: application/json');
 		echo json_encode($output);
+	}
+
+	public function delete_transfer()
+	{
+		$post = file_get_contents("php://input");
+		$params = json_decode($post);
+
+		if($params && isset($params->transfer_id)) {
+			$this->load->model('transfers_model');
+			$transfer = $this->transfers_model->get($params->transfer_id);
+
+			if($this->authentication->is_admin()) {
+				$this->transfers_model->delete($params->transfer_id);
+			}
+		}
 	}
 
     public function sale($id = null)
@@ -499,6 +530,16 @@ class Api extends CI_Controller {
 
 			header('Content-Type: application/json');
 			echo json_encode($output);
+		}
+	}
+
+	public function delete_sale()
+	{
+		$post = file_get_contents("php://input");
+		$params = json_decode($post);
+
+		if($params && isset($params->sale_id) && $this->authentication->is_admin()) {
+			$this->sales_model->delete($params->sale_id);
 		}
 	}
 
