@@ -24,7 +24,7 @@ class Notifications_model extends CI_Model {
 		if(ENVIRONMENT == 'development') {
 			$domain = MAILGUN_SANDBOX_DOMAIN;
 		} else {
-			$domain = MAILGUN_DOMAIN;
+			$domain = MAILGUN_SANDBOX_DOMAIN;
 		}
 
 		$ch = curl_init();
