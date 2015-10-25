@@ -868,12 +868,11 @@ app.controller('SalesListCtrl', ['$scope', '$http', 'Sale', function ($scope, $h
     };
 
     $scope.deleteSale = function(sale) {
-        console.log('in')
         var word = prompt('Escribe la palabra "borrar" para continuar');
         if(word == 'borrar') {
             $scope.saleLoading = sale;
 
-            $http.post('index.php?/api/delete_sale', {sale_id: sale.id })
+            $http.post('index.php?/api/delete_sale', {id: sale.id })
             .success(function(data) {
                 var index = $scope.sales.indexOf(sale);
                 if(index > -1) {
@@ -887,7 +886,24 @@ app.controller('SalesListCtrl', ['$scope', '$http', 'Sale', function ($scope, $h
                 $scope.saleLoading = null;
             });
         } else {
-            console.log('bad word')
+
+        }
+    };
+
+    $scope.paypalRequest = function(sale) {
+        if(confirm('¿Estás seguro de ENVIAR la solicitud?')) {
+            $scope.saleLoading = sale;
+
+            $http.post('index.php?/api/paypal_request', {id: sale.id })
+            .success(function(data) {
+                alert('¡Solicitud de pago enviada con éxito!')
+            })
+            .error(function() {
+                alert('Error al tratar de realizar la acción solicitada');
+            }).
+            finally(function () {
+                $scope.saleLoading = null;
+            });
         }
     };
 
@@ -996,7 +1012,6 @@ app.controller('SalesListCtrl', ['$scope', '$http', 'Sale', function ($scope, $h
                 } else {
                     sale.deliveryStatus = data.response;
                 }
-                console.log(data);
             });
         }
     };

@@ -182,6 +182,20 @@ class Sales_model extends CI_Model {
 		$this->db->delete('sales');
     }
 
+    public function update_payment_method($id, $method)
+	{
+		switch ($method) {
+			case 'Tarjeta':
+			case 'Deposito':
+				$this->db->update('sales', array('payment_method', $method), 'id = ' . $id);
+				break;
+
+			default:
+
+				break;
+		}
+	}
+
 	public function update_status($id, $status, $args = array())
 	{
 		$this->db->select('status');

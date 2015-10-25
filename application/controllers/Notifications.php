@@ -29,6 +29,11 @@ class Notifications extends CI_Controller {
 		$this->notifications_model->notify_payment($id);
 	}
 
+	public function paypal($id)
+	{
+		$this->notifications_model->paypal_request($id);
+	}
+
 	// public function launch()
 	// {
 	// 	$this->load->model('notifications_model');

@@ -26,6 +26,13 @@
             <button class="btn btn-xs btn-default"
                     ng-show="sale.status == 'Pendiente'
                     && sale.payment.status == 'Pendiente'"
+                    ng-click="paypalRequest(sale)"
+                    ng-disabled="isSaleLoading(sale)">
+                <i class="fa fa-paypal"></i> Solicitud de Pago
+            </button>
+            <button class="btn btn-xs btn-default"
+                    ng-show="sale.status == 'Pendiente'
+                    && sale.payment.status == 'Pendiente'"
                     ng-click="markAsPaid(sale)"
                     ng-disabled="isSaleLoading(sale)">
                 <i class="fa fa-money"></i> Marcar Pagado

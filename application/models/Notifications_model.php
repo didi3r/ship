@@ -20,9 +20,9 @@ class Notifications_model extends CI_Model {
 	}
 
 	private function mailgun($to, $subject, $message) {
+		$to = 'ventas.nd.fm@gmail.com';
 		if(ENVIRONMENT == 'development') {
 			$domain = MAILGUN_SANDBOX_DOMAIN;
-			$to = 'ventas.nd.fm@gmail.com';
 		} else {
 			$domain = MAILGUN_DOMAIN;
 		}
@@ -50,7 +50,7 @@ class Notifications_model extends CI_Model {
 		$info = curl_getinfo($ch);
 
 		if($info['http_code'] != 200)
-			die("HTTP ".$info['http_code'].": Error al enviar correo mediante mailgun");
+			die("HTTP ".$info['http_code'].": Error al enviar correo mediante mailgun - " . curl_error($ch));
 
 		curl_close($ch);
 
@@ -83,6 +83,38 @@ class Notifications_model extends CI_Model {
 	{
 		$to = 'ventas.nd.fm@gmail.com';
 		$this->mailgun($to, $subject, $msg);
+	}
+
+	public function paypal_request($sale_id) {
+		$this->load->model('sales_model');
+		$sale = $this->sales_model->get($sale_id);
+
+		if($sale) {
+			$email = urlencode('ventas@bioleafy.com');
+			$desc = urlencode('Solicitud_de_Pago_Moringa_Michoacana');
+			$total = (float) $sale['delivery']['cost'] + $sale['payment']['total'];
+			$return = urlencode('moringa-michoacana.com.mx');
+			$paypal_url = 'https://secure.paypal.com/xclick/business='. $email .'&item_name='. $desc .'&amount='. $total .'&page_style=bioleafy&return='. $return .'&currency_code=MXN';
+
+			$data = array(
+				'id' => $sale['id'],
+				'name' => $sale['name'],
+				'courier' => $sale['delivery']['courier'],
+				'package' => $sale['package'],
+				'subtotal' => $sale['payment']['total'],
+				'shipment_cost' => $sale['delivery']['cost'],
+				'total' => $total,
+				'paypal_url' => $paypal_url
+			);
+
+			$subject = 'Solicitud de Pago Paypal';
+			$msg = $this->load->view('mails/customer/paypal_request', $data, true);
+
+			//die($msg);
+			if($this->sale_has_email($sale)) {
+				$this->mailgun($sale['email'], $subject, $msg);
+			}
+		}
 	}
 
 	public function notify_payment($sale_id)

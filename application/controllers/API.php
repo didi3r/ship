@@ -278,6 +278,22 @@ class Api extends CI_Controller {
 		echo json_encode($output);
 	}
 
+	public function paypal_request()
+	{
+		$post = file_get_contents("php://input");
+		$params = json_decode($post);
+
+		if(!isset($params->id)) {
+			die(json_encode(array('error' => 'Undefined variable: id')));
+		}
+
+		if($this->authentication->is_admin()) {
+			$this->load->model('notifications_model');
+			$this->notifications_model->paypal_request($params->id);
+			$this->sales_model->update_payment_method($params->id, 'Tarjeta');
+		}
+	}
+
 	public function mark_as_paid()
 	{
 		$post = file_get_contents("php://input");
