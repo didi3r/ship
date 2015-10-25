@@ -187,7 +187,8 @@ class Sales_model extends CI_Model {
 		switch ($method) {
 			case 'Tarjeta':
 			case 'Deposito':
-				$this->db->update('sales', array('payment_method', $method), 'id = ' . $id);
+				$this->db->where('id', $id);
+				$this->db->update('sales', array('payment_method' => $method));
 				break;
 
 			default:
