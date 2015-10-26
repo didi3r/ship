@@ -180,7 +180,6 @@ class Sales_model extends CI_Model {
     public function delete($id) {
     	$this->db->where('id', $id);
 		$this->db->delete('sales');
-		die($this->db->last_query());
     }
 
     public function update_payment_method($id, $method)

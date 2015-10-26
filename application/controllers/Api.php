@@ -554,8 +554,8 @@ class Api extends CI_Controller {
 		$post = file_get_contents("php://input");
 		$params = json_decode($post);
 
-		if($params && isset($params->sale_id) && $this->authentication->is_admin()) {
-			$this->sales_model->delete($params->sale_id);
+		if($params && isset($params->id) && $this->authentication->is_admin()) {
+			$this->sales_model->delete($params->id);
 		}
 	}
 
