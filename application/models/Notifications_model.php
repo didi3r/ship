@@ -20,9 +20,9 @@ class Notifications_model extends CI_Model {
 	}
 
 	private function mailgun($to, $subject, $message) {
-		$to = 'ventas.nd.fm@gmail.com';
 		if(ENVIRONMENT == 'development') {
 			$domain = MAILGUN_SANDBOX_DOMAIN;
+			$to = 'ventas.nd.fm@gmail.com';
 		} else {
 			$domain = MAILGUN_DOMAIN;
 		}
