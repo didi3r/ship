@@ -174,11 +174,8 @@
 
 
                 <div class="payment-status">
-                    <i class="fa fa-money" ng-if="sale.payment.status == 'Pendiente'"></i>
-                    <span ng-if="sale.payment.status == 'Pagado'">
-                        <i class="fa fa-bank" ng-if="sale.payment.method == 'Deposito'"></i>
-                        <i class="fa fa-credit-card" ng-if="sale.payment.method == 'Tarjeta'"></i>
-                    </span>
+                    <i class="fa fa-bank" ng-if="sale.payment.method == 'Deposito'"></i>
+                    <i class="fa fa-credit-card" ng-if="sale.payment.method == 'Tarjeta'"></i>
                     {{sale.payment.status}}<br>
                     <span ng-show="sale.payment.status == 'Pagado' && sale.payment.date">
                         <i class="fa fa-calendar"></i>
