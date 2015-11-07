@@ -246,6 +246,23 @@ blockquote {
   padding: 5px 10px;
 }
 
+ul.dropdown-menu.slidedown {
+  padding-left: 0;
+  list-style: none;
+}
+
+ul.dropdown-menu.slidedown li.success a i {
+  color: #5cb85c;
+}
+
+ul.dropdown-menu.slidedown li.warning a i {
+  color: #ec971f;
+}
+
+ul.dropdown-menu.slidedown li.danger a i {
+  color: #d9534f;
+}
+
 @media screen and (max-width: 768px) {
 	.shipment h4 {
 		display: block;

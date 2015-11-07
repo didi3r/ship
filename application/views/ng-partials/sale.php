@@ -9,8 +9,9 @@
     <div class="panel-heading">
         <i class="fa fa-shopping-cart"></i> #{{sale.id}} |
         <span ng-if="sale.wc_id"><i class="fa fa-wordpress"></i> #{{sale.wc_id}} | </span>
-        <i class="fa fa-calendar"></i> {{sale.date | date : 'dd/MMMM/yyyy'}} |
-
+        <i class="fa fa-calendar"></i> {{sale.date | date : 'dd/MMMM/yyyy'}}
+        <span class="hidden-xs">|</span>
+        <br class="visible-xs">
         <i class="fa"
             ng-class="{
                       'fa-clock-o' : sale.status == 'Pendiente',
@@ -22,30 +23,30 @@
         </i>
         {{sale.status}}
 
-        <div class="buttons" ng-show="isAdmin" ng-cloak>
+        <div class="buttons hidden-xs hidden-sm" ng-show="isAdmin" ng-cloak>
             <button class="btn btn-xs btn-default"
-                    ng-show="sale.status == 'Pendiente'
+                    ng-if="sale.status == 'Pendiente'
                     && sale.payment.status == 'Pendiente'"
                     ng-click="paypalRequest(sale)"
                     ng-disabled="isSaleLoading(sale)">
                 <i class="fa fa-paypal"></i> Solicitud de Pago
             </button>
             <button class="btn btn-xs btn-default"
-                    ng-show="sale.status == 'Pendiente'
+                    ng-if="sale.status == 'Pendiente'
                     && sale.payment.status == 'Pendiente'"
                     ng-click="markAsPaid(sale)"
                     ng-disabled="isSaleLoading(sale)">
                 <i class="fa fa-money"></i> Marcar Pagado
             </button>
             <button class="btn btn-xs btn-default"
-                    ng-show="sale.status == 'Pagado'
+                    ng-if="sale.status == 'Pagado'
                     && sale.payment.status == 'Pagado'"
                     ng-click="markAsUnpaid(sale)"
                     ng-disabled="isSaleLoading(sale)">
                 <i class="fa fa-money"></i> Marcar No Pagado
             </button>
             <button class="btn btn-xs btn-default"
-                    ng-show="sale.status == 'Pagado'
+                    ng-if="sale.status == 'Pagado'
                     && sale.delivery.status == 'Pendiente'"
                     ng-disabled="isSaleLoading(sale)"
                     ng-click="showFileUploader(sale)">
@@ -55,20 +56,20 @@
             </button>
             <button class="btn btn-xs btn-default"
                     data-toggle="modal" data-target="#commentsModal-{{sale.id}}"
-                    ng-show="sale.status == 'Pagado'
+                    ng-if="sale.status == 'Pagado'
                     && sale.delivery.status == 'Pendiente'"
                     ng-disabled="isSaleLoading(sale)">
                 <i class="fa fa-truck"></i> Solicitar Envío
             </button>
             <button class="btn btn-xs btn-default"
-                    ng-show="sale.status == 'Enviando'
+                    ng-if="sale.status == 'Enviando'
                     && sale.delivery.status == 'Pendiente'"
                     ng-click="cancelShipment(sale)"
                     ng-disabled="isSaleLoading(sale)">
                 <i class="fa fa-truck"></i> Cancelar Envío
             </button>
             <button class="btn btn-xs btn-default"
-                    ng-show="sale.status != 'En Camino'
+                    ng-if="sale.status != 'En Camino'
                     && sale.status != 'Cancelado'
                     && sale.status != 'Finalizado'"
                     ng-click="updateSale(sale)"
@@ -76,7 +77,7 @@
                 <i class="fa fa-pencil"></i>
             </button>
             <button class="btn btn-xs btn-warning"
-                    ng-show="sale.status != 'En Camino'
+                    ng-if="sale.status != 'En Camino'
                     && sale.status != 'Cancelado'
                     && sale.status != 'Finalizado'"
                     ng-click="cancelSale(sale)"
@@ -84,7 +85,7 @@
                 <i class="fa fa-times"></i>
             </button>
             <button class="btn btn-xs btn-success"
-                    ng-show="sale.status == 'En Camino'
+                    ng-if="sale.status == 'En Camino'
                     && sale.delivery.status == 'Enviado'"
                     ng-click="markAsEnded(sale)"
                     ng-disabled="isSaleLoading(sale)">
@@ -95,7 +96,101 @@
                     ng-disabled="isSaleLoading(sale)">
                 <i class="fa fa-trash"></i>
             </button>
+
         </div>
+
+        <!-- Responsive Dropdown -->
+        <div class="btn-group pull-right visible-xs visible-sm">
+            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                Acción <i class="fa fa-chevron-down"></i>
+            </button>
+            <ul class="dropdown-menu slidedown">
+                <li>
+                    <a ng-if="sale.status == 'Pendiente'
+                        && sale.payment.status == 'Pendiente'"
+                        ng-click="paypalRequest(sale)"
+                        ng-disabled="isSaleLoading(sale)">
+                        <i class="fa fa-paypal"></i> Solicitud de Pago
+                    </a>
+                </li>
+                <li>
+                    <a ng-if="sale.status == 'Pendiente'
+                        && sale.payment.status == 'Pendiente'"
+                        ng-click="markAsPaid(sale)"
+                        ng-disabled="isSaleLoading(sale)">
+                        <i class="fa fa-money"></i> Marcar Pagado
+                    </a>
+                </li>
+                <li>
+                    <a ng-if="sale.status == 'Pagado'
+                        && sale.payment.status == 'Pagado'"
+                        ng-click="markAsUnpaid(sale)"
+                        ng-disabled="isSaleLoading(sale)">
+                        <i class="fa fa-money"></i> Marcar No Pagado
+                    </a>
+                </li>
+                <li>
+                    <a ng-if="sale.status == 'Pagado'
+                        && sale.delivery.status == 'Pendiente'"
+                        ng-disabled="isSaleLoading(sale)"
+                        ng-click="showFileUploader(sale)">
+                        <i class="fa fa-barcode"></i>
+                        {{sale.files ? 'Modificar Guía' : 'Adjuntar Guía'}}
+                    </a>
+                </li>
+                <li>
+                    <a
+                        data-toggle="modal" data-target="#commentsModal-{{sale.id}}"
+                        ng-if="sale.status == 'Pagado'
+                        && sale.delivery.status == 'Pendiente'"
+                        ng-disabled="isSaleLoading(sale)">
+                        <i class="fa fa-truck"></i> Solicitar Envío
+                    </a>
+                </li>
+                <li>
+                    <a ng-if="sale.status == 'Enviando'
+                        && sale.delivery.status == 'Pendiente'"
+                        ng-click="cancelShipment(sale)"
+                        ng-disabled="isSaleLoading(sale)">
+                        <i class="fa fa-truck"></i> Cancelar Envío
+                    </a>
+                </li>
+                <li>
+                    <a ng-if="sale.status != 'En Camino'
+                        && sale.status != 'Cancelado'
+                        && sale.status != 'Finalizado'"
+                        ng-click="updateSale(sale)"
+                        ng-disabled="isSaleLoading(sale)">
+                        <i class="fa fa-pencil"></i> Editar
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li class="success">
+                    <a ng-if="sale.status == 'En Camino'
+                        && sale.delivery.status == 'Enviado'"
+                        ng-click="markAsEnded(sale)"
+                        ng-disabled="isSaleLoading(sale)">
+                        <i class="fa fa-check"></i> Finalizada
+                    </a>
+                </li>
+                <li class="warning">
+                    <a ng-if="sale.status != 'En Camino'
+                        && sale.status != 'Cancelado'
+                        && sale.status != 'Finalizado'"
+                        ng-click="cancelSale(sale)"
+                        ng-disabled="isSaleLoading(sale)">
+                        <i class="fa fa-times"></i> Cancelada
+                    </a>
+                </li>
+                <li class="danger">
+                    <a ng-click="deleteSale(sale)"
+                        ng-disabled="isSaleLoading(sale)">
+                        <i class="fa fa-trash"></i> Eliminar
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- / Responsive Dropdown -->
     </div>
     <div class="panel-body">
         <div class="row">
