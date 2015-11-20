@@ -89,6 +89,15 @@ class Public_api extends CI_Controller {
 				$shipping_method = $order['total_shipping'] == 120 ? 'Dia Siguiente' : 'Terrestre';
 			}
 
+			// RX
+			foreach ($order['fee_lines'] as $fee) {
+				$fee = (array) $fee;
+				if (strpos($fee['title'], 'eexpedi') !== false) {
+				    $order['total_shipping'] += (float) $fee['total'];
+				    break;
+				}
+			}
+
 			date_default_timezone_set('America/Mexico_City');
 			$data = array(
 				'wc_id' => $order['order_number'],
