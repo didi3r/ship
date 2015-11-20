@@ -37,7 +37,7 @@ app.directive('sale', function(){
         restrict: 'E',
         templateUrl: 'application/views/ng-partials/sale.php',
         link: function($scope, $element, $attrs) {
-            $('[data-toggle="popover"]').popover();
+            $($element).find('[data-toggle="popover"]').popover();
         }
     };
 });
