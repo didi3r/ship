@@ -170,7 +170,8 @@ class Public_api extends CI_Controller {
 			}
 
 			$payment_details = (array) $order['payment_details'];
-			if($payment_details['paid']) {
+			$current_status = $this->sales_model->get_status($sale_id);
+			if($payment_details['paid'] && $current_status != 'Pagado') {
 				$this->sales_model->update_status($sale_id, 'Pagado');
 
 				$this->load->model('notifications_model');

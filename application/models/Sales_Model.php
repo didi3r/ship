@@ -197,6 +197,15 @@ class Sales_model extends CI_Model {
 		}
 	}
 
+	public function get_status($id) {
+		$this->db->select('status');
+		$this->db->from('sales');
+		$this->db->where('id', $id);
+		$query = $this->db->get();
+
+		return $query->row() ? $query->row()->status : false;
+	}
+
 	public function update_status($id, $status, $args = array())
 	{
 		$this->db->select('status');
