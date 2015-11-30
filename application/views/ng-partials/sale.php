@@ -239,6 +239,7 @@
                             'fa-check green' : sale.deliveryStatus == 'Entregado'}">
                         </i>
                         {{sale.deliveryStatus}}
+                        <span id="deliveryDate"></span>
                     </div>
                 </span>
             </div>

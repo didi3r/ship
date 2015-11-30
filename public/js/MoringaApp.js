@@ -578,7 +578,8 @@ app.controller('ShipmentsListCtrl', ['$scope', '$http', function ($scope, $http)
             }
             $http.get(url).success(function(data) {
                 if(sale.delivery.courier == 'Estafeta') {
-                    sale.deliveryStatus = data.estatus + ' ('+ data.fecha_programada + ')';
+                    sale.deliveryStatus = data.estatus;
+                    $('#deliveryDate').html(data.fecha_programada);
                 } else {
                     sale.deliveryStatus = data.response;
                 }
@@ -657,7 +658,8 @@ app.controller('TrackablesCtrl', ['$scope', '$http', function ($scope, $http) {
             }
             $http.get(url).success(function(data) {
                 if(sale.delivery.courier == 'Estafeta') {
-                    sale.deliveryStatus = data.estatus + ' ('+ data.fecha_programada + ')';
+                    sale.deliveryStatus = data.estatus;
+                    $('#deliveryDate').html(data.fecha_programada);
                 } else {
                     sale.deliveryStatus = data.response;
                 }
@@ -1010,7 +1012,8 @@ app.controller('SalesListCtrl', ['$scope', '$http', 'Sale', function ($scope, $h
             }
             $http.get(url).success(function(data) {
                 if(sale.delivery.courier == 'Estafeta') {
-                    sale.deliveryStatus = data.estatus + ' ('+ data.fecha_programada + ')';
+                    sale.deliveryStatus = data.estatus;
+                    $('#deliveryDate').html(data.fecha_programada);
                 } else {
                     sale.deliveryStatus = data.response;
                 }
